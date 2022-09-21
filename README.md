@@ -2,7 +2,8 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+<img width="386" alt="groupmeetschema" src="https://user-images.githubusercontent.com/108594436/191601802-bc6d9a76-b675-46a9-ae2e-9d0bc405ea06.PNG">
+
 
 ## API Documentation
 
