@@ -21,12 +21,10 @@ module.exports = {
     ], {});
   },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+  down: async (queryInterface, Sequelize) =>{
+    const Op = Sequelize.Op
+    return queryInterface.bulkDelete("EventImages", {
+      url: { [Op.in]: ["test/url", "private/url", "sleepy.com"]}
+    }, {})
   }
 };

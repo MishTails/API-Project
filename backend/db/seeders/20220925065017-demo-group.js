@@ -23,8 +23,7 @@ module.exports = {
     }
    ], {})
   },
-
-  async down (queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) =>{
     const Op = Sequelize.Op
     return queryInterface.bulkDelete("Groups", {
       name: { [Op.in]: ["Lyco Group", "TFT"]}
