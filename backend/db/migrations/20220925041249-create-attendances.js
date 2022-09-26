@@ -23,7 +23,8 @@ module.exports = {
         }
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values: ['Going, Maybe, No']
       },
       createdAt: {
         allowNull: false,
