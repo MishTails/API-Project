@@ -21,5 +21,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Membership',
   });
-  return Memberships;
+  return Membership;
 };

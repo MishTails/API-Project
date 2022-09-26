@@ -21,11 +21,11 @@ module.exports = {
         allowNull: false
       },
       about: {
-        type: Sequelize.VARCHAR(1000),
+        type: Sequelize.STRING,
         allowNull: false
       },
       type: {
-        type: Sequelize.VARCHAR(50),
+        type: Sequelize.STRING,
         allowNull: false
       },
       private: {

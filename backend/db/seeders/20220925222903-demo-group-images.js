@@ -4,17 +4,17 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('GroupImages', [
       {
-        eventId: 1,
+        groupId: 1,
         url: 'bread/url',
         preview: true,
       },
       {
-        eventId: 1,
+        groupId: 1,
         url: 'water/url',
         preview: false,
       },
       {
-        eventId: 2,
+        groupId: 2,
         url: 'discord.com',
         preview: true,
       }

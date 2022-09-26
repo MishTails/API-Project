@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
+      groupId: {
         type: Sequelize.INTEGER
       },
       url: {
