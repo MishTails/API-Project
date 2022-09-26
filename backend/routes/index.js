@@ -2,8 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
+const groupRouter = require('./group')
 
 router.use('/api', apiRouter);
+router.use('/groups', groupRouter)
 // ...
 
 router.get("/api/csrf/restore", (req, res) => {
