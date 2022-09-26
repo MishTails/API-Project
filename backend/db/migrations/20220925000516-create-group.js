@@ -11,18 +11,18 @@ module.exports = {
       organizerId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
-          key: 'id'},
-        onDelete: "CASCADE",
-        allowNull: "false"
+            model: 'Users',
+            key: 'id',
+        },
+        onDelete: 'CASCADE',
+        allowNull:false
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false
       },
       about: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       type: {
         type: Sequelize.STRING,
@@ -33,12 +33,10 @@ module.exports = {
         allowNull: false
       },
       city: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       state: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

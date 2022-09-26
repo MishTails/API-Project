@@ -5,17 +5,17 @@ module.exports = {
     return queryInterface.bulkInsert('EventImages', [
       {
         eventId: 1,
-        url: 'test/url',
+        url: 'testurl',
         preview: true,
       },
       {
         eventId: 1,
-        url: 'private/url',
+        url: 'privateurl',
         preview: false,
       },
       {
         eventId: 2,
-        url: 'sleepy.com',
+        url: 'sleepycom',
         preview: true,
       }
     ], {});
@@ -24,7 +24,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) =>{
     const Op = Sequelize.Op
     return queryInterface.bulkDelete("EventImages", {
-      url: { [Op.in]: ["test/url", "private/url", "sleepy.com"]}
+      url: { [Op.in]: ["testurl", "privateurl", "sleepycom"]}
     }, {})
   }
 };
