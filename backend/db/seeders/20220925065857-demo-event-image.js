@@ -6,22 +6,22 @@ module.exports = {
       {
         eventId: 1,
         url: 'testurl',
-        preview: true,
+        preview: true
       },
       {
         eventId: 1,
         url: 'privateurl',
-        preview: false,
+        preview: false
       },
       {
         eventId: 2,
         url: 'sleepycom',
-        preview: true,
+        preview: true
       }
     ], {});
   },
 
-  down: async (queryInterface, Sequelize) =>{
+  down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op
     return queryInterface.bulkDelete("EventImages", {
       url: { [Op.in]: ["testurl", "privateurl", "sleepycom"]}
