@@ -77,3 +77,19 @@ router.post('/:groupId/images', async (req, res) => {
 
   return res.json(newPhoto)
 })
+
+//Edit a Group (error cases)
+
+router.put('/:groupId', async (req, res) => {
+  let {name, about, type, private, city, state} = req.body
+  const group = await Group.findOne({where: {id: req.params.groupId}})
+  group.set({
+    name,
+    about,
+    type,
+    private,
+    city,
+    state
+  })
+  return res.json(group)
+})
