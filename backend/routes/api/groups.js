@@ -93,3 +93,13 @@ router.put('/:groupId', async (req, res) => {
   })
   return res.json(group)
 })
+
+
+//Delete a Group (error cases/auth cases)
+
+router.delete('/:groupId', async (req, res) => {
+  const group = await Group.findOne({where: {id: req.params.groupId}})
+  group.destroy()
+
+  return res.json({message: "Successfully Deleted", statusCode: 200})
+})
