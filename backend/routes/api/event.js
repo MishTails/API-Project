@@ -6,7 +6,13 @@ const {check} = require('express-validator')
 
 const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
 
+//Get all Attendees of an Event specified by its Id
 
+router.get('/:eventId/attendees', async (req, res) => {
+  let attendees = Attendance.findAll({
+    where: 'hi'
+  })
+})
 
 
 
