@@ -3,7 +3,7 @@ const { where } = require('sequelize');
 const router = express.Router();
 
 const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
-// get all groups
+// get all groups (need to change GroupImage to Preview Image and error cases)
 router.get('/', async (req, res) => {
   const groups = await Group.findAll({
     include: {
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
   return res.json(groups)
 })
-// // get all groups by current user
+// // get all groups by current user (need error cases + some fixes)
 router.get('/current', async (req, res) => {
   const {user} = req
   if (user) {
@@ -33,7 +33,7 @@ router.get('/current', async (req, res) => {
     return res.json(groups)
   }
 })
-// get details of a Group from an Id 
+// get details of a Group from an Id
 router.get('/:groupId', async (req, res) => {
   const groups = await Group.findByPk(req.params.groupId, {
     include: [
@@ -59,3 +59,12 @@ router.get('/:groupId', async (req, res) => {
   return res.json(groups)
 })
 module.exports = router;
+
+//Create a Group (error cases)
+router.post('/', async (req, res) => {
+  let {name, about, type, private, city, state} = req.body
+  const newGroup = await Group.create({ name, about, type, private, city, state})
+
+  return res.json(newGroup)
+
+})
