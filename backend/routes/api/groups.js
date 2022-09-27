@@ -68,3 +68,12 @@ router.post('/', async (req, res) => {
   return res.json(newGroup)
 
 })
+
+//Add an Image to a Group Based on the Group's Id (error cases)
+
+router.post('/:groupId/images', async (req, res) => {
+  let {url, preview} = req.body
+  const newPhoto = await GroupImage.create({groupId: req.params.groupId, url, preview})
+
+  return res.json(newPhoto)
+})
