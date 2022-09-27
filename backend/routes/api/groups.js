@@ -33,7 +33,7 @@ router.get('/current', async (req, res) => {
     return res.json(groups)
   }
 })
-// get details of a Group from an Id
+// get details of a Group from an Id 
 router.get('/:groupId', async (req, res) => {
   const groups = await Group.findByPk(req.params.groupId, {
     include: [
@@ -52,7 +52,10 @@ router.get('/:groupId', async (req, res) => {
       }
   ]
   })
-
+  if (!groups) {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
   return res.json(groups)
 })
 module.exports = router;
