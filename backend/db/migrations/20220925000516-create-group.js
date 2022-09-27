@@ -11,32 +11,33 @@ module.exports = {
       organizerId: {
         type: Sequelize.INTEGER,
         references: {
-            model: 'Users',
-            key: 'id',
+          model: 'Users',
+          key:'id'
         },
-        onDelete: 'CASCADE',
-        allowNull:false
+        onDelete: 'CASCADE'
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false
       },
       about: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       type: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.ENUM,
+        values: ['In person', 'Online']
       },
       private: {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
