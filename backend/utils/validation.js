@@ -19,6 +19,30 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+const groupValidation = (group) => {
+  let errors = {}
+  if (group.name.length >= 60) {
+    errors.name = "Name must be 60 characters or less"
+  }
+  if (group.about.length < 50) {
+    errors.about = "About must be 50 characters or more"
+  }
+  if (group.type !== "Online" && group.type !== "In person") {
+    errors.type = "Type must be 'Online' or 'In person'"
+  }
+  if (typeof group.private !== Boolean) {
+    errors.private = "Private must be a boolean"
+  }
+  if (!city) {
+    errors.city = "City is required"
+  }
+  if (!state) {
+    errors.state = "State is required"
+  }
+  return errors
+}
+
 module.exports = {
-  handleValidationErrors
+  handleValidationErrors,
+  groupValidation
 };

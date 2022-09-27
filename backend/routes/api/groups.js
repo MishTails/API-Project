@@ -1,29 +1,34 @@
 const express = require('express');
 const { where } = require('sequelize');
 const router = express.Router();
+const {handleValidationErrors, groupValidation} = require('../../utils/auth')
+const {check} = require('express-validator')
 
 const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
-// get all groups (need to change GroupImage to Preview Image and error cases)
+// get all groups (need to make not n+1 query)
+
 router.get('/', async (req, res) => {
   const groups = await Group.findAll({
     include: {
-      model: GroupImage,
+      model: GroupImage, as: "PreviewImage",
+      where: {preview: true},
       attributes: ['url'],
-      where: GroupImage.groupId === Group.groupId,
     }
   })
 
   return res.json(groups)
 })
 // // get all groups by current user (need error cases + some fixes)
+// need authentiation
 router.get('/current', async (req, res) => {
   const {user} = req
   if (user) {
     const groups = await Group.findAll({
       include: {
-        model: GroupImage,
+        model: GroupImage, as: "PreviewImage",
+        where: {preview: true},
         attributes: ['url'],
-        where: GroupImage.groupId === Group.groupId
+
       },
       where: {
         organizerId: user.id
@@ -60,46 +65,83 @@ router.get('/:groupId', async (req, res) => {
 })
 module.exports = router;
 
-//Create a Group (error cases)
+//Create a Group (Body Validation Neededd)
+// need authentiation
 router.post('/', async (req, res) => {
   let {name, about, type, private, city, state} = req.body
-  const newGroup = await Group.create({ name, about, type, private, city, state})
+  const newGroup = await Group.build({ name, about, type, private, city, state})
+
+  let errorCheck = groupValidation(newGroup)
+
+  if (Object.keys(errorCheck).length !== 0) {
+    res.status = 400
+    return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+  }
+  newGroup.save()
 
   return res.json(newGroup)
 
 })
 
-//Add an Image to a Group Based on the Group's Id (error cases)
+//Add an Image to a Group Based on the Group's Id
+// need authentiation
 
 router.post('/:groupId/images', async (req, res) => {
   let {url, preview} = req.body
-  const newPhoto = await GroupImage.create({groupId: req.params.groupId, url, preview})
-
-  return res.json(newPhoto)
+  let group = await Group.findByPk(req.params.groupId)
+  if (group) {
+    const newPhoto = await GroupImage.create({groupId: req.params.groupId, url, preview})
+    return res.json(newPhoto)
+  } else {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
 })
 
-//Edit a Group (error cases)
+//Edit a Group
+// need authentiation
 
 router.put('/:groupId', async (req, res) => {
   let {name, about, type, private, city, state} = req.body
   const group = await Group.findOne({where: {id: req.params.groupId}})
-  group.set({
-    name,
-    about,
-    type,
-    private,
-    city,
-    state
-  })
+  const newGroup = await Group.build({ name, about, type, private, city, state})
+
+  let errorCheck = groupValidation(newGroup)
+
+  if (Object.keys(errorCheck).length !== 0) {
+    res.status = 400
+    return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+  }
+
+  if (group) {
+    group.set({name, about, type, private, city, state})
+  } else {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+
   return res.json(group)
 })
 
-
 //Delete a Group (error cases/auth cases)
+// need authentiation
 
 router.delete('/:groupId', async (req, res) => {
   const group = await Group.findOne({where: {id: req.params.groupId}})
-  group.destroy()
+  const {user} = req
+  if (user.id = req.params.groupId) {
+    if (group) {
+      group.destroy()
+    } else {
+      res.status = 404
+      return res.json({message: "Group couldn't be found", statusCode: 404})
+    }
+  } else {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+
+
 
   return res.json({message: "Successfully Deleted", statusCode: 200})
 })
