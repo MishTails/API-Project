@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router();
-<<<<<<< HEAD
-=======
 
 const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
 // get all groups
@@ -32,4 +30,3 @@ router.get('/current', async (req, res) => {
   }
 })
 // get details of a Group from an Id
->>>>>>> dev

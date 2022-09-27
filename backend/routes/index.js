@@ -3,10 +3,6 @@ const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
 router.use('/api', apiRouter);
-<<<<<<< HEAD
-=======
-// router.use('/groups', groupRouter)
->>>>>>> dev
 // ...
 
 router.get("/api/csrf/restore", (req, res) => {
