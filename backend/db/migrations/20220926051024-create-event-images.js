@@ -14,7 +14,8 @@ module.exports = {
           model: 'Events',
           key:'id'
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        allowNull: false
       },
       url: {
         type: Sequelize.STRING,
@@ -25,11 +26,13 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

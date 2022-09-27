@@ -14,26 +14,31 @@ module.exports = {
           model: "Events",
           key: 'id'
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        allowNull: false
       },
       userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users",
-          key: "id",
-        }
+          model: 'Users',
+          key:'id'
+        },
+        onDelete: 'CASCADE',
+        allowNull: false
       },
       status: {
         type: Sequelize.ENUM,
-        values: ['Going, Maybe, No']
+        values: ['Active', 'Inactive']
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
