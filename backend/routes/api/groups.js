@@ -62,7 +62,7 @@ router.get('/:groupId', async (req, res) => {
   }
   return res.json(groups)
 })
-module.exports = router;
+
 
 //Create a Group (Body Validation Neededd)
 router.post('/', async (req, res) => {
@@ -151,3 +151,6 @@ router.delete('/:groupId', async (req, res) => {
 
   return res.json({message: "Successfully Deleted", statusCode: 200})
 })
+
+
+module.exports = router;
