@@ -68,18 +68,22 @@ module.exports = router;
 //Create a Group (Body Validation Neededd)
 // need authentiation
 router.post('/', async (req, res) => {
-  let {name, about, type, private, city, state} = req.body
-  const newGroup = await Group.build({ name, about, type, private, city, state})
+  const {user} = req
+  if (user) {
+    let {name, about, type, private, city, state} = req.body
+    const newGroup = await Group.build({ name, about, type, private, city, state})
 
-  let errorCheck = groupValidation(newGroup)
+    let errorCheck = groupValidation(newGroup)
 
-  if (Object.keys(errorCheck).length !== 0) {
-    res.status = 400
-    return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+    if (Object.keys(errorCheck).length !== 0) {
+      res.status = 400
+      return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+    }
+    newGroup.save()
+
+    return res.json(newGroup)
+
   }
-  newGroup.save()
-
-  return res.json(newGroup)
 
 })
 
@@ -87,15 +91,19 @@ router.post('/', async (req, res) => {
 // need authentiation
 
 router.post('/:groupId/images', async (req, res) => {
-  let {url, preview} = req.body
-  let group = await Group.findByPk(req.params.groupId)
-  if (group) {
-    const newPhoto = await GroupImage.create({groupId: req.params.groupId, url, preview})
-    return res.json(newPhoto)
-  } else {
-    res.status = 404
-    return res.json({message: "Group couldn't be found", statusCode: 404})
+  const {user} = req
+  if (user.id) {
+    let {url, preview} = req.body
+    let group = await Group.findByPk(req.params.groupId)
+    if (group) {
+      const newPhoto = await GroupImage.create({groupId: req.params.groupId, url, preview})
+      return res.json(newPhoto)
+    } else {
+      res.status = 404
+      return res.json({message: "Group couldn't be found", statusCode: 404})
+    }
   }
+
 })
 
 //Edit a Group
@@ -103,28 +111,31 @@ router.post('/:groupId/images', async (req, res) => {
 
 router.put('/:groupId', async (req, res) => {
   let {name, about, type, private, city, state} = req.body
-  const group = await Group.findOne({where: {id: req.params.groupId}})
-  const newGroup = await Group.build({ name, about, type, private, city, state})
-
-  let errorCheck = groupValidation(newGroup)
-
-  if (Object.keys(errorCheck).length !== 0) {
-    res.status = 400
-    return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+  const {user} = req
+  if (user.id) {
+    const group = await Group.findOne({where: {id: req.params.groupId}})
+    const newGroup = await Group.build({ name, about, type, private, city, state})
+  
+    let errorCheck = groupValidation(newGroup)
+  
+    if (Object.keys(errorCheck).length !== 0) {
+      res.status = 400
+      return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+    }
+  
+    if (group) {
+      group.set({name, about, type, private, city, state})
+    } else {
+      res.status = 404
+      return res.json({message: "Group couldn't be found", statusCode: 404})
+    }
+  
+    return res.json(group)
   }
 
-  if (group) {
-    group.set({name, about, type, private, city, state})
-  } else {
-    res.status = 404
-    return res.json({message: "Group couldn't be found", statusCode: 404})
-  }
-
-  return res.json(group)
 })
 
-//Delete a Group (error cases/auth cases)
-// need authentiation
+//Delete a Group
 
 router.delete('/:groupId', async (req, res) => {
   const group = await Group.findOne({where: {id: req.params.groupId}})
