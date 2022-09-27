@@ -1,23 +1,69 @@
 const express = require('express');
 const { where } = require('sequelize');
 const router = express.Router();
-const {handleValidationErrors, groupValidation} = require('../../utils/auth')
+const { Op, Sequelize, ValidationError, ValidationErrorItem } = require('sequelize')
+const {handleValidationErrors} = require('../../utils/auth')
 const {check} = require('express-validator')
 
 const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
 // get all groups (need to make not n+1 query)
 
-router.get('/', async (req, res) => {
-  const groups = await Group.findAll({
-    include: {
-      model: GroupImage, as: "PreviewImage",
-      where: {preview: true},
-      attributes: ['url'],
-    }
-  })
+const groupValidation = (group) => {
+  let errors = {}
+  if (group.name.length >= 60) {
+    errors.name = "Name must be 60 characters or less"
+  }
+  if (group.about.length < 50) {
+    errors.about = "About must be 50 characters or more"
+  }
+  if (group.type !== "Online" && group.type !== "In person") {
+    errors.type = "Type must be 'Online' or 'In person'"
+  }
+  if (group.private !== true && group.private !== false) {
+    errors.private = "Private must be a boolean"
+  }
+  if (!group.city) {
+    errors.city = "City is required"
+  }
+  if (!group.state) {
+    errors.state = "State is required"
+  }
+  return errors
+}
+// GET ALL groups, look into why member count = 5 for lyco reco
 
-  return res.json(groups)
-})
+router.get("/", async (req, res, next) => {
+    const final = {}
+    const groups = await Group.findAll({
+      include: [
+      {
+        model: Membership,
+        attributes: []
+      },
+      {
+        model: GroupImage,
+        attributes: ['id', 'groupId', 'url', 'preview']
+      }
+    ],
+      attributes: {
+        include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']]
+      }
+    })
+    let arr = []
+    groups.forEach(group => {
+      arr.push(group.toJSON())
+    })
+    arr.forEach(group => {
+      group.GroupImages.forEach(image => {
+        if (image.preview === true) {
+          group.previewImage = image.url
+        }
+        delete group.GroupImages
+      })
+    })
+
+    return res.json(arr)
+});
 // // get all groups by current user (some fixes)
 router.get('/current', async (req, res) => {
   const {user} = req
@@ -69,8 +115,8 @@ router.post('/', async (req, res) => {
   const {user} = req
   if (user) {
     let {name, about, type, private, city, state} = req.body
-    const newGroup = await Group.build({ name, about, type, private, city, state})
-
+    const newGroup = await Group.build({organizerId: user.id, name, about, type, private, city, state})
+    console.log(newGroup)
     let errorCheck = groupValidation(newGroup)
 
     if (Object.keys(errorCheck).length !== 0) {
@@ -79,7 +125,8 @@ router.post('/', async (req, res) => {
     }
     newGroup.save()
 
-    return res.json(newGroup)
+    let trimmedGroup = {name, about, type, private, city, state }
+    return res.json(trimmedGroup)
 
   }
 
