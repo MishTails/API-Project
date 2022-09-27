@@ -30,7 +30,9 @@ const groupValidation = (group) => {
   }
   return errors
 }
-// GET ALL groups, look into why member count = 5 for lyco reco
+
+
+// GET ALL groups
 
 router.get("/", async (req, res, next) => {
     const final = {}
@@ -38,16 +40,13 @@ router.get("/", async (req, res, next) => {
       include: [
       {
         model: Membership,
-        attributes: []
+        attributes: ['id']
       },
       {
         model: GroupImage,
         attributes: ['id', 'groupId', 'url', 'preview']
       }
-    ],
-      attributes: {
-        include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']]
-      }
+    ]
     })
     let arr = []
     groups.forEach(group => {
@@ -58,35 +57,74 @@ router.get("/", async (req, res, next) => {
         if (image.preview === true) {
           group.previewImage = image.url
         }
-        delete group.GroupImages
       })
+      if (group.GroupImages.length === 0) {
+        group.previewImage = 'no image'
+      }
+      delete group.GroupImages
+      let x = 0
+      group.Memberships.forEach(member => {
+        x++
+      })
+      group.numMembers = x
+      delete group.Memberships
     })
 
     return res.json(arr)
 });
-// // get all groups by current user (some fixes)
+// get all groups by current user
 router.get('/current', async (req, res) => {
   const {user} = req
   if (user) {
     const groups = await Group.findAll({
-      include: {
-        model: GroupImage, as: "PreviewImage",
-        where: {preview: true},
-        attributes: ['url'],
-
-      },
+      include: [
+        {
+          model: Membership,
+          attributes: ['id']
+        },
+        {
+          model: GroupImage,
+          attributes: ['id', 'groupId', 'url', 'preview']
+        }
+      ],
       where: {
         organizerId: user.id
       }
     })
 
-    return res.json(groups)
+    let arr = []
+    groups.forEach(group => {
+      arr.push(group.toJSON())
+    })
+    arr.forEach(group => {
+      group.GroupImages.forEach(image => {
+        if (image.preview === true) {
+          group.previewImage = image.url
+        }
+      })
+      if (group.GroupImages.length === 0) {
+        group.previewImage = 'no image'
+      }
+      delete group.GroupImages
+      let x = 0
+      group.Memberships.forEach(member => {
+        x++
+      })
+      group.numMembers = x
+      delete group.Memberships
+    })
+
+    return res.json(arr)
   }
 })
 // get details of a Group from an Id
 router.get('/:groupId', async (req, res) => {
   const groups = await Group.findByPk(req.params.groupId, {
     include: [
+      {
+        model: Membership,
+        attributes: []
+      },
       {
         model: GroupImage,
         attributes: ['id', 'url', 'preview'],
@@ -100,7 +138,10 @@ router.get('/:groupId', async (req, res) => {
         model: Venue,
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
       }
-  ]
+    ],
+    attributes: {
+      include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']]
+    }
   })
   if (!groups) {
     res.status = 404
@@ -110,23 +151,23 @@ router.get('/:groupId', async (req, res) => {
 })
 
 
-//Create a Group (Body Validation Neededd)
+//Create a Group
 router.post('/', async (req, res) => {
   const {user} = req
   if (user) {
-    let {name, about, type, private, city, state} = req.body
-    const newGroup = await Group.build({organizerId: user.id, name, about, type, private, city, state})
-    console.log(newGroup)
-    let errorCheck = groupValidation(newGroup)
+    let {name, about, type, private, city, state, } = req.body
+    const testGroup = await Group.build({organizerId: user.id, name, about, type, private, city, state})
+    console.log(testGroup)
+    let errorCheck = groupValidation(testGroup)
 
     if (Object.keys(errorCheck).length !== 0) {
       res.status = 400
       return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
     }
-    newGroup.save()
+    const newGroup = await Group.create({organizerId: user.id, name, about, type, private, city, state})
 
     let trimmedGroup = {name, about, type, private, city, state }
-    return res.json(trimmedGroup)
+    return res.json(newGroup)
 
   }
 
@@ -141,7 +182,7 @@ router.post('/:groupId/images', async (req, res) => {
     let group = await Group.findByPk(req.params.groupId)
     if (group) {
       const newPhoto = await GroupImage.create({groupId: req.params.groupId, url, preview})
-      return res.json(newPhoto)
+      return res.json({id: newPhoto.id, url, preview})
     } else {
       res.status = 404
       return res.json({message: "Group couldn't be found", statusCode: 404})
@@ -157,7 +198,7 @@ router.put('/:groupId', async (req, res) => {
   if (user.id) {
     const group = await Group.findOne({where: {id: req.params.groupId}})
     const newGroup = await Group.build({ name, about, type, private, city, state})
-
+    console.log('hi')
     let errorCheck = groupValidation(newGroup)
 
     if (Object.keys(errorCheck).length !== 0) {
@@ -171,30 +212,26 @@ router.put('/:groupId', async (req, res) => {
       res.status = 404
       return res.json({message: "Group couldn't be found", statusCode: 404})
     }
-
+    await group.save()
     return res.json(group)
   }
 
 })
 
-//Delete a Group
+//Delete a Group Needs fixing
 
 router.delete('/:groupId', async (req, res) => {
-  const group = await Group.findOne({where: {id: req.params.groupId}})
   const {user} = req
-  if (user.id = req.params.groupId) {
-    if (group) {
-      group.destroy()
-    } else {
-      res.status = 404
-      return res.json({message: "Group couldn't be found", statusCode: 404})
-    }
-  } else {
+  const group = await Group.findOne({where: {id: req.params.groupId}})
+  if (!group) {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+  if (user.id !== group.organizerId) {
     res.status = 401
     return res.json({message: "Authentication required", statusCode: 401})
   }
-
-
+    await group.destroy()
 
   return res.json({message: "Successfully Deleted", statusCode: 200})
 })
