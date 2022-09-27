@@ -34,7 +34,7 @@ const groupValidation = (group) => {
 
 // GET ALL groups
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
     const final = {}
     const groups = await Group.findAll({
       include: [
@@ -236,5 +236,54 @@ router.delete('/:groupId', async (req, res) => {
   return res.json({message: "Successfully Deleted", statusCode: 200})
 })
 
+// Get all Events of a group specified by its id
+router.get("/:groupId/events", async (req, res) => {
+  const events = await Event.findAll({
+    include: [
+    {
+      model: Attendance,
+      attributes: ['id']
+    },
+    {
+      model: EventImage,
+      attributes: ['id', 'eventId', 'url', 'preview']
+    },
+    {
+      model: Group,
+      attributes: ['id', 'name', 'city', 'state']
+    },
+    {
+      model: Venue,
+      attributes: ['id', 'city', 'state']
+    }
+    ],
+    where: {
+      groupId: req.params.groupId
+  }
+  })
+  let arr = []
+  events.forEach(event => {
+    arr.push(event.toJSON())
+  })
+  arr.forEach(event => {
+    event.EventImages.forEach(image => {
+      if (image.preview === true) {
+        event.previewImage = image.url
+      }
+    })
+    if (event.EventImages.length === 0) {
+      event.previewImage = 'no image'
+    }
+    delete event.EventImages
+    let x = 0
+    event.Attendances.forEach(attendee => {
+      x++
+    })
+    event.numAttending = x
+    delete event.Attendances
+  })
+
+  return res.json(arr)
+});
 
 module.exports = router;
