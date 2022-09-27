@@ -5,7 +5,7 @@ const apiRouter = require('./api');
 const groupRouter = require('./group')
 
 router.use('/api', apiRouter);
-router.use('/groups', groupRouter)
+// router.use('/groups', groupRouter)
 // ...
 
 router.get("/api/csrf/restore", (req, res) => {

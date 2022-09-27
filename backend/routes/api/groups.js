@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   })
   return res.json(group)
 })
-// get all groups by current user
+// // get all groups by current user
 router.get('/current', async (req, res) => {
   const {user} = req
   if (user) {
@@ -30,5 +30,3 @@ router.get('/current', async (req, res) => {
   }
 })
 // get details of a Group from an Id
-
-
