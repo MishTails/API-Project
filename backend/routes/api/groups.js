@@ -18,8 +18,7 @@ router.get('/', async (req, res) => {
 
   return res.json(groups)
 })
-// // get all groups by current user (need error cases + some fixes)
-// need authentiation
+// // get all groups by current user (some fixes)
 router.get('/current', async (req, res) => {
   const {user} = req
   if (user) {
@@ -66,7 +65,6 @@ router.get('/:groupId', async (req, res) => {
 module.exports = router;
 
 //Create a Group (Body Validation Neededd)
-// need authentiation
 router.post('/', async (req, res) => {
   const {user} = req
   if (user) {
@@ -88,7 +86,6 @@ router.post('/', async (req, res) => {
 })
 
 //Add an Image to a Group Based on the Group's Id
-// need authentiation
 
 router.post('/:groupId/images', async (req, res) => {
   const {user} = req
@@ -103,11 +100,9 @@ router.post('/:groupId/images', async (req, res) => {
       return res.json({message: "Group couldn't be found", statusCode: 404})
     }
   }
-
 })
 
 //Edit a Group
-// need authentiation
 
 router.put('/:groupId', async (req, res) => {
   let {name, about, type, private, city, state} = req.body
@@ -115,21 +110,21 @@ router.put('/:groupId', async (req, res) => {
   if (user.id) {
     const group = await Group.findOne({where: {id: req.params.groupId}})
     const newGroup = await Group.build({ name, about, type, private, city, state})
-  
+
     let errorCheck = groupValidation(newGroup)
-  
+
     if (Object.keys(errorCheck).length !== 0) {
       res.status = 400
       return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
     }
-  
+
     if (group) {
       group.set({name, about, type, private, city, state})
     } else {
       res.status = 404
       return res.json({message: "Group couldn't be found", statusCode: 404})
     }
-  
+
     return res.json(group)
   }
 
