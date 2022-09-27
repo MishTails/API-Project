@@ -10,38 +10,27 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Group.belongsTo(models.Users, {foreignKey: 'organizerId'})
+      // define association here
+      Group.hasMany(models.Event, { foreignKey: 'groupId', onDelete: 'CASCADE', hooks:true });
+      Group.hasMany(models.Venue, { foreignKey: 'groupId', onDelete: 'CASCADE', hooks:true  });
+      Group.hasMany(models.GroupImage, { foreignKey: 'groupId', onDelete: 'CASCADE', hooks:true  });
+      Group.hasMany(models.Membership, { foreignKey: 'groupId', onDelete: 'CASCADE', hooks:true  });
+      Group.belongsTo(models.User, {foreignKey: 'organizerId', as: 'Organizer',onDelete: "CASCADE", hooks: true});
     }
   }
   Group.init({
     organizerId: {
-      type:DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    about: {
-      type:DataTypes.VARCHAR(1000),
-      allowNull: false
-    },
+    name: { type: DataTypes.STRING },
+    about: { type: DataTypes.TEXT },
     type: {
-      type:DataTypes.VARCHAR(50),
-      allowNull: false
+      type: DataTypes.ENUM,
+      values: ['In person', 'Online']
     },
-    private: {
-      type:DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    city: {
-      type:DataTypes.STRING,
-      allowNull: false
-    },
-    state: {
-      type:DataTypes.STRING,
-      allowNull: false
-    }
+    private: { type: DataTypes.BOOLEAN },
+    city: { type: DataTypes.STRING },
+    state: { type: DataTypes.STRING }
   }, {
     sequelize,
     modelName: 'Group',

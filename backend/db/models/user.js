@@ -1,13 +1,12 @@
 'use strict';
 const { Model, Validator } = require('sequelize');
-
 const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, username, email, firstName, lastName } = this; // context will be the User instance
-      return { id, username, email, firstName, lastName };
+      const { id, username, email } = this; // context will be the User instance
+      return { id, username, email };
     }
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
@@ -29,25 +28,33 @@ module.exports = (sequelize, DataTypes) => {
         return await User.scope('currentUser').findByPk(user.id);
       }
     }
-    static async signup({ username, email,firstName, lastName, password}) {
+    static async signup({ firstName, lastName, username, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
-        username,
-        email,
         firstName,
         lastName,
+        username,
+        email,
         hashedPassword
-
       });
       return await User.scope('currentUser').findByPk(user.id);
     }
     static associate(models) {
       // define association here
+      User.hasMany(models.Attendance, { foreignKey: 'userId', as:'Attendance', onDelete: 'CASCADE', hooks:true });
+      User.hasMany(models.Group, { foreignKey: 'organizerId', onDelete: 'CASCADE', hooks:true  });
+      User.hasMany(models.Membership, { foreignKey: 'userId' , as: 'Membership', onDelete: 'CASCADE', hooks:true });
     }
   };
 
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING
+      },
+      lastName: {
+        type: DataTypes.STRING
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -68,30 +75,6 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true
         }
       },
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [4, 30],
-          isNotEmail(value) {
-            if (Validator.isEmail(value)) {
-              throw new Error("Cannot be an email.");
-            }
-          }
-        }
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [4, 30],
-          isNotEmail(value) {
-            if (Validator.isEmail(value)) {
-              throw new Error("Cannot be an email.");
-            }
-          }
-        }
-      },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
@@ -100,6 +83,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    //define scoop
     {
       sequelize,
       modelName: "User",
@@ -110,15 +94,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       scopes: {
         currentUser: {
-          attributes: { exclude: ["hashedPassword", "username","createdAt","updatedAt"] },
+          attributes: { exclude: ["hashedPassword"] }
         },
         loginUser: {
           attributes: {}
         }
-      },
-
-
+      }
     }
+
   );
   return User;
 };

@@ -10,13 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Attendance.belongsTo(models.User, {foreignKey: 'userId', as: 'Attendance', onDelete: 'CASCADE', hooks: true});
+      Attendance.belongsTo(models.Event, {foreignKey: 'eventId', onDelete: 'CASCADE', hooks: true});
     }
   }
   Attendance.init({
-    eventId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
-    status: DataTypes.ENUM
+    eventId: { type: DataTypes.INTEGER },
+    userId: { type: DataTypes.INTEGER },
+    status: {
+      type: DataTypes.ENUM,
+      values: ['Active', 'Inactive']
+    }
   }, {
     sequelize,
     modelName: 'Attendance',

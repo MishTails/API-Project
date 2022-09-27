@@ -10,16 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Membership.belongsTo(models.User, {foreignKey: "userId", onDelete: "CASCADE", hooks: true});
+      Membership.belongsTo(models.Group, {foreignKey: "groupId", onDelete: "CASCADE", hooks: true})
     }
   }
   Membership.init({
-    userId: DataTypes.INTEGER,
-    groupId: DataTypes.INTEGER,
-    status: DataTypes.ENUM
+    userId: { type: DataTypes.INTEGER},
+    groupId:{ type: DataTypes.INTEGER},
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Membership',
   });
-  return Memberships;
+  return Membership;
 };
