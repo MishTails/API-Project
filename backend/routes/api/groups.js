@@ -228,7 +228,7 @@ router.put('/:groupId', async (req, res) => {
   if (user.id) {
     const group = await Group.findOne({where: {id: req.params.groupId}})
     const newGroup = await Group.build({ name, about, type, private, city, state})
-    console.log('hi')
+
     let errorCheck = groupValidation(newGroup)
 
     if (Object.keys(errorCheck).length !== 0) {
