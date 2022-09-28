@@ -384,7 +384,7 @@ router.post('/:groupId/venues', async (req, res) => {
   if (user) {
     let {address, city, state, lat, lng } = req.body
     let group = await Group.findByPk(req.params.groupId)
-    if (group) {
+    if (!group) {
       res.status = 404;
       return res.json({message: "Group couldn't be found", statusCode: 404})
     }
@@ -403,6 +403,91 @@ router.post('/:groupId/venues', async (req, res) => {
   }
 
 })
+
+router.get('/:groupId/members', async (req, res) => {
+
+  const {user} = req
+  let group = await Group.findbyPk(req.params.groupId)
+  let userMem = await Membership.findOne({where: {userId: user.id, groupId: req.params.groupId}})
+
+  if (!group) {
+    res.status = 404;
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+
+  if(!userMem) {
+    let groupMems = await User.findAll({
+      attributes: ['id', 'firstName', 'lastName'],
+      include: {
+        model: Membership,
+        where: {
+          groupId: req.params.groupId,
+          status: {
+            [Op.notIn]: ['pending']
+          }
+        },
+        attributes: ['status']
+      }
+    })
+    return res.json({Members:groupMems})
+  }
+
+  if(req.user) {
+    if(group.organizerId === user.id || userMem.status === "co-host") {
+      let groupMems = await User.findAll({
+        attributes: ['id', 'firstName', 'lastName'],
+        include: {
+          model: Membership,
+          where: {
+            groupId: req.params.groupId,
+          },
+          attributes: ['status']
+        }
+      })
+      return res.json({Members:groupMems})
+    } else {
+      let groupMems = await User.findAll({
+        attributes: ['id', 'firstName', 'lastName'],
+        include: {
+          model: Membership,
+          where: {
+            groupId: req.params.groupId,
+            status: {
+              [Op.notIn]: ['pending']
+            }
+          },
+          attributes: ['status']
+        }
+      })
+      return res.json({Members:groupMems})
+    }
+  }
+})
+
+//Request a Membership for a Group based on the Group's Id
+
+req.post('/:groupId/membership', async (req, res) =>{
+  let {user} = req
+  let group = await Group.findByPk(req.params.groupId)
+  let member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id }})
+  if (!group) {
+    res.status = 404;
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+  if (member) {
+    if (member.status === "pending") {
+      res.status = 400;
+      return res.json({message: "Membership has already been requested", statusCode: 400})
+    } else {
+      res.status = 400;
+      return res.json({message: "User is already a member of the group", statusCode: 400})
+    }
+  } else {
+    const newMember = await Membership.create({userId: user.id, groupId: req.params.groupId, status: 'pending'})
+    return res.json({memberId: user.id, status: 'pendng'})
+  }
+})
+
 
 
 module.exports = router;
