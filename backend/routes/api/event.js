@@ -149,7 +149,7 @@ router.put("/:eventId", async (req, res) => {
 
   let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
   let venue = await Venue.findByPk(venueId)
-  
+
   if (!venue) {
     res.status = 404
     return res.json({message: "Venue couldn't be found", statusCode: 404})
@@ -171,6 +171,24 @@ router.put("/:eventId", async (req, res) => {
   await event.save()
   return res.json(event)
 
+})
+
+//Delete an event specified by its Id. Need to do cohost related things.
+
+router.delete('/:eventId', async (req, res) => {
+  const {user} = req
+  const event = await Event.findOne({where: {id: req.params.eventId}})
+  if (!event) {
+    res.status = 404
+    return res.json({message: "Event couldn't be found", statusCode: 404})
+  }
+  if (user.id !== event.organizerId) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+    await event.destroy()
+
+  return res.json({message: "Successfully Deleted", statusCode: 200})
 })
 
 // NOTHING BELOW THIS
