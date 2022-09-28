@@ -191,7 +191,13 @@ router.delete('/:eventId', async (req, res) => {
   return res.json({message: "Successfully Deleted", statusCode: 200})
 })
 
+// Get all Attendees of an Event specified by its Id
 
+router.get('/:eventId/attendees', async (req, res) => {
+  let {user} = req
+  const event = Event.findOne({where: {id: req.params.eventId}})
+  let userMem = await Attendance.findOne({where: {userId: user.id, eventId: req.params.eventId}})
+})
 
 // NOTHING BELOW THIS
 module.exports = router;
