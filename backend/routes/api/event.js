@@ -96,7 +96,19 @@ router.get("/:eventId", async (req, res) => {
   return res.json(eventJSON)
 });
 
+//Add an Image to an Event based on the Event's id
 
+router.post("/:eventId/images", async(req, res) => {
+  let event = await Event.findByPk(req.params.eventId)
+  let {url, preview} = req.body
+  if (event) {
+    const newPhoto = await GroupImage.create({eventId: req.params.groupId, url, preview})
+    return res.json({id: newPhoto.id, url, preview})
+  } else {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+})
 
 // NOTHING BELOW THIS
 module.exports = router;
