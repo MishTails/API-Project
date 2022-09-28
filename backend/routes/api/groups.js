@@ -30,7 +30,37 @@ const groupValidation = (group) => {
   }
   return errors
 }
+const eventValidation = event => {
+  let errors = {}
+  let date = new Date()
+  let today = Date.now()
 
+  if(!event.venueId) {
+    errors.venueId = "Venue does not exist"
+  }
+  if(event.name.length < 5) {
+    errors.name = "Name must be at least 5 characters"
+  }
+  if(event.type !== "Online" && event.type !== "In person") {
+    errors.type = "Type must be Online or In Person"
+  }
+  if(!Number.isInteger(event.capacity)){
+    errors.capacity = "Capacity must be an integer"
+  }
+  if(typeof event.price !== 'number') {
+    errors.price = "Price is invalid"
+  }
+  if(!event.description) {
+    errors.description = "Description is required"
+  }
+  if(Date.parse(event.startDate) < Date.now()) {
+    errors.startDate = "Start date must be in the future"
+  }
+  if(Date.parse(event.endDate) < Date.parse(event.startDate)) {
+    errors.endDate = "End date is less than start date"
+  }
+  return errors
+}
 
 // GET ALL groups
 
@@ -285,5 +315,27 @@ router.get("/:groupId/events", async (req, res) => {
 
   return res.json(arr)
 });
+
+router.post('/:groupId/events', async (req, res) => {
+  const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
+  const group = await Group.findOne({where: {id: req.params.groupId}})
+
+  if (!group) {
+    res.status = 404;
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+
+  const testEvent = await Event.build({venueId, name, type, capacity, price, description, startDate, endDate})
+  console.log(testEvent)
+    let errorCheck = eventValidation(testEvent)
+
+    if (Object.keys(errorCheck).length !== 0) {
+      res.status = 400
+      return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+    }
+    const newEvent = await Event.create({groupId: req.params.groupId, venueId, name, type, capacity, price, description, startDate, endDate})
+
+    return res.json(newEvent)
+})
 
 module.exports = router;
