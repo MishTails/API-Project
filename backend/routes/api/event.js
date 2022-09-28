@@ -133,11 +133,11 @@ router.post("/:eventId/images", async(req, res) => {
   let event = await Event.findByPk(req.params.eventId)
   let {url, preview} = req.body
   if (event) {
-    const newPhoto = await GroupImage.create({eventId: req.params.groupId, url, preview})
+    const newPhoto = await EventImage.create({eventId: req.params.eventId, url, preview})
     return res.json({id: newPhoto.id, url, preview})
   } else {
     res.status = 404
-    return res.json({message: "Group couldn't be found", statusCode: 404})
+    return res.json({message: "Event couldn't be found", statusCode: 404})
   }
 })
 
@@ -233,6 +233,29 @@ router.get('/:eventId/attendees', async (req, res) => {
 
     return res.json({Attendees: attendees})
   }
+})
+
+//request to attend an event based on the event id
+
+router.post('/:eventId/attendance', async (req, res) => {
+  const {user} = req
+  const event = Event.findOne({where: {id: req.params.eventId}})
+  const userAttend = Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+
+  if (!event){
+    res.status = 404
+    return res.json({message: "Event couldn't be found", statusCode: 404})
+  }
+  if (userAttend.status === "pending") {
+    res.status = 400
+    return res.json({message: "Attendance has already been requested", statusCode: 400})
+  }
+  if (userAttend.status === "attending") {
+    res.status = 400
+    return res.json({message: "User is already an attendee of the event", statusCode: 400})
+  }
+  const newAttendee = await Attendance.create({eventId: req.params.eventId, userId: user.id, status: 'pending'})
+    return res.json({eventId: req.params.eventId, userId: user.id, status: 'pending'})
 })
 
 
