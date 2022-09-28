@@ -338,4 +338,67 @@ router.post('/:groupId/events', async (req, res) => {
     return res.json(newEvent)
 })
 
+//Get all venues for a group specified by Id
+
+router.get('/:groupId/venues', async (req, res) => {
+  const venues = await Venue.findAll({
+    where: {
+      groupId: req.params.groupId
+    },
+    attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+  })
+
+  if (!venues || venues.length === 0) {
+    res.status = 404;
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+
+  return res.json(venues)
+})
+
+const venueValidation = (venue) => {
+  let errors = {}
+  if (!venue.address) {
+    errors.address = "Street address is required"
+  }
+  if (!venue.city) {
+    errors.city = "City is required"
+  }
+  if (!venue.state) {
+    errors.state = "State is required"
+  }
+  if (venue.lat < -90 || venue.lat >90) {
+    errors.lat = "Latitude is not valid"
+  }
+  if (venue.lng < -180 || venue.lng >180) {
+    errors.lng = "Longitude is not valid"
+  }
+  return errors
+}
+// Create a new Venue for a Group specified by its Id
+
+router.post('/:groupId/venues', async (req, res) => {
+  const {user} = req
+  if (user) {
+    let {address, city, state, lat, lng } = req.body
+    let group = await Group.findByPk(req.params.groupId)
+    if (group) {
+      res.status = 404;
+      return res.json({message: "Group couldn't be found", statusCode: 404})
+    }
+    const testVenue = await Venue.build({groupId: req.params.groupId, address, city, state, lat, lng})
+
+    let errorCheck = venueValidation(testVenue)
+
+    if (Object.keys(errorCheck).length !== 0) {
+      res.status = 400
+      return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+    }
+    const newVenue = await Venue.create({groupId: req.params.groupId, address, city, state, lat, lng})
+
+    return res.json(newVenue)
+
+  }
+
+})
 module.exports = router;
