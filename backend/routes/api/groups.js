@@ -535,5 +535,7 @@ router.put('/:groupId/membership', async (req, res) => {
 }
 })
 
+// Delete membership to a group specified by id
+
 
 module.exports = router;
