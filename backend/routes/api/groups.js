@@ -466,7 +466,7 @@ router.get('/:groupId/members', async (req, res) => {
 
 //Request a Membership for a Group based on the Group's Id
 
-req.post('/:groupId/membership', async (req, res) =>{
+router.post('/:groupId/membership', async (req, res) =>{
   let {user} = req
   let group = await Group.findByPk(req.params.groupId)
   let member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id }})
@@ -488,6 +488,52 @@ req.post('/:groupId/membership', async (req, res) =>{
   }
 })
 
+//Change the status of a membership for a group specified by id
+
+
+router.put('/:groupId/membership', async (req, res) => {
+  let {memberId, status} = req.body
+  let group = await Group.findByPk(req.params.groupId)
+  let member = await Membership.findOne({where: {groupId: req.params.groupId, userId: memberId}, attributes: ['id','userId', 'groupId', 'status']})
+  let {user} = req
+  let userMem = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+  if (status === "pending") {
+    res.status = 400;
+    return res.json({message: "Cannot change a membership status to pending", statusCode: 400})
+  }
+  if (!member) {
+    res.status = 404;
+    return res.json({message: "User couldn't be found", statusCode: 400})
+  }
+  if (!group) {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+  if (!userMem) {
+    res.status = 404
+    return res.json({message: "Membership between the user and the group does not exist", statusCode: 404})
+  }
+  if (status === "member") {
+    if (userMem.status !== "co-host" && user.id !== group.organizerId ) {
+      res.status = 403
+      return res.json({message: "Forbidden", statusCode: 403} )
+    } else {
+      member.set({status})
+      await member.save()
+      res.json(member)
+    }
+  }
+  if (status === "co-host") {
+    if (userMem.status !== "co-host" && user.id !== group.organizerId ) {
+      res.status = 403
+      return res.json({message: "Forbidden", statusCode: 403} )
+    } else {
+      member.set({status})
+      await member.save()
+      res.json(member)
+  }
+}
+})
 
 
 module.exports = router;
