@@ -1,6 +1,7 @@
 const express = require('express');
 const { where } = require('sequelize');
 const router = express.Router();
+const { Op, Sequelize, ValidationError, ValidationErrorItem } = require('sequelize')
 const {handleValidationErrors, groupValidation} = require('../../utils/auth')
 const {check} = require('express-validator')
 
@@ -8,8 +9,6 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 
 const eventValidation = event => {
   let errors = {}
-  let date = new Date()
-  let today = Date.now()
 
   if(!event.venueId) {
     errors.venueId = "Venue does not exist"
@@ -38,9 +37,67 @@ const eventValidation = event => {
   return errors
 }
 //Get all Attendees of an Event specified by its Id
+const queryValidator = (page, size, name, type, startDate) => {
+  let errors = {}
+
+  if(page < 1 || page > 10) {
+    errors.page = "Page must be greater than or equal to 1"
+  }
+  if(size < 1 || size > 20) {
+    errors.size = "Size must be greater than or equal to 1"
+  }
+  if(typeof name !== 'string' && name !== undefined) {
+    errors.name = "Name must be a string"
+  }
+  if(type !== "Online" && type !== "In Person") {
+    errors.type = "Type must be 'Online' or 'In Person'"
+  }
+  if(!date instanceof Date) {
+    errors.startDate = "Start date must be a valid datetime"
+  }
+  return errors
+}
+
+
 
 router.get("/", async (req, res) => {
+
+  let page = parseInt(req.query.page)
+  let size = parseInt(req.query.size)
+  let name = req.query.name
+  let type = req.query.string
+  let startDate = req.query.startDate
+  if(!page) {
+    page = 1
+  }
+  if(!size) {
+    size = 20
+  }
+
+  let errorCheck = queryValidator(page, size, name, type, startDate)
+
+  if (Object.keys(errorCheck).length !== 0) {
+    res.status = 400
+    return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
+  }
+
+  let limit = size
+  let offset = size*(page-1)
+  let optionalQueries = {}
+  if (name) {
+    optionalQueries.name = name
+  }
+  if (type) {
+    optionalQueries.type = type
+  }
+  if (startDate) {
+    optionalQueries.startDate = startDate
+  }
+
+
   const events = await Event.findAll({
+    limit: limit,
+    offset: offset,
     include: [
     {
       model: Attendance,
@@ -58,7 +115,10 @@ router.get("/", async (req, res) => {
       model: Venue,
       attributes: ['id', 'city', 'state']
     }
-  ]
+    ],
+    where: {
+      ...optionalQueries
+    }
   })
   let arr = []
   events.forEach(event => {

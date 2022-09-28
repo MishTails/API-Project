@@ -36,6 +36,7 @@ router.delete('/imageId', async (req, res) => {
     statusCode: 200
   })
 }
+})
 
 
 
