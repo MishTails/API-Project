@@ -403,7 +403,7 @@ router.post('/:groupId/venues', async (req, res) => {
   }
 
 })
-
+// Get all members of a group
 router.get('/:groupId/members', async (req, res) => {
 
   const {user} = req
@@ -536,6 +536,29 @@ router.put('/:groupId/membership', async (req, res) => {
 })
 
 // Delete membership to a group specified by id
+
+router.delete('/:groupId/membership', async (req, res) => {
+  const {user} = req
+  const {memberId} = req.body
+  const myUser = await User.findByPk(memberId)
+  const group = await Group.findbyPk(req.params.groupId)
+  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: memberId}})
+  if(!myUser) {
+    res.status = 400
+    return res.json({message: "Validation Error", statusCode: 400, errors: {memberId: "User couldn't be found"}})
+  }
+  if (!group) {
+    res.status = 404
+    return res.json({message: "Group couldn't be found", statusCode: 404})
+  }
+  if (!member) {
+    res.status = 404
+    return res.json({message: "Membership does not exist for this User", statusCode: 404})
+  }
+    await member.destroy()
+
+  return res.json({message: "Successfully Deleted", statusCode: 200})
+})
 
 
 module.exports = router;
