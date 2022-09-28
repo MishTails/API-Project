@@ -62,6 +62,26 @@ const eventValidation = event => {
   return errors
 }
 
+const venueValidation = (venue) => {
+  let errors = {}
+  if (!venue.address) {
+    errors.address = "Street address is required"
+  }
+  if (!venue.city) {
+    errors.city = "City is required"
+  }
+  if (!venue.state) {
+    errors.state = "State is required"
+  }
+  if (venue.lat < -90 || venue.lat >90) {
+    errors.lat = "Latitude is not valid"
+  }
+  if (venue.lng < -180 || venue.lng >180) {
+    errors.lng = "Longitude is not valid"
+  }
+  return errors
+}
+
 // GET ALL groups
 
 router.get("/", async (req, res) => {
@@ -356,25 +376,7 @@ router.get('/:groupId/venues', async (req, res) => {
   return res.json(venues)
 })
 
-const venueValidation = (venue) => {
-  let errors = {}
-  if (!venue.address) {
-    errors.address = "Street address is required"
-  }
-  if (!venue.city) {
-    errors.city = "City is required"
-  }
-  if (!venue.state) {
-    errors.state = "State is required"
-  }
-  if (venue.lat < -90 || venue.lat >90) {
-    errors.lat = "Latitude is not valid"
-  }
-  if (venue.lng < -180 || venue.lng >180) {
-    errors.lng = "Longitude is not valid"
-  }
-  return errors
-}
+
 // Create a new Venue for a Group specified by its Id
 
 router.post('/:groupId/venues', async (req, res) => {
@@ -401,4 +403,6 @@ router.post('/:groupId/venues', async (req, res) => {
   }
 
 })
+
+
 module.exports = router;
