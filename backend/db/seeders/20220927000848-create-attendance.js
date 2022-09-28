@@ -6,12 +6,12 @@ module.exports = {
       {
         eventId: 1,
         userId: 1,
-        status: 'Active',
+        status: 'member',
       },
       {
         eventId: 2,
         userId: 1,
-        status: "Inactive",
+        status: "pending",
       },
     ], {});
   },
