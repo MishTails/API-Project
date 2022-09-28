@@ -197,7 +197,46 @@ router.get('/:eventId/attendees', async (req, res) => {
   let {user} = req
   const event = Event.findOne({where: {id: req.params.eventId}})
   let userMem = await Attendance.findOne({where: {userId: user.id, eventId: req.params.eventId}})
+  const group = Group.findbyPk(event.groupId)
+  if (!event) {
+    res.status = 404
+    return res.json({message: "Event couldn't be found", statusCode: 404})
+  }
+
+  if (userMem.status === "co-host" || user.id === group.organizerId) {
+    let attendees = User.findAll({
+      attributes: ['id', 'firstName', 'lastName'],
+      include: {
+        model: Attendance,
+        where: {
+          eventId: req.params.eventId
+        },
+        attributes: ['status']
+      }
+    })
+
+    return res.json({Attendees: attendees})
+  } else {
+    let attendees = User.findAll({
+      attributes: ['id', 'firstName', 'lastName'],
+      include: {
+        model: Attendance,
+        where: {
+          eventId: req.params.eventId,
+          status: {
+            [Op.notIn]: ['pending']
+          }
+        },
+        attributes: ['status']
+      }
+    })
+
+    return res.json({Attendees: attendees})
+  }
 })
+
+
+
 
 // NOTHING BELOW THIS
 module.exports = router;
