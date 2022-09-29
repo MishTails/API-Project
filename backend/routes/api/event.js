@@ -332,7 +332,17 @@ router.get('/:eventId/attendees', async (req, res) => {
 
 router.post('/:eventId/attendance', async (req, res) => {
   const {user} = req
-  const event = Event.findOne({where: {id: req.params.eventId}})
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  let event = await Event.findByPk(req.params.eventId)
+  const group  = await Group.findByPk(event.groupId)
+  const member = await Member.findOne({where: {groupId: group.id, userId: user.id}})
+  if (!member) {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   const userAttend = Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
 
   if (!event){
@@ -354,11 +364,22 @@ router.post('/:eventId/attendance', async (req, res) => {
 // change the status of an attendance for an event specified by id
 
 router.put('/:eventId/attendance', async (req, res) => {
-  let {userId, status} = req.body
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
   let event = await Event.findByPk(req.params.eventId)
-  const group = Group.findbyPk(event.groupId)
+  const group  = await Group.findByPk(event.groupId)
+  const attendeeValid = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+  if (group.organizerId !== user.id && attendeeValid.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
+
+  let {userId, status} = req.body
   let attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId}, attributes: ['id','userId', 'eventId', 'status']})
-  let {user} = req
+
   let userAttend = await Membership.findOne({where: {eventId: req.params.eventId, userId}})
   if (status === "pending") {
     res.status = 400;
@@ -394,14 +415,24 @@ router.put('/:eventId/attendance', async (req, res) => {
 }
 })
 
-// Delete membershipattendance to an event specified by id
+// Delete membership attendance to an event specified by id
 
 router.delete('/:eventId/attendance', async (req, res) => {
   const {user} = req
   const {userId} = req.body
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  let event = await Event.findByPk(req.params.eventId)
+  const group  = await Group.findByPk(event.groupId)
+  if (group.organizerId !== user.id && user.id !== userId) {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
+
   // const myUser = await User.findByPk(userId)
-  const event = await Event.findbyPk(req.params.eventId)
-  const group = Group.findbyPk(event.groupId)
+
   const attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId}})
   if(userId !== user.id && userId !== group.organizerId) {
     res.status = 403

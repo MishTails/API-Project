@@ -6,12 +6,22 @@ const {check} = require('express-validator')
 
 const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
 
-
+//delete an image from a group
 router.delete('/imageId', async (req, res) => {
   const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  let image = GroupImage.findByPk(req.params.imageId)
+  let group = Group.findByPk(image.groupId)
+  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+
+  if (group.organizerId !== user.id && member.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   if (user) {
-    let image = GroupImage.findByPk(req.params.imageId)
-    let group = Group.findByPk(image.groupId)
     let membership = Membership.findOne({
       where: {
       groupId: group.id,

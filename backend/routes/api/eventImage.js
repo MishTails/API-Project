@@ -10,9 +10,20 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 
 router.delete('/imageId', async (req, res) => {
   const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  let image = EventImage.findByPk(req.params.imageId)
+  let event = Event.findByPk(image.eventId)
+  const group  = await Group.findByPk(event.groupId)
+  const attendeeValid = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+  if (group.organizerId !== user.id && attendeeValid.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
+
   if (user) {
-    let image = EventImage.findByPk(req.params.imageId)
-    let event = Event.findByPk(image.eventId)
     let group = Group.findByPk(event.groupId)
     let attendance = Attendance.findOne({
       where: {
