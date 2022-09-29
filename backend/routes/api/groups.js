@@ -179,12 +179,12 @@ router.get('/:groupId', async (req, res) => {
     include: [
       {
         model: Membership,
-        attributes: []
+        attributes: ['id']
       },
       {
         model: GroupImage,
         attributes: ['id', 'url', 'preview'],
-        group: ["GroupImages.id"]
+
       },
       {
         model: User,
@@ -196,16 +196,17 @@ router.get('/:groupId', async (req, res) => {
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
       }
     ],
-    attributes: {
-      include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']]
-    },
-    group: ["Group.id"]
+
   })
+  let countGroup = groups.toJSON()
+  let numMems =  countGroup.Memberships.length
+  countGroup.numMemberships = numMems
+
   if (!groups) {
     res.status(404)
     return res.json({message: "Group couldn't be found", statusCode: 404})
   }
-  return res.json(groups)
+  return res.json(countGroup)
 })
 
 
