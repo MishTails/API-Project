@@ -533,7 +533,11 @@ router.get('/:groupId/members', async (req, res) => {
 //Request a Membership for a Group based on the Group's Id
 
 router.post('/:groupId/membership', async (req, res) =>{
-  let {user} = req
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
   let group = await Group.findByPk(req.params.groupId)
   let member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id }})
   if (!group) {
@@ -590,7 +594,7 @@ router.put('/:groupId/membership', async (req, res) => {
     }
   }
   if (status === "co-host") {
-    if (userMem.status !== "co-host" && user.id !== group.organizerId ) {
+    if (user.id !== group.organizerId ) {
       res.status = 403
       return res.json({message: "Forbidden", statusCode: 403} )
     } else {
@@ -605,9 +609,19 @@ router.put('/:groupId/membership', async (req, res) => {
 
 router.delete('/:groupId/membership', async (req, res) => {
   const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  const group  = await Group.findByPk(req.params.groupId)
+  const memberValid = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+
+  if (group.organizerId !== user.id && memberValid.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   const {memberId} = req.body
   const myUser = await User.findByPk(memberId)
-  const group = await Group.findbyPk(req.params.groupId)
   const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: memberId}})
   if(!myUser) {
     res.status = 400
