@@ -4,6 +4,8 @@ const router = express.Router();
 const {handleValidationErrors, groupValidation} = require('../../utils/auth')
 const {check} = require('express-validator')
 
+const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue} = require("../../db/models")
+
 const venueValidation = (venue) => {
   let errors = {}
   if (!venue.address) {
@@ -32,14 +34,15 @@ router.put("/:venueId", async (req, res) => {
     res.status = 401
     return res.json({message: "Authentication required", statusCode: 401})
   }
-  const group  = await Group.findByPk(req.params.groupId)
-  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+  let venue = await Venue.findByPk(req.params.eventId)
+  const group  = await Group.findByPk(venue.groupId)
+  const member = await Membership.findOne({where: {groupId: venue.groupId, userId: user.id}})
 
   if (group.organizerId !== user.id && member.status !== "co-host") {
     res.status = 403
     return res.json({message: "Forbidden", statusCode: 403})
   }
-  let venue = await Venue.findByPk(req.params.eventId)
+
   let {address, city, state, lat, lng} = req.body
 
   if (!venue) {

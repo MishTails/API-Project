@@ -320,6 +320,7 @@ router.delete('/:groupId', async (req, res) => {
 
 // Get all Events of a group specified by its id
 router.get("/:groupId/events", async (req, res) => {
+
   const events = await Event.findAll({
     include: [
     {
@@ -370,7 +371,18 @@ router.get("/:groupId/events", async (req, res) => {
 
 router.post('/:groupId/events', async (req, res) => {
   const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
-  const group = await Group.findOne({where: {id: req.params.groupId}})
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  const group  = await Group.findByPk(req.params.groupId)
+  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+
+  if (group.organizerId !== user.id && member.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
 
   if (!group) {
     res.status = 404;

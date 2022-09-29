@@ -190,7 +190,19 @@ router.get("/:eventId", async (req, res) => {
 //Add an Image to an Event based on the Event's id
 
 router.post("/:eventId/images", async(req, res) => {
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
   let event = await Event.findByPk(req.params.eventId)
+  const group  = await Group.findByPk(event.groupId)
+  const attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+  if (group.organizerId !== user.id && attendee.status !== "co-host" && attendee.status !== "attendee") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
+
   let {url, preview} = req.body
   if (event) {
     const newPhoto = await EventImage.create({eventId: req.params.eventId, url, preview})
@@ -205,7 +217,18 @@ router.post("/:eventId/images", async(req, res) => {
 //Edit an Event specified by its Id
 
 router.put("/:eventId", async (req, res) => {
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
   let event = await Event.findByPk(req.params.eventId)
+  const group  = await Group.findByPk(event.groupId)
+  const attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+  if (group.organizerId !== user.id && attendee.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
 
   let {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
   let venue = await Venue.findByPk(venueId)
@@ -236,8 +259,18 @@ router.put("/:eventId", async (req, res) => {
 //Delete an event specified by its Id. Need to do cohost related things.
 
 router.delete('/:eventId', async (req, res) => {
-  const {user} = req
-  const event = await Event.findOne({where: {id: req.params.eventId}})
+  c const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  let event = await Event.findByPk(req.params.eventId)
+  const group  = await Group.findByPk(event.groupId)
+  const attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+  if (group.organizerId !== user.id && attendee.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   if (!event) {
     res.status = 404
     return res.json({message: "Event couldn't be found", statusCode: 404})
