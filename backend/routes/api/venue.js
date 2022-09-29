@@ -31,19 +31,19 @@ const venueValidation = (venue) => {
 router.put("/:venueId", async (req, res) => {
   const {user} = req
   if (!user) {
-    res.status = 401
+    res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})
   }
   let venue = await Venue.findByPk(req.params.venueId)
   if (!venue) {
-    res.status = 404
+    res.status(404)
     return res.json({message: "Venue couldn't be found", statusCode: 404})
   }
   const group  = await Group.findByPk(venue.groupId)
   const member = await Membership.findOne({where: {groupId: venue.groupId, userId: user.id}})
 
   if (group.organizerId !== user.id && member.status !== "co-host") {
-    res.status = 403
+    res.status(403)
     return res.json({message: "Forbidden", statusCode: 403})
   }
 
@@ -54,7 +54,7 @@ router.put("/:venueId", async (req, res) => {
   let errorCheck = venueValidation(newVenue)
 
   if (Object.keys(errorCheck).length !== 0) {
-    res.status = 400
+    res.status(400)
     return res.json({message: "Validation Error", statusCode: 400, errors: errorCheck})
   }
   if (venue) {
