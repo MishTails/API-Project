@@ -587,7 +587,11 @@ router.put('/:groupId/membership', async (req, res) => {
     res.status(404)
     return res.json({message: "Group couldn't be found", statusCode: 404})
   }
+  if (userMem === null && user.id === group.dataValues.organizerId) {
+    userMem = {test: 'test', status: 'co-host'}
+  }
   if (!userMem) {
+
     res.status(404)
     return res.json({message: "Membership between the user and the group does not exist", statusCode: 404})
   }
@@ -626,7 +630,7 @@ router.delete('/:groupId/membership', async (req, res) => {
     res.status(404)
     return res.json({message: "Group couldn't be found", statusCode: 404})
   }
-  const memberValid = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+  let memberValid = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
 
   if (!memberValid && group.dataValues.organizerId === user.id) {
     memberValid = {test: 'test', status: "co-host"}

@@ -377,9 +377,14 @@ router.put('/:eventId/attendance', async (req, res) => {
     res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})
   }
-  let event = await Event.findByPk(req.params.eventId)
+  const event = await Event.findByPk(req.params.eventId)
+  if (!event) {
+    res.status(404)
+    return res.json({message: "Event couldn't be found", statusCode: 404})
+  }
   const group  = await Group.findByPk(event.groupId)
   const attendeeValid = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
+
   if (group.organizerId !== user.id && attendeeValid.status !== "co-host") {
     res.status(403)
     return res.json({message: "Forbidden", statusCode: 403})
@@ -389,14 +394,18 @@ router.put('/:eventId/attendance', async (req, res) => {
   let attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId}, attributes: ['id','userId', 'eventId', 'status']})
 
   let userAttend = await Attendance.findOne({where: {eventId: req.params.eventId, userId}})
+  if (user.id === group.organizerId) {
+    userAttend === true
+  }
   if (status === "pending") {
     res.status(400);
     return res.json({message: "Cannot change a membership status to pending", statusCode: 400})
   }
-  if (!event) {
-    res.status(404)
-    return res.json({message: "Event couldn't be found", statusCode: 404})
+
+  if (userAttend=== null && user.id === group.dataValues.organizerId) {
+    userAttend = {test: 'test', status: 'co-host'}
   }
+
   if (!userAttend) {
     res.status(404)
     return res.json({message: "Attendance between the user and the event does not exist", statusCode: 404})
