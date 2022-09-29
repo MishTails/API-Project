@@ -393,6 +393,18 @@ router.post('/:groupId/events', async (req, res) => {
 //Get all venues for a group specified by Id
 
 router.get('/:groupId/venues', async (req, res) => {
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  const group  = await Group.findByPk(req.params.groupId)
+  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+
+  if (group.organizerId !== user.id && member.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   const venues = await Venue.findAll({
     where: {
       groupId: req.params.groupId
@@ -413,9 +425,19 @@ router.get('/:groupId/venues', async (req, res) => {
 
 router.post('/:groupId/venues', async (req, res) => {
   const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  const group  = await Group.findByPk(req.params.groupId)
+  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+
+  if (group.organizerId !== user.id && member.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   if (user) {
     let {address, city, state, lat, lng } = req.body
-    let group = await Group.findByPk(req.params.groupId)
     if (!group) {
       res.status = 404;
       return res.json({message: "Group couldn't be found", statusCode: 404})

@@ -27,6 +27,18 @@ const venueValidation = (venue) => {
 //Edit a Venue specified by its Id
 
 router.put("/:venueId", async (req, res) => {
+  const {user} = req
+  if (!user) {
+    res.status = 401
+    return res.json({message: "Authentication required", statusCode: 401})
+  }
+  const group  = await Group.findByPk(req.params.groupId)
+  const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: user.id}})
+
+  if (group.organizerId !== user.id && member.status !== "co-host") {
+    res.status = 403
+    return res.json({message: "Forbidden", statusCode: 403})
+  }
   let venue = await Venue.findByPk(req.params.eventId)
   let {address, city, state, lat, lng} = req.body
 
