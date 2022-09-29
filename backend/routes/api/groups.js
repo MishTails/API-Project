@@ -196,9 +196,9 @@ router.get('/:groupId', async (req, res) => {
       }
     ],
     attributes: {
-      include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']],
-      group: ["Group.id"]
-    }
+      include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']]
+    },
+    group: ["Group.id"]
   })
   if (!groups) {
     res.status(404)
