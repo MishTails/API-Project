@@ -184,6 +184,7 @@ router.get('/:groupId', async (req, res) => {
       {
         model: GroupImage,
         attributes: ['id', 'url', 'preview'],
+        group: ["GroupImages.id"]
       },
       {
         model: User,
@@ -198,7 +199,7 @@ router.get('/:groupId', async (req, res) => {
     attributes: {
       include: [[Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), 'numMembers']]
     },
-    group: [["Group.id", "GroupImages.id"]]
+    group: ["Group.id"]
   })
   if (!groups) {
     res.status(404)
