@@ -6,17 +6,17 @@ module.exports = {
       {
         userId: 1,
         groupId: 1,
-        status: "Active"
+        status: "member"
       },
       {
         userId: 1,
         groupId: 2,
-        status: "Active"
+        status: "pending"
       },
       {
         userId: 2,
         groupId: 1,
-        status: "Inactive"
+        status: "co-host"
       }
     ], {});
   },
