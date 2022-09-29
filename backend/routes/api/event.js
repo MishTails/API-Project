@@ -259,7 +259,7 @@ router.put("/:eventId", async (req, res) => {
 //Delete an event specified by its Id. Need to do cohost related things.
 
 router.delete('/:eventId', async (req, res) => {
-  c const {user} = req
+  const {user} = req
   if (!user) {
     res.status = 401
     return res.json({message: "Authentication required", statusCode: 401})
