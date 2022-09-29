@@ -34,7 +34,11 @@ router.put("/:venueId", async (req, res) => {
     res.status = 401
     return res.json({message: "Authentication required", statusCode: 401})
   }
-  let venue = await Venue.findByPk(req.params.eventId)
+  let venue = await Venue.findByPk(req.params.venueId)
+  if (!venue) {
+    res.status = 404
+    return res.json({message: "Venue couldn't be found", statusCode: 404})
+  }
   const group  = await Group.findByPk(venue.groupId)
   const member = await Membership.findOne({where: {groupId: venue.groupId, userId: user.id}})
 
@@ -45,10 +49,7 @@ router.put("/:venueId", async (req, res) => {
 
   let {address, city, state, lat, lng} = req.body
 
-  if (!venue) {
-    res.status = 404
-    return res.json({message: "Venue couldn't be found", statusCode: 404})
-  }
+
   const newVenue= await Venue.build({address, city, state, lat, lng})
   let errorCheck = venueValidation(newVenue)
 

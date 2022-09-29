@@ -49,10 +49,10 @@ const queryValidator = (page, size, name, type, startDate) => {
   if(typeof name !== 'string' && name !== undefined) {
     errors.name = "Name must be a string"
   }
-  if(type !== "Online" && type !== "In Person") {
+  if(type !== "Online" && type !== "In Person" && type !== undefined) {
     errors.type = "Type must be 'Online' or 'In Person'"
   }
-  if(!date instanceof Date) {
+  if(!(startDate instanceof Date) && startDate !== undefined) {
     errors.startDate = "Start date must be a valid datetime"
   }
   return errors
@@ -196,6 +196,10 @@ router.post("/:eventId/images", async(req, res) => {
     return res.json({message: "Authentication required", statusCode: 401})
   }
   let event = await Event.findByPk(req.params.eventId)
+  if(!event) {
+    res.status = 404
+    return res.json({message: "Event couldn't be found", statusCode: 404})
+  }
   const group  = await Group.findByPk(event.groupId)
   const attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
   if (group.organizerId !== user.id && attendee.status !== "co-host" && attendee.status !== "attendee") {
@@ -207,9 +211,6 @@ router.post("/:eventId/images", async(req, res) => {
   if (event) {
     const newPhoto = await EventImage.create({eventId: req.params.eventId, url, preview})
     return res.json({id: newPhoto.id, url, preview})
-  } else {
-    res.status = 404
-    return res.json({message: "Event couldn't be found", statusCode: 404})
   }
 })
 
@@ -223,6 +224,10 @@ router.put("/:eventId", async (req, res) => {
     return res.json({message: "Authentication required", statusCode: 401})
   }
   let event = await Event.findByPk(req.params.eventId)
+  if(!event) {
+    res.status = 404
+    return res.json({message: "Event couldn't be found", statusCode: 404})
+  }
   const group  = await Group.findByPk(event.groupId)
   const attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId: user.id}})
   if (group.organizerId !== user.id && attendee.status !== "co-host") {
@@ -246,10 +251,7 @@ router.put("/:eventId", async (req, res) => {
   }
 
   if (event) {
-    event.set({name, about, type, private, city, state})
-  } else {
-    res.status = 404
-    return res.json({message: "Event couldn't be found", statusCode: 404})
+    event.set({groupId: group.id, venueId, name, type, capacity, price, description, startDate, endDate})
   }
   await event.save()
   return res.json(event)
