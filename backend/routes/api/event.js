@@ -278,7 +278,6 @@ router.delete('/:eventId', async (req, res) => {
     return res.json({message: "Forbidden", statusCode: 403})
   }
 
-  console.log(event.organizerId)
   if (user.id !== group.organizerId) {
     res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})
@@ -427,7 +426,7 @@ router.put('/:eventId/attendance', async (req, res) => {
 router.delete('/:eventId/attendance', async (req, res) => {
   const {user} = req
   let {memberId} = req.body
-  console.log("hi", memberId)
+
   if (!user) {
     res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})

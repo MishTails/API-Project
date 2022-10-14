@@ -22,9 +22,9 @@ router.delete('/:imageId', async (req, res) => {
       statusCode: 404
     })
   }
-  console.log(image)
+
   let group = await Group.findByPk(image.groupId)
-  console.log(group)
+
   const member = await Membership.findOne({where: {groupId: group.id, userId: user.id}})
 
   if (group.organizerId !== user.id && member.status !== "co-host") {

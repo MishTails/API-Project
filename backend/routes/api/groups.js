@@ -221,7 +221,7 @@ router.post('/', async (req, res) => {
   if (user) {
     let {name, about, type, private, city, state, } = req.body
     const testGroup = await Group.build({organizerId: user.id, name, about, type, private, city, state})
-    console.log(testGroup)
+
     let errorCheck = groupValidation(testGroup)
 
     if (Object.keys(errorCheck).length !== 0) {
@@ -401,7 +401,7 @@ router.post('/:groupId/events', async (req, res) => {
 
 
   const testEvent = await Event.build({venueId, name, type, capacity, price, description, startDate, endDate})
-  console.log(testEvent)
+
     let errorCheck = eventValidation(testEvent)
 
     if (Object.keys(errorCheck).length !== 0) {
