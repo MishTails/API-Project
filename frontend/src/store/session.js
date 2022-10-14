@@ -37,7 +37,6 @@ export const restoreUser = () => async dispatch => {
   dispatch(setUser(data.user));
   return response;
 };
-
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
