@@ -6,25 +6,25 @@
 ***
 ### Meetup Clone
 
-Catchup is a meetup clone designed to coordinate meeting plans for Pokemon Go related events. Visit
+Catchup is a meetup clone designed to coordinate meeting plans for Pokemon Go related events. Visit https://meetup-app-clone-mish.herokuapp.com/ to checkout our offerings!
 
 ***
-<!--
-[API DOCUMENTATION](https://github.com/Allendpham/AirBnB/wiki/API-Documentation)
 
-Documentation of the API routes used to make requests to the database.
+[API DOCUMENTATION](https://github.com/MishTails/API-Project/wiki/API-Documentation)
 
-***
-[DATABASE SCHEMA](https://github.com/Allendpham/AirBnB/wiki/Database-Schema)
-
-SQLite3 database schema.
+API Routes Documentation for backend.
 
 ***
-[FEATURE LIST](https://github.com/Allendpham/AirBnB/wiki/Feature-List)
+[DATABASE SCHEMA](https://github.com/MishTails/API-Project/wiki/Database-Schema)
 
-List of the functional features of the app.
+Catchup Database Schema
 
 ***
-[REDUX STORE SHAPE](https://github.com/Allendpham/AirBnB/wiki/Redux-Store-Shape)
+[FEATURE LIST](https://github.com/MishTails/API-Project/wiki/Feature-List)
 
-Pseudo code that illustrates the state of the Redux store for the two features that will be implemented. -->
+All features currently being worked on/implemented
+
+***
+[REDUX STORE SHAPE](https://github.com/MishTails/API-Project/wiki/Redux-Store-Shape)
+
+Pseudo Code for the Redux store and how it will be implemented.
