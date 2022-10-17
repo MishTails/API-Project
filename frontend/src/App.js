@@ -33,7 +33,7 @@ function App() {
           <Route path="/events/:eventId" >
             <EventPage />
           </Route>
-          <Route>
+          <Route path="/groups">
             <GroupIndex/>
           </Route>
 

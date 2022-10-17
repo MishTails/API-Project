@@ -4,8 +4,6 @@ import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadEvents } from '../../store/event'
 
-
-
 const EventIndex = () => {
   const dispatch = useDispatch()
   const eventsObj = useSelector(state => state.events)

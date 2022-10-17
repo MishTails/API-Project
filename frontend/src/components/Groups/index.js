@@ -2,28 +2,28 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { thunkLoadEvents } from '../../store/event'
-
-
+import { thunkLoadGroups } from '../../store/group'
 
 const GroupIndex = () => {
+
   const dispatch = useDispatch()
-  const eventsObj = useSelector(state => state.events)
-  let events
+  const groupsObj = useSelector(state => state.groups)
+  let groups
 
   useEffect(() => {
-    dispatch(thunkLoadEvents())
+    dispatch(thunkLoadGroups())
   }, [dispatch])
-  if(eventsObj) {
-    events = Object.values(eventsObj)
+  if(groupsObj) {
+    groups = Object.values(groupsObj)
   }
   return (
   <ul>
-    {events.map(event => {
-      return <div key={event.id}>
-          <NavLink to={`/groups/${event.id}`}>{event.name}</NavLink>
-          <p>{'Description: '}{event.description} </p>
-          <p>{'Time: '} {event.startDate}</p>
+    {groups.map(group => {
+      return <div key={group.id}>
+          <NavLink to={`/groups/${group.id}`}>{group.name}</NavLink>
+          <p>{group.city}, {group.state}</p>
+          <p>{group.about}</p>
+          <p>{group.numMembers} Members <li>{group.private=== true? 'private': 'public'}</li></p>
         </div>
     })}
   </ul>)
