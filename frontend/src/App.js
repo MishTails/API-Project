@@ -8,6 +8,7 @@ import EventIndex from "./components/Events";
 import HomeIndex from "./components/Home";
 import EventPage from "./components/Events/EventPage";
 import GroupIndex from "./components/Groups";
+import GroupPage from "./components/Groups/GroupPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,8 +34,11 @@ function App() {
           <Route path="/events/:eventId" >
             <EventPage />
           </Route>
-          <Route path="/groups">
+          <Route exact path="/groups">
             <GroupIndex/>
+          </Route>
+          <Route path="/groups/:groupId">
+            <GroupPage/>
           </Route>
 
         </Switch>

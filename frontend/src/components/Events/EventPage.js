@@ -11,10 +11,9 @@ const EventPage = () => {
   const { eventId } = useParams()
   const event = useSelector(state => state.events)
 
-  console.log("event", event)
   useEffect(() => {
     dispatch(thunkLoadOneEvent(eventId))
-  }, [dispatch])
+  }, [dispatch, eventId])
 
 
   return (
