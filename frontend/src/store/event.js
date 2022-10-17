@@ -1,4 +1,4 @@
-let initialEvents = {1: 'hi', 2: "hello"}
+// let initialEvents = {1: {id:'hi'}, 2: {id:"hello"}}
 
 // type values
 const GET_EVENTS = 'events/getEvents'
@@ -13,9 +13,10 @@ const DELETE_EVENT = 'events/deleteEvent'
 
 //actions
 
-const actionGetEvents = () => {
+const actionGetEvents = (payload) => {
   return {
-    type: GET_EVENTS
+    type: GET_EVENTS,
+    payload
   }
 }
 
@@ -107,10 +108,11 @@ export const thunkRemoveEvent = (id) => async dispatch => {
 
 //reducer
 const initialState = []
-export default function eventsReducer (state = initialEvents, action) {
+export default function eventsReducer (state = normalizeArr(initialState), action) {
   switch (action.type) {
     case GET_EVENTS:
-      return state
+      let newStateGetEvents = action.payload
+      return newStateGetEvents
     case GET_ONE_EVENT:
       return state[action.payload]
     case CREATE_EVENT:
