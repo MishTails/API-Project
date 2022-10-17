@@ -1,3 +1,4 @@
+let initialEvents = {1: 'hi', 2: "hello"}
 
 // type values
 const GET_EVENTS = 'events/getEvents'
@@ -94,7 +95,7 @@ export const thunkPutEvent = (data) => async dispatch => {
   }
 }
 
-export const thunkRemoveEvent = (id) => async dspatch => {
+export const thunkRemoveEvent = (id) => async dispatch => {
   const response = await fetch(`/api/events/${id}`, {
     method: 'delete'
   })
@@ -106,7 +107,7 @@ export const thunkRemoveEvent = (id) => async dspatch => {
 
 //reducer
 const initialState = []
-export default eventsReducer = (state = normalizeArr(initialState), action) => {
+export default function eventsReducer (state = initialEvents, action) {
   switch (action.type) {
     case GET_EVENTS:
       return state
@@ -123,6 +124,9 @@ export default eventsReducer = (state = normalizeArr(initialState), action) => {
     case DELETE_EVENT:
       let newStateDelete = {...state}
       delete newStateDelete[action.id]
+      return newStateDelete
+    default:
+      return state
   }
 }
 
