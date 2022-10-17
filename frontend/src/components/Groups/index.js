@@ -6,7 +6,7 @@ import { thunkLoadEvents } from '../../store/event'
 
 
 
-const EventIndex = () => {
+const GroupIndex = () => {
   const dispatch = useDispatch()
   const eventsObj = useSelector(state => state.events)
   let events
@@ -21,7 +21,7 @@ const EventIndex = () => {
   <ul>
     {events.map(event => {
       return <div key={event.id}>
-          <NavLink to={`/events/${event.id}`}>{event.name}</NavLink>
+          <NavLink to={`/groups/${event.id}`}>{event.name}</NavLink>
           <p>{'Description: '}{event.description} </p>
           <p>{'Time: '} {event.startDate}</p>
         </div>
@@ -31,4 +31,4 @@ const EventIndex = () => {
 
 
 
-export default EventIndex
+export default GroupIndex

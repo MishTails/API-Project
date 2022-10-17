@@ -53,7 +53,7 @@ export const thunkLoadEvents = () => async dispatch => {
   const response = await fetch('/api/events')
   if(response.ok) {
     const list = await response.json()
-    dispatch(actionGetEvents(list))
+    dispatch(actionGetEvents(normalizeArr(list)))
   }
 }
 
@@ -114,7 +114,8 @@ export default function eventsReducer (state = normalizeArr(initialState), actio
       let newStateGetEvents = action.payload
       return newStateGetEvents
     case GET_ONE_EVENT:
-      return state[action.payload]
+      let newStateGetOneEvent = action.payload
+      return newStateGetOneEvent
     case CREATE_EVENT:
       let newStateCreate = {...state}
       newStateCreate[action.payload.id] = action.payload

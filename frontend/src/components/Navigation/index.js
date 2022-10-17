@@ -12,13 +12,19 @@ function Navigation({ isLoaded }){
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
+      <>
+      <NavLink to="/events">Events</NavLink>
+      <NavLink to="/groups">Groups</NavLink>
       <ProfileButton user={sessionUser} />
+      </>
     );
   } else {
     sessionLinks = (
       <>
         <LoginFormModal />
         <NavLink to="/signup">Sign Up</NavLink>
+        <NavLink to="/events">Events</NavLink>
+        <NavLink to="/groups">Groups</NavLink>
       </>
     );
   }

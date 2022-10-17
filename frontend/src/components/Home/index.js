@@ -1,12 +1,11 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadEvents } from '../../store/event'
 
 
 
-const EventIndex = () => {
+const HomeIndex = () => {
   const dispatch = useDispatch()
   const eventsObj = useSelector(state => state.events)
   let events
@@ -17,18 +16,9 @@ const EventIndex = () => {
   if(eventsObj) {
     events = Object.values(eventsObj)
   }
-  return (
-  <ul>
-    {events.map(event => {
-      return <div key={event.id}>
-          <NavLink to={`/events/${event.id}`}>{event.name}</NavLink>
-          <p>{'Description: '}{event.description} </p>
-          <p>{'Time: '} {event.startDate}</p>
-        </div>
-    })}
-  </ul>)
+  return ( <h1>Welcome to Catchup</h1>)
 }
 
 
 
-export default EventIndex
+export default HomeIndex
