@@ -22,10 +22,14 @@ const EventIndex = () => {
   return (
   <ul>
 
-  
+
     {events.map(event => {
       console.log("event",event)
-      return <h1 key={event.id}>{event.name}</h1>
+      return <div key={event.id}>
+          <div>{'Event: '} {event.name} </div>
+          <p>{'Description: '}{event.description} </p>
+          <p>{'Time: '} {event.startDate}</p>
+        </div>
     })}
   </ul>)
 }
