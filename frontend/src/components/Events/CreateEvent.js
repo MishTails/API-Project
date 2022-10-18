@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostEvent } from '../../store/event'
+import { thunkPostEvent, thunkLoadEvents } from '../../store/event'
 
 
 
 const EventCreate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const events = useSelector(state => state.events.allEvents)
-  let count = Object.values(events).length
+  const eventsObj = useSelector(state => state.events.allEvents)
   const [name, setName] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
@@ -19,16 +18,27 @@ const EventCreate = () => {
   const [price, setPrice] = useState()
   const [validationErrors, setValidationErrors] = useState([])
 
+  let events
   useEffect(() => {
     const errors = []
 
     setValidationErrors(errors)
   }, [])
 
+  useEffect(() => {
+    dispatch(thunkLoadEvents())
+  }, [dispatch])
+  if (!eventsObj) {
+    return null
+  }
+
+
   const submitHandler = (e) => {
     e.preventDefault()
+    events= Object.values(eventsObj)
+    let count = Object.values(events).length
     let event = {
-      id: count,
+      id: count+1,
       venueId: 2,
       // need to come back and fix this hardcode
       groupId: 1,

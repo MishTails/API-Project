@@ -1,5 +1,5 @@
 // let initialEvents = {1: {id:'hi'}, 2: {id:"hello"}}
-
+import{csrfFetch} from './csrf'
 // type values
 const GET_EVENTS = 'events/getEvents'
 
@@ -50,7 +50,7 @@ const actionDeleteEvent = (id) => {
 //Thunks (error handling maybe needed?)
 
 export const thunkLoadEvents = () => async dispatch => {
-  const response = await fetch('/api/events')
+  const response = await csrfFetch('/api/events')
   if(response.ok) {
     const list = await response.json()
     dispatch(actionGetEvents(normalizeArr(list)))
@@ -58,7 +58,7 @@ export const thunkLoadEvents = () => async dispatch => {
 }
 
 export const thunkLoadOneEvent = (id) => async dispatch => {
-  const response = await fetch(`/api/events/${id}`)
+  const response = await csrfFetch(`/api/events/${id}`)
   if(response.ok) {
     const event = await response.json()
     dispatch(actionGetOneEvent(event))
@@ -66,7 +66,7 @@ export const thunkLoadOneEvent = (id) => async dispatch => {
 }
 
 export const thunkPostEvent = (data) => async dispatch => {
-  const response = await fetch(`/api/${data.groupId}/events`, {
+  const response = await csrfFetch(`/api/${data.groupId}/events`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ export const thunkPostEvent = (data) => async dispatch => {
 }
 
 export const thunkPutEvent = (data) => async dispatch => {
-  const response = await fetch(`/api/events/${data.id}`, {
+  const response = await csrfFetch(`/api/events/${data.id}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ export const thunkPutEvent = (data) => async dispatch => {
 }
 
 export const thunkRemoveEvent = (id) => async dispatch => {
-  const response = await fetch(`/api/events/${id}`, {
+  const response = await csrfFetch(`/api/events/${id}`, {
     method: 'delete'
   })
   if (response.ok) {

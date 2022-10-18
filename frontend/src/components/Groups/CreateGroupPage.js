@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostGroup } from '../../store/group'
+import { thunkPostGroup, thunkLoadGroups } from '../../store/group'
 
 
 const GroupCreate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-
-  const events = useSelector(state => state.events.allEvents)
   const user = useSelector(state => state.session.user)
 
   const [name, setName] = useState('')
@@ -20,18 +18,7 @@ const GroupCreate = () => {
   const [validationErrors, setValidationErrors] = useState([])
 
   const groupsObj = useSelector(state => state.groups.allGroups)
-  let count = Object.values(events).length
   let groups
-'higi'
-  useEffect(() => {
-    dispatch(thunkLoadGroups())
-  }, [dispatch])
-  if(groupsObj) {
-    groups = Object.values(groupsObj)
-  }
-  if (!groups) {
-    return null
-  }
 
   useEffect(() => {
     const errors = []
@@ -39,10 +26,23 @@ const GroupCreate = () => {
     setValidationErrors(errors)
   }, [])
 
+  useEffect(() => {
+    dispatch(thunkLoadGroups())
+  }, [dispatch])
+  if(groupsObj) {
+    groups = Object.values(groupsObj)
+  }
+  if (!groupsObj) {
+    return null
+  }
+
+
+
   const submitHandler = (e) => {
     e.preventDefault()
+    let count = groups.length
     let group = {
-      id: count,
+      id: count+1,
       organizerId: user.id,
       name,
       about,
@@ -61,7 +61,7 @@ const GroupCreate = () => {
       className="fruit-form"
       onSubmit={submitHandler}
     >
-      <h2>Create an Event</h2>
+      <h2>Create a Group</h2>
       <ul className="errors">
         {/* {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)} */}
       </ul>
