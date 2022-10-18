@@ -210,7 +210,7 @@ router.get('/:groupId', async (req, res) => {
 })
 
 
-//Create a Group
+//Create a Group (in groups.js so route is actually localhost/api/groups)
 router.post('/', async (req, res) => {
   const {user} = req
   if (!user) {
@@ -230,7 +230,6 @@ router.post('/', async (req, res) => {
     }
     const newGroup = await Group.create({organizerId: user.id, name, about, type, private, city, state})
 
-    let trimmedGroup = {name, about, type, private, city, state }
     return res.json(newGroup)
 
   }

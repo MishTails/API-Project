@@ -7,9 +7,10 @@ import { thunkPostGroup } from '../../store/group'
 const GroupCreate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+
   const events = useSelector(state => state.events.allEvents)
   const user = useSelector(state => state.session.user)
-  let count = Object.values(events).length
+
   const [name, setName] = useState('')
   const [about, setAbout] = useState('')
   const [type, setType] = useState('In Person')
@@ -17,6 +18,20 @@ const GroupCreate = () => {
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
+
+  const groupsObj = useSelector(state => state.groups.allGroups)
+  let count = Object.values(events).length
+  let groups
+
+  useEffect(() => {
+    dispatch(thunkLoadGroups())
+  }, [dispatch])
+  if(groupsObj) {
+    groups = Object.values(groupsObj)
+  }
+  if (!groups) {
+    return null
+  }
 
   useEffect(() => {
     const errors = []
