@@ -22,7 +22,7 @@ const GroupCreate = () => {
   const groupsObj = useSelector(state => state.groups.allGroups)
   let count = Object.values(events).length
   let groups
-
+'higi'
   useEffect(() => {
     dispatch(thunkLoadGroups())
   }, [dispatch])
