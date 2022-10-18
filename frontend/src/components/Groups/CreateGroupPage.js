@@ -23,6 +23,9 @@ const GroupCreate = () => {
 
   let allGroups
 
+  let count = Object.values(events).length
+
+
   useEffect(() => {
     dispatch(thunkLoadGroups())
   }, [dispatch])
