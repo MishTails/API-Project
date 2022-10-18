@@ -43,13 +43,15 @@ const eventValidation = event => {
   if(event.name.length < 5) {
     errors.name = "Name must be at least 5 characters"
   }
-  if(event.type !== "Online" && event.type !== "In person") {
+  if(event.type !== "Online" && event.type !== "In Person") {
     errors.type = "Type must be Online or In Person"
   }
-  if(!Number.isInteger(event.capacity)){
+  if(!Number.isInteger(parseInt(event.capacity))){
+    console.log("capacity ---> ",event.capacity )
     errors.capacity = "Capacity must be an integer"
   }
-  if(typeof event.price !== 'number') {
+  if(typeof parseInt(event.price) !== 'number') {
+    console.log("price ---> ",event.price )
     errors.price = "Price is invalid"
   }
   if(!event.description) {

@@ -3,6 +3,7 @@ import { useParams} from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadOneGroup } from '../../store/group'
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -23,6 +24,7 @@ const GroupPage = () => {
   return (
   <div>
     <h1>{group.name}</h1>
+    <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink>
     <div>
 
       {/* i need to figure out how to make this load in asynchronously */}

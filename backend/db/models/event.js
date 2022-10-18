@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     type: {
       type: DataTypes.ENUM,
-      values: ["Online", "In-Person"]
+      values: ["Online", "In Person"]
     },
     capacity: DataTypes.INTEGER,
     price: DataTypes.DECIMAL,

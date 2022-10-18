@@ -37,7 +37,13 @@ function App() {
           <Route path="/events/:eventId" >
             <EventPage />
           </Route>
-          <Route path="groups/:groupId/events/create">
+          <Route exact path="/groups/create">
+            <GroupCreate/>
+          </Route>
+          <Route exact path="/groups/:groupId">
+            <GroupPage/>
+          </Route>
+          <Route path="/groups/:groupId/events/create">
             <EventCreate/>
           </Route>
           <Route path="groups/:groupId/events/:eventId/update">
@@ -46,12 +52,7 @@ function App() {
           <Route exact path="/groups">
             <GroupIndex/>
           </Route>
-          <Route exact path="/groups/create">
-            <GroupCreate/>
-          </Route>
-          <Route path="/groups/:groupId">
-            <GroupPage/>
-          </Route>
+
 
 
         </Switch>

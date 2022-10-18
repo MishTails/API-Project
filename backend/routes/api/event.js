@@ -10,19 +10,22 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 const eventValidation = event => {
   let errors = {}
 
+  console.log("price ---> ",price )
   if(!event.venueId) {
     errors.venueId = "Venue does not exist"
   }
   if(event.name.length < 5) {
     errors.name = "Name must be at least 5 characters"
   }
-  if(event.type !== "Online" && event.type !== "In person") {
+  if(event.type !== "Online" && event.type !== "In Person") {
     errors.type = "Type must be Online or In Person"
   }
   if(!Number.isInteger(event.capacity)){
+    
     errors.capacity = "Capacity must be an integer"
   }
   if(typeof event.price !== 'number') {
+    console.log("capacity ---> ",Capacity )
     errors.price = "Price is invalid"
   }
   if(!event.description) {
