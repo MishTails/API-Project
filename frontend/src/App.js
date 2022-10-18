@@ -9,6 +9,8 @@ import HomeIndex from "./components/Home";
 import EventPage from "./components/Events/EventPage";
 import GroupIndex from "./components/Groups";
 import GroupPage from "./components/Groups/GroupPage";
+import GroupCreate from "./components/Groups/CreateGroupPage";
+import EventCreate from "./components/Events/CreateEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,15 +33,23 @@ function App() {
           <Route exact path="/events">
             <EventIndex />
           </Route>
+          <Route path="/events/create">
+            <EventCreate></EventCreate>
+          </Route>
           <Route path="/events/:eventId" >
             <EventPage />
           </Route>
+
           <Route exact path="/groups">
             <GroupIndex/>
+          </Route>
+          <Route exact path="/groups/create">
+            <GroupCreate/>
           </Route>
           <Route path="/groups/:groupId">
             <GroupPage/>
           </Route>
+
 
         </Switch>
       )}

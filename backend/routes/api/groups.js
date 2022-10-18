@@ -379,6 +379,7 @@ router.get("/:groupId/events", async (req, res) => {
   return res.json(arr)
 });
 
+//Create an Event
 router.post('/:groupId/events', async (req, res) => {
   const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
   const {user} = req

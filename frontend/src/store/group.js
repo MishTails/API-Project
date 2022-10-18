@@ -54,7 +54,6 @@ export const thunkLoadGroups = () => async dispatch => {
   console.log(response)
   if(response.ok) {
     const list = await response.json()
-    console.log("hi")
     dispatch(actionGetGroups(normalizeArr(list)))
   }
 }
@@ -68,7 +67,7 @@ export const thunkLoadOneGroup = (id) => async dispatch => {
 }
 
 export const thunkPostGroup = (data) => async dispatch => {
-  const response = await fetch(`/api/group`, {
+  const response = await fetch(`/api/groups`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -109,14 +108,16 @@ export const thunkRemoveGroup = (id) => async dispatch => {
 }
 
 //reducer
-const initialState = []
-export default function groupsReducer (state = normalizeArr(initialState), action) {
+const initialState = {}
+export default function groupsReducer (state = initialState, action) {
   switch (action.type) {
     case GET_GROUPS:
-      let newStateGetEvents = action.payload
-      return newStateGetEvents
+      let newStateGetGroups = {...state}
+      newStateGetGroups.allGroups = {...action.payload}
+      return newStateGetGroups
     case GET_ONE_GROUP:
-      let newStateGetOneGroup = action.payload
+      let newStateGetOneGroup = {...state}
+      newStateGetOneGroup.singleGroup = {...action.payload}
       return newStateGetOneGroup
     case CREATE_GROUP:
       let newStateCreate = {...state}

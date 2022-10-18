@@ -9,18 +9,24 @@ import { thunkLoadOneGroup } from '../../store/group'
 const GroupPage = () => {
   const dispatch = useDispatch()
   const { groupId } = useParams()
-  const group = useSelector(state => state.groups)
+  const group = useSelector(state => state.groups.singleGroup)
 
   useEffect(() => {
     dispatch(thunkLoadOneGroup(groupId))
   }, [dispatch, groupId])
 
+  console.log("this is the group", group)
 
+  if (!group) {
+    return null
+  }
   return (
   <div>
     <h1>{group.name}</h1>
     <div>
 
+      {/* i need to figure out how to make this load in asynchronously */}
+      <img src = {group.GroupImages[1].url} alt="pokeball"></img>
     </div>
     <div>
       <h2>Details</h2>

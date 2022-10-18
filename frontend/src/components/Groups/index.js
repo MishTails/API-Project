@@ -7,7 +7,7 @@ import { thunkLoadGroups } from '../../store/group'
 const GroupIndex = () => {
 
   const dispatch = useDispatch()
-  const groupsObj = useSelector(state => state.groups)
+  const groupsObj = useSelector(state => state.groups.allGroups)
   let groups
 
   useEffect(() => {
@@ -16,13 +16,20 @@ const GroupIndex = () => {
   if(groupsObj) {
     groups = Object.values(groupsObj)
   }
+  if (!groups) {
+    return null
+  }
+
   return (
   <ul>
     {groups.map(group => {
       return <div key={group.id}>
+        <div>
+          <img src={group.previewImage} alt={group.previewImage} width="150"></img>
+        </div>
           <NavLink to={`/groups/${group.id}`}>{group.name}</NavLink>
           <p>{group.city}, {group.state}</p>
-          <p>{group.about}</p>
+          <p>{`About: ${group.about}`}</p>
           <p>{group.numMembers} Members <li>{group.private=== true? 'private': 'public'}</li></p>
         </div>
     })}

@@ -15,6 +15,8 @@ function Navigation({ isLoaded }){
       <>
       <NavLink to="/events">Events</NavLink>
       <NavLink to="/groups">Groups</NavLink>
+      <NavLink to="/groups/create">Create A Group</NavLink>
+      <NavLink to="/events/create">Create An Event</NavLink>
       <ProfileButton user={sessionUser} />
       </>
     );

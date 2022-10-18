@@ -66,7 +66,7 @@ export const thunkLoadOneEvent = (id) => async dispatch => {
 }
 
 export const thunkPostEvent = (data) => async dispatch => {
-  const response = await fetch(`/api/events`, {
+  const response = await fetch(`/api/${data.groupId}/events`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -107,18 +107,21 @@ export const thunkRemoveEvent = (id) => async dispatch => {
 }
 
 //reducer
-const initialState = []
-export default function eventsReducer (state = normalizeArr(initialState), action) {
+const initialState = {}
+export default function eventsReducer (state = initialState, action) {
   switch (action.type) {
     case GET_EVENTS:
-      let newStateGetEvents = action.payload
+      let newStateGetEvents = {...state}
+      newStateGetEvents.allEvents = {...action.payload}
       return newStateGetEvents
     case GET_ONE_EVENT:
-      let newStateGetOneEvent = action.payload
+      let newStateGetOneEvent = {...state}
+      newStateGetOneEvent.singleEvent = {...action.payload}
       return newStateGetOneEvent
     case CREATE_EVENT:
       let newStateCreate = {...state}
-      newStateCreate[action.payload.id] = action.payload
+      let id = action.payload.id
+      newStateCreate.allEvents[id] = action.payload
       return newStateCreate
     case UPDATE_EVENT:
       let newStateUpdate = {...state}
