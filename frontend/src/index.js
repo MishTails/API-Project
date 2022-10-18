@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -28,6 +29,7 @@ function Root() {
           <App />
         </BrowserRouter>
       </ModalProvider>
+
     </Provider>
   );
 }
@@ -38,3 +40,4 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
