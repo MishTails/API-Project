@@ -10,8 +10,6 @@ const EventUpdate = () => {
   const history = useHistory()
   const eventsObj = useSelector(state => state.events.allEvents)
   const {eventId} = useParams()
-  const myEvent = eventsObj[eventId]
-
 
   const [name, setName] = useState('')
   const [startDate, setStartDate] = useState('')
@@ -22,7 +20,6 @@ const EventUpdate = () => {
   const [price, setPrice] = useState()
   const [validationErrors, setValidationErrors] = useState([])
 
-  let events
   useEffect(() => {
     const errors = []
 
@@ -61,7 +58,7 @@ const EventUpdate = () => {
     <form
       onSubmit={submitHandler}
     >
-      <h2>Create an Event</h2>
+      <h2>Update an Event</h2>
       <ul className="errors">
         {/* {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)} */}
       </ul>

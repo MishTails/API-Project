@@ -25,6 +25,7 @@ const GroupPage = () => {
   <div>
     <h1>{group.name}</h1>
     <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink>
+    <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink>
     <div>
 
       {/* i need to figure out how to make this load in asynchronously */}

@@ -10,7 +10,7 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 const eventValidation = event => {
   let errors = {}
 
-  console.log("price ---> ",price )
+
   if(!event.venueId) {
     errors.venueId = "Venue does not exist"
   }
@@ -20,12 +20,10 @@ const eventValidation = event => {
   if(event.type !== "Online" && event.type !== "In Person") {
     errors.type = "Type must be Online or In Person"
   }
-  if(!Number.isInteger(event.capacity)){
-    
+  if(!Number.isInteger(parseInt(event.capacity))){
     errors.capacity = "Capacity must be an integer"
   }
-  if(typeof event.price !== 'number') {
-    console.log("capacity ---> ",Capacity )
+  if(typeof parseInt(event.price) !== 'number') {
     errors.price = "Price is invalid"
   }
   if(!event.description) {

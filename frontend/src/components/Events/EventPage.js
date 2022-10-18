@@ -1,8 +1,10 @@
 import React from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, NavLink } from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadOneEvent } from '../../store/event'
+
+
 
 
 
@@ -22,6 +24,7 @@ const EventPage = () => {
   return (
   <div>
     <h1>{event.name}</h1>
+    <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink>
     <div>
       <img src = {event.EventImages[1].url} alt="pokeball"></img>
     </div>

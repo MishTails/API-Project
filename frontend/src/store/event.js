@@ -81,7 +81,7 @@ export const thunkPostEvent = (data) => async dispatch => {
 }
 
 export const thunkPutEvent = (data) => async dispatch => {
-  const response = await csrfFetch(`/api/groups/${data.groupId}events/${data.id}`, {
+  const response = await csrfFetch(`/api/events/${data.id}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
