@@ -11,14 +11,15 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 
 const groupValidation = (group) => {
   let errors = {}
+  console.log("this is the group -->", group.type)
   if (group.name.length >= 60) {
     errors.name = "Name must be 60 characters or less"
   }
   if (group.about.length < 50) {
     errors.about = "About must be 50 characters or more"
   }
-  if (group.type !== "Online" && group.type !== "In person") {
-    errors.type = "Type must be 'Online' or 'In person'"
+  if (group.type !== "Online" && group.type !== "In Person") {
+    errors.type = "Type must be 'Online' or 'In Person'"
   }
   if (group.private !== true && group.private !== false) {
     errors.private = "Private must be a boolean"
@@ -213,6 +214,7 @@ router.get('/:groupId', async (req, res) => {
 //Create a Group (in groups.js so route is actually localhost/api/groups)
 router.post('/', async (req, res) => {
   const {user} = req
+  console.log("string =====", req.body)
   if (!user) {
     res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})

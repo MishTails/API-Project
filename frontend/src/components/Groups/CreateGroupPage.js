@@ -12,7 +12,7 @@ const GroupCreate = () => {
   const [name, setName] = useState('')
   const [about, setAbout] = useState('')
   const [type, setType] = useState('In Person')
-  const [priv, setPriv] = useState('private')
+  const [priv, setPriv] = useState('Private')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
@@ -47,7 +47,7 @@ const GroupCreate = () => {
       name,
       about,
       type,
-      private: priv,
+      private: priv === 'Private',
       city,
       state,
     }
