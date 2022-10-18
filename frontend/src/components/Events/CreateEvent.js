@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostEvent } from '../../store/event'
+import { thunkPostEvent, thunkLoadEvents } from '../../store/event'
 
 
 
 const EventCreate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const events = useSelector(state => state.events.allEvents)
-  let count = Object.values(events).length
+  const eventsObj = useSelector(state => state.events.allEvents)
+
   const [name, setName] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
@@ -18,15 +18,26 @@ const EventCreate = () => {
   const [capacity, setCapacity] = useState()
   const [price, setPrice] = useState()
   const [validationErrors, setValidationErrors] = useState([])
+  let events
 
   useEffect(() => {
     const errors = []
 
     setValidationErrors(errors)
   }, [])
+  useEffect(() => {
+    dispatch(thunkLoadEvents())
+  }, [dispatch])
+  if(eventsObj) {
+    events = Object.values(eventsObj)
+  }
+  if(!eventsObj) {
+    return null
+  }
 
   const submitHandler = (e) => {
     e.preventDefault()
+    let count = events.length
     let event = {
       id: count,
       venueId: 2,

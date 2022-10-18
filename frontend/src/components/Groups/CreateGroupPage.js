@@ -1,37 +1,35 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostGroup } from '../../store/group'
+import { thunkPostGroup, thunkLoadGroups } from '../../store/group'
 
 
 const GroupCreate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const events = useSelector(state => state.events.allEvents)
+  const groups = useSelector(state => state.groups.allGroups)
   const user = useSelector(state => state.session.user)
 
   const [name, setName] = useState('')
   const [about, setAbout] = useState('')
   const [type, setType] = useState('In Person')
-  const [priv, setPriv] = useState('private')
+  const [priv, setPriv] = useState('Private')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
 
   const groupsObj = useSelector(state => state.groups.allGroups)
-  let count = Object.values(events).length
-  let groups
+
+  let allGroups
 
   useEffect(() => {
     dispatch(thunkLoadGroups())
   }, [dispatch])
   if(groupsObj) {
-    groups = Object.values(groupsObj)
+    allGroups = Object.values(groupsObj)
   }
-  if (!groups) {
-    return null
-  }
+
 
   useEffect(() => {
     const errors = []
@@ -39,10 +37,15 @@ const GroupCreate = () => {
     setValidationErrors(errors)
   }, [])
 
+  if (!groups) {
+    return null
+  }
+
   const submitHandler = (e) => {
     e.preventDefault()
+    let count = Object.values(allGroups).length
     let group = {
-      id: count,
+      id: count +1,
       organizerId: user.id,
       name,
       about,
@@ -61,7 +64,7 @@ const GroupCreate = () => {
       className="fruit-form"
       onSubmit={submitHandler}
     >
-      <h2>Create an Event</h2>
+      <h2>Create a Group</h2>
       <ul className="errors">
         {/* {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)} */}
       </ul>
@@ -105,7 +108,7 @@ const GroupCreate = () => {
       </label>
       <label>
         <input
-          checked={priv=== 'Private'}
+          checked={priv === 'Private'}
           type="radio"
           value="Private"
           name="priv"
@@ -115,7 +118,7 @@ const GroupCreate = () => {
       </label>
       <label>
         <input
-          checked={type === 'Public'}
+          checked={priv === 'Public'}
           type="radio"
           value="Public"
           name="priv"
@@ -123,6 +126,7 @@ const GroupCreate = () => {
         />
         Public
       </label>
+
       <label>
         City
         <input
