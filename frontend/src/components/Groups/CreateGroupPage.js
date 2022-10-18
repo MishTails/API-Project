@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostGroup } from '../../store/group'
+import { thunkPostGroup, thunkLoadGroups } from '../../store/group'
 
 
 const GroupCreate = () => {
@@ -29,15 +29,16 @@ const GroupCreate = () => {
   if(groupsObj) {
     groups = Object.values(groupsObj)
   }
-  if (!groups) {
-    return null
-  }
 
   useEffect(() => {
     const errors = []
 
     setValidationErrors(errors)
   }, [])
+
+  if (!groups) {
+    return null
+  }
 
   const submitHandler = (e) => {
     e.preventDefault()

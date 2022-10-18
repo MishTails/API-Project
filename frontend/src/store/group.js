@@ -1,4 +1,4 @@
-
+import {csrfFetch} from './csrf'
 
 // type values
 const GET_GROUPS = 'groups/getGroups'
@@ -50,7 +50,7 @@ const actionDeleteGroup = (id) => {
 //Thunks (error handling maybe needed?)
 
 export const thunkLoadGroups = () => async dispatch => {
-  const response = await fetch('/api/groups')
+  const response = await csrfFetch('/api/groups')
   console.log(response)
   if(response.ok) {
     const list = await response.json()
@@ -59,7 +59,7 @@ export const thunkLoadGroups = () => async dispatch => {
 }
 
 export const thunkLoadOneGroup = (id) => async dispatch => {
-  const response = await fetch(`/api/groups/${id}`)
+  const response = await csrfFetch(`/api/groups/${id}`)
   if(response.ok) {
     const group = await response.json()
     dispatch(actionGetOneGroup(group))
@@ -67,7 +67,7 @@ export const thunkLoadOneGroup = (id) => async dispatch => {
 }
 
 export const thunkPostGroup = (data) => async dispatch => {
-  const response = await fetch(`/api/groups`, {
+  const response = await csrfFetch(`/api/groups`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -82,7 +82,7 @@ export const thunkPostGroup = (data) => async dispatch => {
 }
 
 export const thunkPutGroup = (data) => async dispatch => {
-  const response = await fetch(`/api/groups/${data.id}`, {
+  const response = await csrfFetch(`/api/groups/${data.id}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ export const thunkPutGroup = (data) => async dispatch => {
 }
 
 export const thunkRemoveGroup = (id) => async dispatch => {
-  const response = await fetch(`/api/groups/${id}`, {
+  const response = await csrfFetch(`/api/groups/${id}`, {
     method: 'delete'
   })
   if (response.ok) {
