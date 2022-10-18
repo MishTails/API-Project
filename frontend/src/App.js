@@ -13,6 +13,7 @@ import GroupCreate from "./components/Groups/CreateGroupPage";
 import EventCreate from "./components/Events/CreateEvent";
 import EventUpdate from "./components/Events/UpdateEvent";
 import GroupUpdate from "./components/Groups/UpdateGroup";
+import EventDelete from "./components/Events/DeleteEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,8 +45,11 @@ function App() {
           <Route exact path = "/groups/:groupId/update">
             <GroupUpdate/>
           </Route>
-          <Route path="/events/:eventId/update">
+          <Route exact path="/events/:eventId/update">
             <EventUpdate/>
+          </Route>
+          <Route exact path="/events/:eventId/delete">
+            <EventDelete/>
           </Route>
           <Route exact path="/groups/:groupId">
             <GroupPage/>

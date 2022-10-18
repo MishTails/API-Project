@@ -19,7 +19,7 @@ const EventUpdate = () => {
   const [capacity, setCapacity] = useState()
   const [price, setPrice] = useState()
   const [validationErrors, setValidationErrors] = useState([])
-
+  let events
   useEffect(() => {
     const errors = []
 

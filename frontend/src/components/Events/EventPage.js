@@ -21,10 +21,17 @@ const EventPage = () => {
     return null
   }
 
+
+  //need to replace "hi" with a placeholder image
+  if (!event.EventImages[1]) {
+    event.EventImages[1] = {url: 'hi'}
+  }
+
   return (
   <div>
     <h1>{event.name}</h1>
     <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink>
+    <NavLink to={`/events/${eventId}/delete`}>Delete this Event</NavLink>
     <div>
       <img src = {event.EventImages[1].url} alt="pokeball"></img>
     </div>
