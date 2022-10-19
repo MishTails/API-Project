@@ -1,5 +1,5 @@
 h2 {
-  text-decoration: underline;
+  margin-bottom: 0px;
 }
 
 a {
@@ -9,9 +9,8 @@ a {
   font-size: 16px;
   text-decoration: none;
   font-weight: 600;
-  color: rgb(52,155,170);
+  color: black;
   padding: 5px 5px 5px 5px;
-
 }
 
 label {
@@ -19,6 +18,11 @@ label {
   font-size: 16px;
   text-decoration: none;
   font-weight: 600;
+  padding: 7px 7px 7px 7px;
+}
+
+p {
+  padding-top: 8px;
 }
 
 .fullsite {
@@ -34,9 +38,34 @@ label {
   align-items: center;
 }
 
-.navbutton {
+
+.text {
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+
+}
+.form {
   display: flex;
   align-items: center;
+  flex-direction: column;
+}
+
+.currentLink {
+  color: rgb(246,88,88);
+  text-decoration: underline;
+}
+
+.navbutton  {
+  display: flex;
+  align-items: center;
+}
+
+.navLogSign{
+  background-color: rgb(234,231,231);
+  font-size: 15px;
+}
+
+.navLogSign:hover {
+  color: rgb(52,155,170);
 }
 
 ul > li {
@@ -52,9 +81,18 @@ ul > li {
 }
 
 button {
+  background-color: rgb(234,231,231);
   border: none;
   font-size: 16px;
   text-decoration: none;
   font-weight: 600;
-  color: rgb(52,155,170);
+  color: black;
+
+}
+
+.textInput{
+  border-radius: 10px;
+  border-color: grey;
+  padding: 5px 5px 5px 5px;
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
 }

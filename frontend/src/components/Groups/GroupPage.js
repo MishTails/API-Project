@@ -25,26 +25,31 @@ const GroupPage = () => {
     group.GroupImages[1] = {url: 'hi'}
   }
   return (
-  <div>
-    <h1>{group.name}</h1>
-    <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink>
-    <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink>
-    <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink>
-    <div>
+  <div className='groupCardFull'>
 
-      {/* i need to figure out how to make this load in asynchronously */}
-      <img src = {group.GroupImages[1].url} alt="pokeball"></img>
-    </div>
-    <div>
-      <h2>Details</h2>
-      <p>{group.about}</p>
-    </div>
-    <div>
+
+    <div className='groupDetailCard'>
       <div>
-
+          {/* i need to figure out how to make this load in asynchronously */}
+          <img className="groupPageImage" src = {group.GroupImages[1].url} alt="pokeball"></img>
       </div>
-      <p>{group.private=== true? 'private': 'public'} </p>
+      <div>
+        <h1>{group.name}</h1>
+        <p>{`${group.city}, ${group.state}`}</p>
+        <p>{`${group.numMemberships} Members, ${group.private=== true? 'Private': 'Public'} Group`}</p>
+        <p>{`Organized By ${group.Organizer.firstName} ${group.Organizer.lastName}`}</p>
+      </div>
     </div>
+    <h3>About</h3>
+    <div className='groupCardAbout'>
+      <p>{group.about}</p>
+      <div className='crud'>
+      <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink>
+      <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink>
+      <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink>
+    </div>
+    </div>
+    <h3>Upcoming Events</h3>
   </div>)
 }
 

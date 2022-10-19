@@ -8,14 +8,21 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
-
+  let currentUrl = window.location.href
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
       <div className='navbar'>
         <div className='navbutton'>
-          <NavLink to="/">Events</NavLink>
-          <NavLink to="/groups">Groups</NavLink>
+          <NavLink
+          activeClassName="currentLink"
+          to="/events">Events
+          </NavLink>
+
+          <NavLink
+          activeClassName="currentLink"
+          to="/groups">Groups
+          </NavLink>
           <NavLink to="/groups/create">Start A New Group</NavLink>
           <ProfileButton user={sessionUser} />
          </div>
@@ -26,10 +33,10 @@ function Navigation({ isLoaded }){
     sessionLinks = (
       <div className='navbar'>
         <div className='navbutton'>
-          <LoginFormModal />
-          <NavLink to="/signup">Sign Up</NavLink>
-          <NavLink to="/events">Events</NavLink>
-          <NavLink to="/groups">Groups</NavLink>
+          <LoginFormModal  />
+          <NavLink className="navLogSign" to="/signup">Sign Up</NavLink>
+          <NavLink activeClassName="currentLink" to="/events">Events</NavLink>
+          <NavLink activeClassName="currentLink"to="/groups">Groups</NavLink>
         </div>
       </div>
 

@@ -32,9 +32,9 @@ const EventPage = () => {
     <h1>{event.name}</h1>
     <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink>
     <NavLink to={`/events/${eventId}/delete`}>Delete this Event</NavLink>
-    <div>
+    <div className='eventCardFull'>
       <img src = {event.EventImages[1].url} alt="pokeball"></img>
-    </div>
+
     <div>
       <h2>Details</h2>
       <p>{event.description}</p>
@@ -45,6 +45,7 @@ const EventPage = () => {
         <p>{event.startDate}</p>
       </div>
       {event.type === 'Online' ? <h2>online</h2>: <h2>inperson</h2>}
+    </div>
     </div>
   </div>)
 }

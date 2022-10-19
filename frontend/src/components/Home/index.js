@@ -19,7 +19,7 @@ const HomeIndex = () => {
   return (
     <div className='fullsite'>
     <link href="./index.css" rel="stylesheet"/>
-    <h1>Welcome to Catchup</h1>
+    <h1>Welcome to Catchup, a Pokemon Site based on Meetup</h1>
     </div>
 
   )
