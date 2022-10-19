@@ -1,0 +1,22 @@
+
+
+.eventCardFull {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-left: 30px;
+
+}
+
+.contentCard {
+  display: flex;
+  justify-content: center;
+}
+
+.cardText > p {
+  margin-bottom: 2px;
+}
+
+.cardText > a {
+  margin-bottom: 2px;
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadEvents } from '../../store/event'
-
+import "./index.css"
 
 
 const HomeIndex = () => {
@@ -16,7 +16,13 @@ const HomeIndex = () => {
   if(eventsObj) {
     events = Object.values(eventsObj)
   }
-  return ( <h1>Welcome to Catchup</h1>)
+  return (
+    <div className='fullsite'>
+    <link href="./index.css" rel="stylesheet"/>
+    <h1>Welcome to Catchup</h1>
+    </div>
+
+  )
 }
 
 

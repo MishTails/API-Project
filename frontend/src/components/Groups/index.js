@@ -30,7 +30,7 @@ const GroupIndex = () => {
           <NavLink to={`/groups/${group.id}`}>{group.name}</NavLink>
           <p>{group.city}, {group.state}</p>
           <p>{`About: ${group.about}`}</p>
-          <p>{group.numMembers} Members <li>{group.private=== true? 'private': 'public'}</li></p>
+          <p>{group.numMembers} Members <div>{group.private=== true? 'private': 'public'}</div></p>
         </div>
     })}
   </ul>)

@@ -1,0 +1,60 @@
+h2 {
+  text-decoration: underline;
+}
+
+a {
+  display: flex;
+  flex-direction: row;
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 600;
+  color: rgb(52,155,170);
+  padding: 5px 5px 5px 5px;
+
+}
+
+label {
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.fullsite {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgb(234,231,231);
+
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+}
+
+.navbutton {
+  display: flex;
+  align-items: center;
+}
+
+ul > li {
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 400;
+  color: rgb(79, 81, 81);
+}
+
+.logo {
+  width: 300px;
+}
+
+button {
+  border: none;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 600;
+  color: rgb(52,155,170);
+}
