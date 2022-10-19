@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { thunkRemoveEvent, thunkLoadEvents, thunkLoadOneEvent } from '../../store/event'
@@ -23,14 +23,13 @@ const EventDelete = () => {
     history.push(`/events`)
   }
   const goBack = () => {
-    console.log('hi')
     dispatch(thunkLoadOneEvent(eventId))
     history.push(`/events/${eventId}`)
   }
 
   return (
     <div>
-      <h2>Are you sure you want to Delete this Event?</h2>
+      <h2>Are you sure you want to Delete tis Event?</h2>
       <button
         onClick={deleteEvent}
         type="submit"

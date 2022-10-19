@@ -14,6 +14,7 @@ import EventCreate from "./components/Events/CreateEvent";
 import EventUpdate from "./components/Events/UpdateEvent";
 import GroupUpdate from "./components/Groups/UpdateGroup";
 import EventDelete from "./components/Events/DeleteEvent";
+import GroupDelete from "./components/Groups/DeleteGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+           <Route exact path="/groups/:groupId/delete">
+            <GroupDelete/>
+          </Route>
           <Route path="/signup">
             <SignupFormPage />
           </Route>
@@ -54,6 +58,7 @@ function App() {
           <Route exact path="/groups/:groupId">
             <GroupPage/>
           </Route>
+
           <Route path="/groups/:groupId/events/create">
             <EventCreate/>
           </Route>

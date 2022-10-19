@@ -102,6 +102,8 @@ export const thunkRemoveGroup = (id) => async dispatch => {
     method: 'delete'
   })
   if (response.ok) {
+    const group = await response.json()
+    console.log(group)
     dispatch(actionDeleteGroup(id))
     return response
   }
