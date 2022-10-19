@@ -6,7 +6,7 @@ module.exports = {
       {
         organizerId: 1,
         name: 'Cerulean City Surfers',
-        about: "Water Pokemon Enthusiests",
+        about: "Water Pokemon Enthusiests hailing from the town with the original water type gym",
         type: 'In Person',
         private: true,
         city: 'Ontario',
@@ -16,7 +16,7 @@ module.exports = {
       {
         organizerId: 2,
         name: 'Kanto Campers',
-        about: 'Hikers looking for the best spots',
+        about: 'Hikers looking for the best spots. Recently hiked around Mt Moon and saw a strange Pokemon near the peak',
         type: 'In Person',
         private: false,
         city: 'Muir Woods',
@@ -25,7 +25,7 @@ module.exports = {
       {
         organizerId: 3,
         name: 'Evo Tamers',
-        about: 'We like pokemon evolution a lot',
+        about: 'We like pokemon evolution a lot.  Trade Evolutions, Stone Evolutions, Mega Evolutions, We love them all',
         type: 'In Person',
         private: false,
         city: 'New York City',
@@ -33,8 +33,8 @@ module.exports = {
       },
       {
         organizerId: 4,
-        name: 'Bill Hack Inc',
-        about: 'redacted',
+        name: 'Rage Lake Hacking Group',
+        about: 'Definitely just an Herb store, not looking for individuals seeking to find the secrets of the world',
         type: 'Online',
         private: true,
         city: 'Online',
@@ -52,7 +52,7 @@ module.exports = {
       {
         organizerId: 6,
         name: 'Team Galctic',
-        about: "looking to revolutionize the world",
+        about: "Looking to revolutionize the world, Time and Space will be ours.  Join our hunt for Dialga and Palkia",
         type: 'In Person',
         private: true,
         city: 'Kyoto',
@@ -61,7 +61,7 @@ module.exports = {
       {
         organizerId: 7,
         name: 'N Fan Club',
-        about: 'Looking for mysterious Green Haired man',
+        about: 'Looking for mysterious Green Haired man.  Maybe last seen in the wreckage of a castle that fell from the sky',
         type: 'In Person',
         private: true,
         city: 'Los Angeles',
@@ -69,8 +69,8 @@ module.exports = {
       },
       {
         organizerId: 8,
-        name: 'Gen 9 waiting room',
-        about: 'Dedicated to hunting for the time traveling pokemon',
+        name: 'Gen Wunners',
+        about: 'Terrestralize who? I dont like any of these zoomers and their wack mechanics.  Waiting for the day Pokemon returns to its roots',
         type: 'In Person',
         private: true,
         city: 'Salt Lake City',
