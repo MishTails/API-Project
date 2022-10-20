@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { thunkRemoveEvent, thunkLoadEvents, thunkLoadOneEvent } from '../../store/event'
-
+import "../Navigation/Navigation.css"
 const EventDelete = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -29,8 +29,9 @@ const EventDelete = () => {
 
   return (
     <div>
-      <h2>Are you sure you want to Delete tis Event?</h2>
+      <h2 className='textInput'>Are you sure you want to Delete this Event?</h2>
       <button
+      className='formButton'
         onClick={deleteEvent}
         type="submit"
       >
@@ -38,6 +39,7 @@ const EventDelete = () => {
       </button>
 
       <button
+      className='formButton'
         onClick={goBack}
         type="submit"
       >

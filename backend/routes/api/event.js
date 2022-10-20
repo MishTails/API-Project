@@ -110,7 +110,7 @@ router.get("/", async (req, res) => {
     },
     {
       model: Group,
-      attributes: ['id', 'name', 'city', 'state']
+      attributes: ['id', 'organizerId', 'name', 'city', 'state']
     },
     {
       model: Venue,

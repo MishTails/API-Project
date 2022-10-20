@@ -29,8 +29,9 @@ const GroupDelete = () => {
 
   return (
     <div>
-      <h2>Are you sure you want to Delete this Group?</h2>
+      <h2 className='textInput'>Are you sure you want to Delete this Group?</h2>
       <button
+        className='formButton'
         onClick={deleteGroup}
         type="submit"
       >
@@ -38,6 +39,7 @@ const GroupDelete = () => {
       </button>
 
       <button
+        className='formButton'
         onClick={goBack}
         type="submit"
       >

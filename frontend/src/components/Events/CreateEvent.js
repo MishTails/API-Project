@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { thunkPostEvent, thunkLoadEvents } from '../../store/event'
-
+import '../Navigation/Navigation.css'
 
 
 const EventCreate = () => {
@@ -14,16 +14,34 @@ const EventCreate = () => {
   const [endDate, setEndDate] = useState('')
   const [description, setDescription] = useState('')
   const [type, setType] = useState('In Person')
-  const [capacity, setCapacity] = useState()
-  const [price, setPrice] = useState()
+  const [capacity, setCapacity] = useState(10)
+  const [price, setPrice] = useState(0)
   const [validationErrors, setValidationErrors] = useState([])
 
   let events
   useEffect(() => {
     const errors = []
+    if (name.length < 5) {
+      errors.push("Name must be 5 characters or more")
+    }
+    if (startDate.length === 0) {
+      errors.push("Start Date is required")
+    }
+    if (endDate.length === 0) {
+      errors.push("End Date is required")
+    }
+    if (description.length < 20) {
+      errors.push("Description must be longer than 20 characters")
+    }
+    if (capacity.length === 0) {
+      errors.push("Capacity is required")
+    }
+    if (price.length === 0) {
+      errors.push("Price is required")
+    }
 
     setValidationErrors(errors)
-  }, [])
+  }, [name, startDate, endDate, description, capacity, price])
 
   useEffect(() => {
     dispatch(thunkLoadEvents())
@@ -52,16 +70,16 @@ const EventCreate = () => {
     }
     console.log(event)
     dispatch(thunkPostEvent(event))
-    history.push('/events')
+    history.push(`/events/${event.id}`)
   }
 
   return (
-    <form
+    <form className='form'
       onSubmit={submitHandler}
     >
       <h2>Create an Event</h2>
       <ul className="errors">
-        {/* {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)} */}
+        {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)}
       </ul>
       <label>
         Name
@@ -137,9 +155,9 @@ const EventCreate = () => {
           value={price}
         />
       </label>
-      <button
+      <button className='formButton'
         type="submit"
-        // disabled={!!validationErrors.length}
+        disabled={!!validationErrors.length}
       >
         Submit
       </button>

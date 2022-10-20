@@ -14,12 +14,20 @@ function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
+    return dispatch(
+      sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       }
     );
+  };
+
+  const demoUser = (e) => {
+    e.preventDefault();
+    setErrors([]);
+    return dispatch(
+      sessionActions.login({ credental: "Demo-lition", password: "password" }))
   };
 
   return (
@@ -57,7 +65,14 @@ function LoginForm() {
                 required
               />
             </label>
-            <button className="button" type="submit">Log In</button>
+            <button type="submit">Log In</button>
+
+            <button type="submit" onClick={() => {
+            setCredential("Demo-lition");
+            setPassword('password')
+          }}
+          > Demo User
+          </button>
         </div>
 
       </form>

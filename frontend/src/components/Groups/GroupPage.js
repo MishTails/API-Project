@@ -11,6 +11,7 @@ const GroupPage = () => {
   const dispatch = useDispatch()
   const { groupId } = useParams()
   const group = useSelector(state => state.groups.singleGroup)
+  const session = useSelector(state => state.session.user)
 
   useEffect(() => {
     dispatch(thunkLoadOneGroup(groupId))
@@ -22,8 +23,9 @@ const GroupPage = () => {
   }
 
   if (!group.GroupImages[1]) {
-    group.GroupImages[1] = {url: 'nourl'}
+    group.GroupImages[1] = {url: null}
   }
+
   return (
   <div className='groupCardFull'>
 
@@ -31,9 +33,10 @@ const GroupPage = () => {
     <div className='groupDetailCard'>
       <div>
           {/* i need to figure out how to make this load in asynchronously */}
+
           <img className="groupPageImage" src = {group.GroupImages[1].url} alt="pokeball"></img>
       </div>
-      <div>
+      <div className='bubbleBorder'>
         <h1>{group.name}</h1>
         <p>{`${group.city}, ${group.state}`}</p>
         <p>{`${group.numMemberships} Members, ${group.private=== true? 'Private': 'Public'} Group`}</p>
@@ -44,9 +47,9 @@ const GroupPage = () => {
     <div className='groupCardAbout'>
       <p>{group.about}</p>
       <div className='crud'>
-      <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink>
-      <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink>
-      <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink>
+      {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink> : ""}
+      {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink> : ""}
+      {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink> : ""}
     </div>
     </div>
   </div>)

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { thunkPutGroup, thunkLoadGroups } from '../../store/group'
-
+import "../Navigation/Navigation.css"
 const GroupUpdate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -22,9 +22,20 @@ const GroupUpdate = () => {
 
   useEffect(() => {
     const errors = []
-
+    if (name.length === 0) {
+      errors.push("Name is required")
+    }
+    if (about.length < 50) {
+      errors.push("About must be longer than 50 characters")
+    }
+    if (city.length === 0) {
+      errors.push("City is required")
+    }
+    if (state.length === 0) {
+      errors.push("State is required")
+    }
     setValidationErrors(errors)
-  }, [])
+  }, [name, about, city, state])
 
   useEffect(() => {
     dispatch(thunkLoadGroups())
@@ -67,12 +78,12 @@ const GroupUpdate = () => {
 
   return (
     <form
-      className="fruit-form"
+      className="form"
       onSubmit={submitHandler}
     >
       <h2>Update a Group</h2>
       <ul className="errors">
-        {/* {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)} */}
+        {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)}
       </ul>
       <label>
         Name
@@ -141,8 +152,9 @@ const GroupUpdate = () => {
       </label>
 
       <button
+      className='formButton'
         type="submit"
-        // disabled={!!validationErrors.length}
+        disabled={!!validationErrors.length}
       >
         Submit
       </button>
