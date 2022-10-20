@@ -11,6 +11,10 @@ const UPDATE_GROUP = 'groups/updateGroup'
 
 const DELETE_GROUP = 'groups/deleteGroup'
 
+const ADD_IMAGE = 'groups/createImage'
+
+// const DELETE_IMAGE = 'grouops/deleteImage'
+
 //actions
 
 const actionGetGroups = (payload) => {
@@ -47,6 +51,19 @@ const actionDeleteGroup = (id) => {
     id
   }
 }
+
+const actionCreateGroupImage = (payload) => {
+  return {
+    type: ADD_IMAGE,
+    payload
+  }
+}
+// const actionDeleteImage = (id) => {
+//   return {
+//     type: DELETE_IMAGE,
+//     id
+//   }
+// }
 //Thunks (error handling maybe needed?)
 
 export const thunkLoadGroups = () => async dispatch => {
@@ -109,6 +126,21 @@ export const thunkRemoveGroup = (id) => async dispatch => {
   }
 }
 
+export const thunkPostGroupImage = (data) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${data.groupId}/images`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if(response.ok) {
+    const image = await response.json()
+    dispatch(actionCreateGroupImage(image))
+    return image
+  }
+}
+
 
 
 //reducer
@@ -135,6 +167,10 @@ export default function groupsReducer (state = initialState, action) {
       let newStateDelete = {...state}
       delete newStateDelete[action.id]
       return newStateDelete
+    case ADD_IMAGE:
+      let newStateAddImage = {...state}
+      newStateAddImage[action.payload.groupId][action.payload.id] = action.payload
+      return newStateAddImage
     default:
       return state
   }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostGroup, thunkLoadGroups } from '../../store/group'
+import { thunkPostGroup, thunkLoadGroups, thunkPostGroupImage} from '../../store/group'
 import "../Navigation/Navigation.css"
 
 const GroupCreate = () => {
@@ -15,6 +15,7 @@ const GroupCreate = () => {
   const [priv, setPriv] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
+  const [previewImage, setPreviewImage] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
 
   const groupsObj = useSelector(state => state.groups.allGroups)
@@ -35,7 +36,7 @@ const GroupCreate = () => {
       errors.push("State is required")
     }
     setValidationErrors(errors)
-  }, [about, city, state])
+  }, [name, about, city, state])
 
   useEffect(() => {
     dispatch(thunkLoadGroups())
@@ -62,8 +63,14 @@ const GroupCreate = () => {
       city,
       state,
     }
-    console.log(group)
+    let preview = {
+      id: 1,
+      groupId: count+1,
+      url: previewImage,
+      preview: true
+    }
     dispatch(thunkPostGroup(group))
+    dispatch(thunkPostGroupImage(preview))
     history.push('/groups')
   }
 
@@ -140,7 +147,15 @@ const GroupCreate = () => {
           value={state}
         />
       </label>
-
+      <label>
+        Preview Image
+        <input
+          type="text"
+          name="previewImage"
+          onChange={(e) => setPreviewImage(e.target.value)}
+          value={previewImage}
+        />
+      </label>
       <button
       className='formButton'
         type="submit"

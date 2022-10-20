@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostEvent, thunkLoadEvents } from '../../store/event'
+import { thunkPostEvent, thunkLoadEvents, thunkPostEventImage } from '../../store/event'
 import '../Navigation/Navigation.css'
 
 
@@ -16,6 +16,7 @@ const EventCreate = () => {
   const [type, setType] = useState('In Person')
   const [capacity, setCapacity] = useState(10)
   const [price, setPrice] = useState(0)
+  const [previewImage, setPreviewImage] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
 
   let events
@@ -68,8 +69,15 @@ const EventCreate = () => {
       startDate,
       endDate
     }
-    console.log(event)
+    let preview = {
+      id: 1,
+      eventId: count+1,
+      url: previewImage,
+      preview: true
+    }
+
     dispatch(thunkPostEvent(event))
+    dispatch(thunkPostEventImage(preview))
     history.push(`/events/${event.id}`)
   }
 
@@ -153,6 +161,15 @@ const EventCreate = () => {
           name="price"
           onChange={(e) => setPrice(e.target.value)}
           value={price}
+        />
+      </label>
+      <label>
+        Preview Image
+        <input
+          type="text"
+          name="previewImage"
+          onChange={(e) => setPreviewImage(e.target.value)}
+          value={previewImage}
         />
       </label>
       <button className='formButton'
