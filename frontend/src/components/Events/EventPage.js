@@ -1,7 +1,7 @@
 import React from 'react'
 import {useParams, NavLink } from 'react-router-dom'
 import { useEffect } from 'react'
-import {Provider, useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { thunkLoadEvents, thunkLoadOneEvent } from '../../store/event'
 import "../Navigation/Navigation.css"
 import "./events.css"
@@ -11,8 +11,9 @@ import "./events.css"
 const EventPage = () => {
   const dispatch = useDispatch()
   const { eventId } = useParams()
+  const session = useSelector(state => state.session.user)
   const event = useSelector(state => state.events.singleEvent)
-  const allEvents = useSelector(state => state.events.allEvents)
+  // const allEvents = useSelector(state => state.events.allEvents)
   useEffect(() => {
     dispatch(thunkLoadOneEvent(eventId))
     dispatch(thunkLoadEvents())
@@ -24,9 +25,8 @@ const EventPage = () => {
   }
 
 
-  //need to replace "hi" with a placeholder image
-  if (!event.EventImages[1]) {
-    event.EventImages[1] = {url: 'hi'}
+  if (!event.EventImages[0]) {
+    event.EventImages[0] = {url: null}
   }
 
   function getFormattedDate(date) {
@@ -42,7 +42,7 @@ const EventPage = () => {
     <h3>Hosted by {event.Group.name}</h3>
     <div className='eventCardFull'>
       <div className='eventInfo'>
-       <img src = {event.EventImages[1].url} alt="pokeball" width={200}></img>
+       <img src = {event.EventImages[0].url} alt="image" width={200}></img>
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>
@@ -53,8 +53,9 @@ const EventPage = () => {
         <div className='fullsite'>
           <p>{event.description}</p>
           {/* I'll hide these buttons when someone can not edit when I can edit my backend */}
-          <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink>
-          <NavLink to={`/events/${eventId}/delete`}>Delete this Event</NavLink>
+          {session.id===event.Group.organizerId ? <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink> : ""}
+          {session.id===event.Group.organizerId ? <NavLink to={`/events/${eventId}/delete`}>Delete this Event</NavLink> : ""}
+
         </div>
       <div>
     </div>

@@ -11,6 +11,10 @@ const UPDATE_EVENT = 'events/updateEvent'
 
 const DELETE_EVENT = 'events/deleteEvent'
 
+const ADD_IMAGE = 'events/createImage'
+
+const DELETE_IMAGE = 'events/deleteImage'
+
 //actions
 
 const actionGetEvents = (payload) => {
@@ -44,6 +48,19 @@ const actionUpdateEvent = (payload) => {
 const actionDeleteEvent = (id) => {
   return {
     type: DELETE_EVENT,
+    id
+  }
+}
+
+const actionCreateImage = (payload) => {
+  return {
+    type: ADD_IMAGE,
+    payload
+  }
+}
+const actionDeleteImage = (id) => {
+  return {
+    type: DELETE_IMAGE,
     id
   }
 }
@@ -106,6 +123,21 @@ export const thunkRemoveEvent = (id) => async dispatch => {
   }
 }
 
+export const thunkPostImage = (data) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${data.groupId}/images`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if(response.ok) {
+    const image = await response.json()
+    dispatch(actionCreateImage(image))
+    return image
+  }
+}
+
 //reducer
 const initialState = {}
 export default function eventsReducer (state = initialState, action) {
@@ -131,6 +163,10 @@ export default function eventsReducer (state = initialState, action) {
       let newStateDelete = {...state}
       delete newStateDelete[action.id]
       return newStateDelete
+    case ADD_IMAGE:
+      let newStateAddImage = {...state}
+      
+
     default:
       return state
   }

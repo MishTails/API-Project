@@ -109,6 +109,8 @@ export const thunkRemoveGroup = (id) => async dispatch => {
   }
 }
 
+
+
 //reducer
 const initialState = {}
 export default function groupsReducer (state = initialState, action) {

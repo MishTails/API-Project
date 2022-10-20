@@ -59,7 +59,7 @@ const queryValidator = (page, size, name, type, startDate) => {
   return errors
 }
 
-
+//Get all Events
 
 router.get("/", async (req, res) => {
 
@@ -110,7 +110,7 @@ router.get("/", async (req, res) => {
     },
     {
       model: Group,
-      attributes: ['id', 'organizerId', 'name', 'city', 'state']
+      attributes: ['id', 'name', 'city', 'state', 'organizerId']
     },
     {
       model: Venue,
@@ -161,7 +161,7 @@ router.get("/:eventId", async (req, res) => {
     },
     {
       model: Group,
-      attributes: ['id', 'name', 'city', 'state']
+      attributes: ['id', 'organizerId', 'name', 'city', 'state']
     },
     {
       model: Venue,

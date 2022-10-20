@@ -22,8 +22,8 @@ const GroupPage = () => {
     return null
   }
 
-  if (!group.GroupImages[1]) {
-    group.GroupImages[1] = {url: null}
+  if (!group.GroupImages[0]) {
+    group.GroupImages[0] = {url: null}
   }
 
   return (
@@ -34,7 +34,7 @@ const GroupPage = () => {
       <div>
           {/* i need to figure out how to make this load in asynchronously */}
 
-          <img className="groupPageImage" src = {group.GroupImages[1].url} alt="pokeball"></img>
+          <img className="groupPageImage" src = {group.GroupImages[0].url} alt="image"></img>
       </div>
       <div className='bubbleBorder'>
         <h1>{group.name}</h1>
