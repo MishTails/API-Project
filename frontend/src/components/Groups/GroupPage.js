@@ -22,7 +22,7 @@ const GroupPage = () => {
   }
 
   if (!group.GroupImages[1]) {
-    group.GroupImages[1] = {url: 'hi'}
+    group.GroupImages[1] = {url: 'nourl'}
   }
   return (
   <div className='groupCardFull'>
@@ -49,7 +49,6 @@ const GroupPage = () => {
       <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink>
     </div>
     </div>
-    <h3>Upcoming Events</h3>
   </div>)
 }
 

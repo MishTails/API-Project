@@ -33,7 +33,7 @@ const EventPage = () => {
     <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink>
     <NavLink to={`/events/${eventId}/delete`}>Delete this Event</NavLink>
     <div className='eventCardFull'>
-      <img src = {event.EventImages[1].url} alt="pokeball"></img>
+      <img src = {event.EventImages[1].url} alt="pokeball" width={200}></img>
 
     <div>
       <h2>Details</h2>

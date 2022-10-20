@@ -29,6 +29,17 @@ const EventUpdate = () => {
   useEffect(() => {
     dispatch(thunkLoadEvents())
   }, [dispatch])
+
+  useEffect(() => {
+    setName(eventsObj[eventId].name)
+    setStartDate(eventsObj[eventId].startDate)
+    setEndDate(eventsObj[eventId].endDate)
+    setDescription(eventsObj[eventId].description)
+    setType(eventsObj[eventId].type)
+    setCapacity(eventsObj[eventId].capacity)
+    setPrice(eventsObj[eventId].price)
+  }, [])
+
   if (!eventsObj) {
     return null
   }

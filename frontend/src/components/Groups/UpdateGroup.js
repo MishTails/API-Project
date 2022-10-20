@@ -29,6 +29,16 @@ const GroupUpdate = () => {
   useEffect(() => {
     dispatch(thunkLoadGroups())
   }, [dispatch])
+
+  useEffect(() => {
+    setName(groupsObj[groupId].name)
+    setAbout(groupsObj[groupId].about)
+    setType(groupsObj[groupId].type)
+    setPriv(groupsObj[groupId].priv)
+    setCity(groupsObj[groupId].city)
+    setState(groupsObj[groupId].state)
+  }, [])
+
   if(groupsObj) {
     groups = Object.values(groupsObj)
   }
@@ -104,23 +114,12 @@ const GroupUpdate = () => {
       </label>
       <label>
         <input
-          checked={priv=== 'Private'}
-          type="radio"
+          type="checkbox"
           value="Private"
           name="priv"
           onChange={(e) => setPriv(e.target.value)}
         />
-        Private
-      </label>
-      <label>
-        <input
-          checked={type === 'Public'}
-          type="radio"
-          value="Public"
-          name="priv"
-          onChange={(e) => setPriv(e.target.value)}
-        />
-        Public
+        Would you like to make this Group Private
       </label>
       <label>
         City

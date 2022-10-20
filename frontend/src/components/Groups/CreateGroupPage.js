@@ -12,7 +12,7 @@ const GroupCreate = () => {
   const [name, setName] = useState('')
   const [about, setAbout] = useState('')
   const [type, setType] = useState('In Person')
-  const [priv, setPriv] = useState('Private')
+  const [priv, setPriv] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
@@ -105,23 +105,12 @@ const GroupCreate = () => {
       </label>
       <label>
         <input
-          checked={priv=== 'Private'}
-          type="radio"
+          type="checkbox"
           value="Private"
           name="priv"
           onChange={(e) => setPriv(e.target.value)}
         />
-        Private
-      </label>
-      <label>
-        <input
-          checked={type === 'Public'}
-          type="radio"
-          value="Public"
-          name="priv"
-          onChange={(e) => setPriv(e.target.value)}
-        />
-        Public
+        Would you like to make this Group Private
       </label>
       <label>
         City
