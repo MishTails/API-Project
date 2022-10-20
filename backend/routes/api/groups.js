@@ -11,14 +11,15 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 
 const groupValidation = (group) => {
   let errors = {}
+  console.log("this is the group -->", group.type)
   if (group.name.length >= 60) {
     errors.name = "Name must be 60 characters or less"
   }
   if (group.about.length < 50) {
     errors.about = "About must be 50 characters or more"
   }
-  if (group.type !== "Online" && group.type !== "In person") {
-    errors.type = "Type must be 'Online' or 'In person'"
+  if (group.type !== "Online" && group.type !== "In Person") {
+    errors.type = "Type must be 'Online' or 'In Person'"
   }
   if (group.private !== true && group.private !== false) {
     errors.private = "Private must be a boolean"
@@ -42,13 +43,15 @@ const eventValidation = event => {
   if(event.name.length < 5) {
     errors.name = "Name must be at least 5 characters"
   }
-  if(event.type !== "Online" && event.type !== "In person") {
+  if(event.type !== "Online" && event.type !== "In Person") {
     errors.type = "Type must be Online or In Person"
   }
-  if(!Number.isInteger(event.capacity)){
+  if(!Number.isInteger(parseInt(event.capacity))){
+    console.log("capacity ---> ",event.capacity )
     errors.capacity = "Capacity must be an integer"
   }
-  if(typeof event.price !== 'number') {
+  if(typeof parseInt(event.price) !== 'number') {
+    console.log("price ---> ",event.price )
     errors.price = "Price is invalid"
   }
   if(!event.description) {
@@ -210,9 +213,10 @@ router.get('/:groupId', async (req, res) => {
 })
 
 
-//Create a Group
+//Create a Group (in groups.js so route is actually localhost/api/groups)
 router.post('/', async (req, res) => {
   const {user} = req
+  console.log("string =====", req.body)
   if (!user) {
     res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})
@@ -230,7 +234,6 @@ router.post('/', async (req, res) => {
     }
     const newGroup = await Group.create({organizerId: user.id, name, about, type, private, city, state})
 
-    let trimmedGroup = {name, about, type, private, city, state }
     return res.json(newGroup)
 
   }
@@ -379,6 +382,7 @@ router.get("/:groupId/events", async (req, res) => {
   return res.json(arr)
 });
 
+//Create an Event
 router.post('/:groupId/events', async (req, res) => {
   const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
   const {user} = req

@@ -9,11 +9,11 @@ module.exports = {
         groupId: 1,
         name: 'Beachside Lapras Watch',
         description:'Come Walk Along the beach and hunt the elusive Transport Pokemon, Lapras',
-        type: 'In-Person',
+        type: 'In Person',
         capacity: 200,
         price: 20,
-        startDate: '6/29/23',
-        endDate: '8/8/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 2,
@@ -23,19 +23,19 @@ module.exports = {
         type: "Online",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 2,
         groupId: 3,
         name: 'Eevee Petting Zoo',
         description: 'Eevee is super cute!!',
-        type: "In-Person",
+        type: "In Person",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 1,
@@ -45,8 +45,8 @@ module.exports = {
         type: "Online",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 2,
@@ -56,8 +56,8 @@ module.exports = {
         type: "Online",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 2,
@@ -67,8 +67,8 @@ module.exports = {
         type: "Online",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 2,
@@ -78,8 +78,8 @@ module.exports = {
         type: "In Person",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
       {
         venueId: 2,
@@ -89,8 +89,8 @@ module.exports = {
         type: "Online",
         capacity: 200,
         price: 20,
-        startDate: '3/21/23',
-        endDate: '8/10/23'
+        startDate: '2023-03-14 12:00:00',
+        endDate: '2023-03-15 12:00:00',
       },
     ], {});
   },

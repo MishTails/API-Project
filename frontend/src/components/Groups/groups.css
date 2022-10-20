@@ -1,0 +1,91 @@
+h1 {
+  color: black;
+  font-size: 36px;
+  font-weight: 900;
+}
+
+h3 {
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  color: rgb(52,155,170);
+}
+
+.attendees {
+  display: flex;
+  padding-left: 5px;
+}
+
+.groupCardFull {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  border-top: 2px solid rgb(217,217,217);
+
+}
+.groupCardAbout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 30px;
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  border-top: 2px solid rgb(217,217,217);
+
+}
+
+.contentCard {
+  display: flex;
+  justify-content: center;
+  border-top: 2px solid rgb(217,217,217);
+
+}
+
+.cardText > p {
+  display: flex;
+  padding: 5px 5px 5px 5px;
+  margin-bottom: 2px;
+}
+
+.groupName {
+  margin-top: 8px;
+}
+
+.groupPageImage {
+  max-width: 550px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.cardText > a {
+  margin-bottom: 2px;
+}
+
+.timeColor {
+  color:rgb(139,121,93);
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.important {
+  color:rgb(255,99,143);
+  margin-left: 5px;
+}
+
+.nameCity {
+  color:rgb(139,121,93);
+  width: 200px;
+  margin-top: 8px;
+}
+
+.aboutMems {
+  width: 200px;
+  margin-top: 8px;
+}
+
+.crud {
+  width: 150px;
+}
+
+.groupDetailCard {
+  display: flex;
+  justify-content: space-evenly;
+}

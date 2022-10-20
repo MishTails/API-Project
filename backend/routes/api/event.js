@@ -10,19 +10,20 @@ const {Attendance, Event, EventImage, Group, GroupImage, Membership, User, Venue
 const eventValidation = event => {
   let errors = {}
 
+
   if(!event.venueId) {
     errors.venueId = "Venue does not exist"
   }
   if(event.name.length < 5) {
     errors.name = "Name must be at least 5 characters"
   }
-  if(event.type !== "Online" && event.type !== "In person") {
+  if(event.type !== "Online" && event.type !== "In Person") {
     errors.type = "Type must be Online or In Person"
   }
-  if(!Number.isInteger(event.capacity)){
+  if(!Number.isInteger(parseInt(event.capacity))){
     errors.capacity = "Capacity must be an integer"
   }
-  if(typeof event.price !== 'number') {
+  if(typeof parseInt(event.price) !== 'number') {
     errors.price = "Price is invalid"
   }
   if(!event.description) {
@@ -58,7 +59,7 @@ const queryValidator = (page, size, name, type, startDate) => {
   return errors
 }
 
-
+//Get all Events
 
 router.get("/", async (req, res) => {
 
@@ -109,7 +110,7 @@ router.get("/", async (req, res) => {
     },
     {
       model: Group,
-      attributes: ['id', 'name', 'city', 'state']
+      attributes: ['id', 'name', 'city', 'state', 'organizerId']
     },
     {
       model: Venue,
@@ -160,7 +161,7 @@ router.get("/:eventId", async (req, res) => {
     },
     {
       model: Group,
-      attributes: ['id', 'name', 'city', 'state']
+      attributes: ['id', 'organizerId', 'name', 'city', 'state']
     },
     {
       model: Venue,
