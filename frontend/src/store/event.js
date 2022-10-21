@@ -1,4 +1,4 @@
-// let initialEvents = {1: {id:'hi'}, 2: {id:"hello"}}
+
 import{csrfFetch} from './csrf'
 // type values
 const GET_EVENTS = 'events/getEvents'
@@ -82,20 +82,6 @@ export const thunkLoadOneEvent = (id) => async dispatch => {
   }
 }
 
-export const thunkPostEvent = (data) => async dispatch => {
-  const response = await csrfFetch(`/api/groups/${data.groupId}/events`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  if(response.ok) {
-    const event = await response.json()
-    dispatch(actionCreateEvent(event))
-    return event
-  }
-}
 
 export const thunkPutEvent = (data) => async dispatch => {
   const response = await csrfFetch(`/api/events/${data.id}`, {
@@ -123,6 +109,22 @@ export const thunkRemoveEvent = (id) => async dispatch => {
   }
 }
 
+export const thunkPostEvent = (data) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${data.groupId}/events`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if(response.ok) {
+    const event = await response.json()
+    dispatch(actionCreateEvent(event))
+    return event
+  }
+}
+
+
 export const thunkPostEventImage = (data) => async dispatch => {
   const response = await csrfFetch(`/api/events/${data.eventId}/images`, {
     method: 'post',
@@ -133,6 +135,10 @@ export const thunkPostEventImage = (data) => async dispatch => {
   })
   if(response.ok) {
     const image = await response.json()
+    image.eventId = data.eventId
+    console.log("data", data)
+    console.log("eventId", image.eventId)
+    //need to note what is coming out of image
     dispatch(actionCreateEventImage(image))
     return image
   }
@@ -165,7 +171,8 @@ export default function eventsReducer (state = initialState, action) {
       return newStateDelete
     case ADD_IMAGE:
       let newStateAddImage = {...state}
-      newStateAddImage[action.payload.eventId][action.payload.id] = action.payload
+      console.log("newStateAddImage Before---->", newStateAddImage.singleEvent.EventImages)
+      newStateAddImage.singleEvent.EventImages[0].url = action.payload.url
       return newStateAddImage
 
 

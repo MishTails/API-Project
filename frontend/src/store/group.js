@@ -136,6 +136,7 @@ export const thunkPostGroupImage = (data) => async dispatch => {
   })
   if(response.ok) {
     const image = await response.json()
+    image.groupId = data.groupId
     dispatch(actionCreateGroupImage(image))
     return image
   }
@@ -157,7 +158,7 @@ export default function groupsReducer (state = initialState, action) {
       return newStateGetOneGroup
     case CREATE_GROUP:
       let newStateCreate = {...state}
-      newStateCreate[action.payload.id] = action.payload
+      newStateCreate.allGroups[action.payload.id] = action.payload
       return newStateCreate
     case UPDATE_GROUP:
       let newStateUpdate = {...state}
@@ -169,7 +170,7 @@ export default function groupsReducer (state = initialState, action) {
       return newStateDelete
     case ADD_IMAGE:
       let newStateAddImage = {...state}
-      newStateAddImage[action.payload.groupId][action.payload.id] = action.payload
+      newStateAddImage.groups.allGroups[action.payload.groupId].previewImage = action.payload
       return newStateAddImage
     default:
       return state

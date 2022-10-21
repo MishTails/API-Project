@@ -42,7 +42,7 @@ const EventPage = () => {
     <h3>Hosted by {event.Group.name}</h3>
     <div className='eventCardFull'>
       <div className='eventInfo'>
-       <img src = {event.EventImages[0].url} alt="image" width={200}></img>
+       <img src = {event.previewImage} alt="image" width={200}></img>
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>

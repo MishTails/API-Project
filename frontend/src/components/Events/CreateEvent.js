@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { thunkPostEvent, thunkLoadEvents, thunkPostEventImage } from '../../store/event'
 import '../Navigation/Navigation.css'
 
@@ -8,6 +8,7 @@ import '../Navigation/Navigation.css'
 const EventCreate = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const {groupId} = useParams()
   const eventsObj = useSelector(state => state.events.allEvents)
   const [name, setName] = useState('')
   const [startDate, setStartDate] = useState('')
@@ -56,25 +57,28 @@ const EventCreate = () => {
     e.preventDefault()
     events= Object.values(eventsObj)
     let count = Object.values(events).length
+    let preview = {
+      id: 1,
+      groupId: groupId,
+      eventId: count+1,
+      url: previewImage,
+      preview: true
+    }
     let event = {
       id: count+1,
       venueId: 2,
       // need to come back and fix this hardcode
-      groupId: 1,
+      groupId: groupId,
       name,
       description,
       type,
       capacity,
       price,
       startDate,
-      endDate
+      endDate,
     }
-    let preview = {
-      id: 1,
-      eventId: count+1,
-      url: previewImage,
-      preview: true
-    }
+    //noteworthy: looking at Id = 1
+
 
     dispatch(thunkPostEvent(event))
     dispatch(thunkPostEventImage(preview))
