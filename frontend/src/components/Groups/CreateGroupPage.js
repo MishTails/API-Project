@@ -147,15 +147,6 @@ const GroupCreate = () => {
           value={state}
         />
       </label>
-      <label>
-        Preview Image
-        <input
-          type="text"
-          name="previewImage"
-          onChange={(e) => setPreviewImage(e.target.value)}
-          value={previewImage}
-        />
-      </label>
       <button
       className='formButton'
         type="submit"

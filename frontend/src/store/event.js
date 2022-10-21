@@ -136,9 +136,6 @@ export const thunkPostEventImage = (data) => async dispatch => {
   if(response.ok) {
     const image = await response.json()
     image.eventId = data.eventId
-    console.log("data", data)
-    console.log("eventId", image.eventId)
-    //need to note what is coming out of image
     dispatch(actionCreateEventImage(image))
     return image
   }
@@ -171,10 +168,9 @@ export default function eventsReducer (state = initialState, action) {
       return newStateDelete
     case ADD_IMAGE:
       let newStateAddImage = {...state}
-      console.log("newStateAddImage Before---->", newStateAddImage.singleEvent.EventImages)
-      newStateAddImage.singleEvent.EventImages[0].url = action.payload.url
-      return newStateAddImage
-
+      newStateAddImage.EventImages = {}
+      newStateAddImage.EventImages[action.payload.eventId]=action.payload.url
+          return newStateAddImage
 
     default:
       return state

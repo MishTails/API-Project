@@ -82,7 +82,7 @@ const EventCreate = () => {
 
     dispatch(thunkPostEvent(event))
     dispatch(thunkPostEventImage(preview))
-    history.push(`/events/${event.id}`)
+    history.push(`/events`)
   }
 
   return (
@@ -165,15 +165,6 @@ const EventCreate = () => {
           name="price"
           onChange={(e) => setPrice(e.target.value)}
           value={price}
-        />
-      </label>
-      <label>
-        Preview Image
-        <input
-          type="text"
-          name="previewImage"
-          onChange={(e) => setPreviewImage(e.target.value)}
-          value={previewImage}
         />
       </label>
       <button className='formButton'

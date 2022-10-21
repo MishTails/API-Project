@@ -11,7 +11,8 @@ const GroupPage = () => {
   const dispatch = useDispatch()
   const { groupId } = useParams()
   const group = useSelector(state => state.groups.singleGroup)
-  const allGroups = useSelector(state => state.groups.allGroups)
+  const ImageGroup = useSelector(state => state.groups.allGroups)
+  const GroupImages = useSelector(state => state.GroupImages)
   const session = useSelector(state => state.session.user)
   useEffect(() => {
     dispatch(thunkLoadOneGroup(groupId))
@@ -19,9 +20,10 @@ const GroupPage = () => {
   }, [dispatch, groupId,])
 
 
-  if (!group || !allGroups) {
+  if (!group || !ImageGroup) {
     return null
   }
+
 
   // if (!group.GroupImages[0]) {
   //   group.GroupImages[0] = {url: null}
@@ -35,7 +37,7 @@ const GroupPage = () => {
       <div>
           {/* i need to figure out how to make this load in asynchronously */}
 
-          <img className="groupPageImage" src={allGroups[groupId].previewImage} alt={allGroups[groupId].previewImage ? allGroups[groupId].previewImage: 'no'} width={200}></img>
+          <img className="groupPageImage" src={ImageGroup[groupId].previewImage?ImageGroup[groupId].previewImage:GroupImages[groupId]} alt="image" width={200}></img>
       </div>
       <div className='bubbleBorder'>
         <h1>{group.name}</h1>

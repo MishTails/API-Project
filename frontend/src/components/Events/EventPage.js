@@ -13,7 +13,9 @@ const EventPage = () => {
   const { eventId } = useParams()
   const session = useSelector(state => state.session.user)
   const event = useSelector(state => state.events.singleEvent)
-  const allEvents = useSelector(state => state.events.allEvents)
+  const ImageEvent = useSelector(state => state.events.allEvents)
+  const EventImages = useSelector(state => state.EventImages)
+
   useEffect(() => {
     dispatch(thunkLoadOneEvent(eventId))
     dispatch(thunkLoadEvents())
@@ -42,7 +44,7 @@ const EventPage = () => {
     <h3>Hosted by {event.Group.name}</h3>
     <div className='eventCardFull'>
       <div className='eventInfo'>
-       <img src = {allEvents[eventId].previewImage ? allEvents[eventId].previewImage : event.EventImages[0]} alt={event.previewImage?"yes": 'no'} width={200}></img>
+      <img src={ImageEvent[eventId].previewImage?ImageEvent[eventId].previewImage:EventImages[eventId]} alt="myImage" width={200}></img>
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>

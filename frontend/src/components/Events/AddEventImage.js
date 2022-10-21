@@ -2,17 +2,17 @@ import React from 'react'
 import {useHistory, useParams, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
-import { thunkLoadGroups, thunkPostGroupImage } from '../../store/group'
+import { thunkLoadEvents, thunkPostEventImage } from '../../store/event'
 import "../Navigation/Navigation.css"
 
 
 
-const AddGroupImage = () => {
+const AddEventImage = () => {
   const dispatch = useDispatch()
-  const { groupId } = useParams()
+  const { eventId } = useParams()
   const history = useHistory()
   const user = useSelector(state => state.session.user)
-  let groups
+  let events
 
   const [image, setImage] = useState('')
   const [validationErrors, setValidationErrors] = useState([])
@@ -26,36 +26,36 @@ const AddGroupImage = () => {
   }, [image])
 
   useEffect(() => {
-    dispatch(thunkLoadGroups())
+    dispatch(thunkLoadEvents())
   }, [dispatch])
 
-  const groupsObj = useSelector(state => state.groups.allGroups)
+  const eventsObj = useSelector(state => state.events.allEvents)
 
-  if(groupsObj) {
-    groups = Object.values(groupsObj)
+  if(eventsObj) {
+    events = Object.values(eventsObj)
   }
-  if (!groupsObj) {
+  if (!eventsObj) {
     return null
   }
 
   const submitHandler = (e) => {
     e.preventDefault()
     let preview = {
-      groupId,
+      eventId,
       url: image,
       preview: true
     }
-    dispatch(thunkPostGroupImage(preview))
+    dispatch(thunkPostEventImage(preview))
 
 
-    history.push(`/groups/${groupId}`)
+    history.push(`/events/${eventId}`)
   }
 
   return (
     <form className="form"
       onSubmit={submitHandler}
     >
-      <h2>Create a Group</h2>
+      <h2>Create a Event</h2>
       <ul className="errors">
         {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)}
       </ul>
@@ -79,4 +79,4 @@ const AddGroupImage = () => {
   );
 }
 
-export default AddGroupImage
+export default AddEventImage
