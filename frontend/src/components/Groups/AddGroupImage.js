@@ -8,7 +8,7 @@ import "./events.css"
 
 
 
-const EventPage = () => {
+const AddGroupImage = () => {
   const dispatch = useDispatch()
   const { eventId } = useParams()
   const session = useSelector(state => state.session.user)
@@ -67,4 +67,4 @@ const EventPage = () => {
 
 
 
-export default EventPage
+export default AddGroupImage

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { thunkPostGroup, thunkLoadGroups, thunkPostGroupImage} from '../../store/group'
+import { thunkPostGroup, thunkLoadGroups} from '../../store/group'
 import "../Navigation/Navigation.css"
 
 const GroupCreate = () => {
@@ -64,13 +64,13 @@ const GroupCreate = () => {
       state,
     }
     let preview = {
-      id: 1,
       groupId: count+1,
       url: previewImage,
       preview: true
     }
     dispatch(thunkPostGroup(group))
-    dispatch(thunkPostGroupImage(preview))
+
+
     history.push('/groups')
   }
 
