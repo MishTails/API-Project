@@ -17,9 +17,9 @@ const EventDelete = () => {
   if (!eventsObj) {
     return null
   }
-  const deleteEvent = () => {
+  const deleteEvent = async () => {
 
-    dispatch(thunkRemoveEvent(eventId))
+    const myDelete = await dispatch(thunkRemoveEvent(eventId))
     history.push(`/events`)
   }
   const goBack = () => {

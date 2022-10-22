@@ -21,13 +21,13 @@ const EventPage = () => {
   }, [dispatch, eventId ])
 
   if (!event || !ImageEvent) {
-    return ''
+    return null
   }
 
 
-  if (!event.EventImages[11]) {
-    event.EventImages[11] = {url:'hi'}
-  }
+  // if (!event.EventImages[11]) {
+  //   event.EventImages[11] = {url:'hi'}
+  // }
 
   function getFormattedDate(date) {
     let year = date.slice(0,4)
@@ -43,7 +43,9 @@ const EventPage = () => {
     <div className='eventCardFull'>
       <div className='eventInfo'>
         {console.log("ImageEvent ==>",ImageEvent[eventId])}
-      <img src={ImageEvent[eventId].previewImage?ImageEvent[parseInt(eventId)].previewImage:EventImages[parseInt(eventId)]} alt="myImage" width={200}></img>
+        
+        <img src={ImageEvent[eventId].previewImage}></img>
+      {/* <img src={ImageEvent[eventId].previewImage?ImageEvent[parseInt(eventId)].previewImage:EventImages[parseInt(eventId)]} alt="myImage" width={200}></img> */}
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>

@@ -50,7 +50,7 @@ const GroupCreate = () => {
 
 
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     let count = groups.length
     let group = {
@@ -68,7 +68,7 @@ const GroupCreate = () => {
       url: previewImage,
       preview: true
     }
-    dispatch(thunkPostGroup(group))
+    await dispatch(thunkPostGroup(group))
 
 
     history.push('/groups')

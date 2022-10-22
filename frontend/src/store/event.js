@@ -104,8 +104,9 @@ export const thunkRemoveEvent = (id) => async dispatch => {
     method: 'delete'
   })
   if (response.ok) {
+    const event = await response.json()
     dispatch(actionDeleteEvent(id))
-    return response
+    return event
   }
 }
 

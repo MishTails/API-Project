@@ -75,7 +75,6 @@ const EventCreate = () => {
     let event = {
       id: count+1,
       venueId: 2,
-      // need to come back and fix this hardcode
       groupId: groupId,
       name,
       description,
@@ -85,7 +84,6 @@ const EventCreate = () => {
       startDate,
       endDate,
     }
-    //noteworthy: looking at Id = 1
 
 
     dispatch(thunkPostEvent(event))

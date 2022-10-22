@@ -120,9 +120,8 @@ export const thunkRemoveGroup = (id) => async dispatch => {
   })
   if (response.ok) {
     const group = await response.json()
-    console.log(group)
     dispatch(actionDeleteGroup(id))
-    return response
+    return group
   }
 }
 

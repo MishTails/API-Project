@@ -63,7 +63,7 @@ const EventUpdate = () => {
     return null
   }
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     events= Object.values(eventsObj)
     let event = {
@@ -79,7 +79,7 @@ const EventUpdate = () => {
       startDate,
       endDate
     }
-    dispatch(thunkPutEvent(event))
+    const myUpdate = await dispatch(thunkPutEvent(event))
     history.push('/events')
   }
 

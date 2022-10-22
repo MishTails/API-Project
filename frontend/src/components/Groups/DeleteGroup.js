@@ -17,9 +17,9 @@ const GroupDelete = () => {
   if (!groupsObj) {
     return null
   }
-  const deleteGroup = () => {
+  const deleteGroup = async () => {
 
-    dispatch(thunkRemoveGroup(groupId))
+    const myDelete = await dispatch(thunkRemoveGroup(groupId))
     history.push(`/groups`)
   }
   const goBack = () => {

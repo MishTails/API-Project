@@ -55,7 +55,7 @@ const AddEventImage = () => {
     <form className="form"
       onSubmit={submitHandler}
     >
-      <h2>Create a Event</h2>
+      <h2>Add an Image</h2>
       <ul className="errors">
         {validationErrors.length > 0 && validationErrors.map((error) => <li key={error}>{error}</li>)}
       </ul>

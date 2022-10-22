@@ -59,7 +59,7 @@ const GroupUpdate = () => {
 
 
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     let group = {
       id: groupId,
@@ -71,8 +71,7 @@ const GroupUpdate = () => {
       city,
       state,
     }
-    console.log(group)
-    dispatch(thunkPutGroup(group))
+    const myUpdate = await dispatch(thunkPutGroup(group))
     history.push('/groups')
   }
 
