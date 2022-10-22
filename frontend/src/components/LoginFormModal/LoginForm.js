@@ -46,7 +46,7 @@ function LoginForm() {
               ))}
             </ul>
             <label>
-             <div>Email</div>
+             <div>Username or Email</div>
               <input
                 type="text"
                 className="textInput"

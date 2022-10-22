@@ -6,8 +6,6 @@ import { thunkLoadEvents, thunkLoadOneEvent } from '../../store/event'
 import "../Navigation/Navigation.css"
 import "./events.css"
 
-
-
 const EventPage = () => {
   const dispatch = useDispatch()
   const { eventId } = useParams()
@@ -20,15 +18,15 @@ const EventPage = () => {
     dispatch(thunkLoadOneEvent(eventId))
     dispatch(thunkLoadEvents())
 
-  }, [dispatch, eventId])
+  }, [dispatch, eventId ])
 
-  if (!event) {
-    return null
+  if (!event || !ImageEvent) {
+    return ''
   }
 
 
-  if (!event.EventImages[0]) {
-    event.EventImages[0] = {url: null}
+  if (!event.EventImages[11]) {
+    event.EventImages[11] = {url:'hi'}
   }
 
   function getFormattedDate(date) {
@@ -44,7 +42,8 @@ const EventPage = () => {
     <h3>Hosted by {event.Group.name}</h3>
     <div className='eventCardFull'>
       <div className='eventInfo'>
-      <img src={ImageEvent[eventId].previewImage?ImageEvent[eventId].previewImage:EventImages[eventId]} alt="myImage" width={200}></img>
+        {console.log("ImageEvent ==>",ImageEvent[eventId])}
+      <img src={ImageEvent[eventId].previewImage?ImageEvent[parseInt(eventId)].previewImage:EventImages[parseInt(eventId)]} alt="myImage" width={200}></img>
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>

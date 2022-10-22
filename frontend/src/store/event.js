@@ -157,6 +157,7 @@ export default function eventsReducer (state = initialState, action) {
       let newStateCreate = {...state}
       let id = action.payload.id
       newStateCreate.allEvents[id] = action.payload
+      newStateCreate.EventImages = {}
       return newStateCreate
     case UPDATE_EVENT:
       let newStateUpdate = {...state}

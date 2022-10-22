@@ -1,19 +1,18 @@
 import React from 'react'
-import { useParams} from 'react-router-dom'
+import { useParams, NavLink} from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadGroups, thunkLoadOneGroup } from '../../store/group'
-import { NavLink } from 'react-router-dom'
-
-
+import "../Navigation/Navigation.css"
 
 const GroupPage = () => {
   const dispatch = useDispatch()
   const { groupId } = useParams()
+  const session = useSelector(state => state.session.user)
   const group = useSelector(state => state.groups.singleGroup)
   const ImageGroup = useSelector(state => state.groups.allGroups)
   const GroupImages = useSelector(state => state.GroupImages)
-  const session = useSelector(state => state.session.user)
+
   useEffect(() => {
     dispatch(thunkLoadOneGroup(groupId))
     dispatch(thunkLoadGroups())
@@ -24,20 +23,15 @@ const GroupPage = () => {
     return null
   }
 
-
   // if (!group.GroupImages[0]) {
   //   group.GroupImages[0] = {url: null}
   // }
 
   return (
   <div className='groupCardFull'>
-
-
     <div className='groupDetailCard'>
       <div>
-          {/* i need to figure out how to make this load in asynchronously */}
-
-          <img className="groupPageImage" src={ImageGroup[groupId].previewImage?ImageGroup[groupId].previewImage:GroupImages[groupId]} alt="image" width={200}></img>
+          <img className="groupPageImage" src={ImageGroup[groupId].previewImage?ImageGroup[groupId].previewImage:GroupImages[groupId]} alt="myImage" width={200}></img>
       </div>
       <div className='bubbleBorder'>
         <h1>{group.name}</h1>

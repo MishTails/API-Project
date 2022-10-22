@@ -23,6 +23,8 @@ const EventCreate = () => {
   let events
   useEffect(() => {
     const errors = []
+    const checkStartDate = new Date(startDate)
+    const checkEndDate = new Date(endDate)
     if (name.length < 5) {
       errors.push("Name must be 5 characters or more")
     }
@@ -32,6 +34,9 @@ const EventCreate = () => {
     if (endDate.length === 0) {
       errors.push("End Date is required")
     }
+    if (checkStartDate > checkEndDate) {
+      errors.push("Start Date must be before End Date")
+    }
     if (description.length < 20) {
       errors.push("Description must be longer than 20 characters")
     }
@@ -40,6 +45,9 @@ const EventCreate = () => {
     }
     if (price.length === 0) {
       errors.push("Price is required")
+    }
+    if (price.length < 0){
+      errors.push("Price needs to be 0 or more.")
     }
 
     setValidationErrors(errors)
