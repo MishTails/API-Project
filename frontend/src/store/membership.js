@@ -47,9 +47,73 @@ export const thunkLoadMembers = (id) => async dispatch => {
   }
 }
 
+export const thunkPostMember = (id, data) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${id}/membership`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if (response.ok) {
+    const member = await response.json()
+    dispatch(actionAddMember(member))
+    return member
+  }
+}
 
+export const thunkPutMember = (id, data) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${id}/membership`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if (response.ok) {
+    const member = await response.json();
+    dispatch(actionUpdateMember(member))
+    return member
+  }
+}
 
+export const thunkRemoveMember = (groupId) => async dispatch  => {
+  const response = await csrfFetch(`/api/groups/${groupId}/membership`, {
+    method: 'delete'
+  })
+  if (response.ok) {
+    const member = await response.json()
+    dispatch(actionRemoveMember(groupId))
+    return member
+  }
+}
 
+//Maybe make a kick member in the near future frontend + backend
+
+//reducer
+const initialState = {}
+export default function membershipReducer (state = initialState, action) {
+  switch (action.type) {
+    case GET_MEMBERS:
+      let newStateGetMembers = {...state}
+      newStateGetMembers.allMembers = {...action.payload}
+      return newStateGetMembers
+    case ADD_MEMBER:
+      let newStateCreate = {...state}
+      newStateCreate.allMembers[action.payload.id] = action.payload
+      return newStateCreate
+    case UPDATE_MEMBER:
+      let newStateUpdate = {...state}
+      newStateUpdate[action.payload.id] = action.payload
+      return newStateUpdate
+    case REMOVE_MEMBER:
+      let newStateDelete = {...state}
+      delete newStateDelete[action.id]
+      return newStateDelete
+  }
+}
+
+//keep an eye on update and delete
 
 
 const normalizeArr = (arr) => {

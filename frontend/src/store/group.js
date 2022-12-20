@@ -1,4 +1,4 @@
-
+import { csrfFetch } from "./csrf"
 
 // type values
 const GET_GROUPS = 'groups/getGroups'
