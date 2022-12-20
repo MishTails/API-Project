@@ -88,6 +88,32 @@ export const thunkRemoveAttendee = (eventId) => async dispatch => {
   }
 }
 
+//reducer
+
+const initialState = {}
+export default function attendeeReducer (state = initialState, action) {
+  switch (action.type) {
+    case GET_ATTENDANCE:
+      let newStateGetAttendees = {...state}
+      newStateGetAttendees.allAttendees = {...action.payload}
+      return newStateGetAttendees
+    case ADD_ATTENDANCE:
+      let newStateCreate = {...state}
+      newStateCreate.allAttendees[action.payload.id] = action.payload
+      return newStateCreate
+    case UPDATE_ATTENDANCE:
+      let newStateUpdate = {...state}
+      newStateUpdate[action.payload.id] = action.payload
+      return newStateUpdate
+    case REMOVE_ATTENDANCE:
+      let newStateDelete = {...state}
+      delete newStateDelete[action.id]
+      return newStateDelete
+    default:
+      return state
+  }
+}
+
 
 const normalizeArr = (arr) => {
   if (!(arr instanceof Array)) throw new Error ("Invalid Data Type: Not an Array")

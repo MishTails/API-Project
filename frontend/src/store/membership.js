@@ -110,6 +110,8 @@ export default function membershipReducer (state = initialState, action) {
       let newStateDelete = {...state}
       delete newStateDelete[action.id]
       return newStateDelete
+    default:
+      return state
   }
 }
 
