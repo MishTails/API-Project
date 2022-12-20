@@ -35,7 +35,7 @@ const actionUpdateMember = (payload) => {
 const actionRemoveMember = (id) => {
   return {
     type: REMOVE_MEMBER,
-    payload
+    id
   }
 }
 
