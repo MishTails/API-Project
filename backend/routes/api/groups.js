@@ -299,7 +299,7 @@ router.put('/:groupId', async (req, res) => {
 
 })
 
-//Delete a Group Needs fixing
+//Delete a Group 
 
 router.delete('/:groupId', async (req, res) => {
   const {user} = req
