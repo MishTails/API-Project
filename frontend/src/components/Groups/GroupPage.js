@@ -1,22 +1,38 @@
 import React from 'react'
-import { useParams, NavLink} from 'react-router-dom'
+import { useParams, useHistory, NavLink} from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadGroups, thunkLoadOneGroup } from '../../store/group'
-import { thunkPostMember, thunkRemoveMember } from '../../store/membership'
+import { thunkPostMember, thunkRemoveMember, thunkLoadMembers } from '../../store/membership'
 import "../Navigation/Navigation.css"
 
 const GroupPage = () => {
   const dispatch = useDispatch()
   const { groupId } = useParams()
+  const history = useHistory()
   let session = useSelector(state => state.session.user)
   const group = useSelector(state => state.groups.singleGroup)
+  const myGroup = useSelector(state => state?.groups?.allGroups)
   const ImageGroup = useSelector(state => state.groups.allGroups)
   const GroupImages = useSelector(state => state.GroupImages)
+  let test
+
+  const joinGroup = async () => {
+    await dispatch(thunkPostMember(groupId, {}))
+    history.push('/mygroups')
+  }
+
+  const leaveGroup = async () => {
+    await dispatch(thunkRemoveMember(groupId, {memberId: session.id}))
+    history.push(`/mygroups`)
+  }
+
 
   useEffect(() => {
     dispatch(thunkLoadOneGroup(groupId))
     dispatch(thunkLoadGroups())
+    dispatch(thunkLoadMembers(groupId))
+
   }, [dispatch, groupId,])
 
 
@@ -36,7 +52,7 @@ const GroupPage = () => {
   <div className='groupCardFull'>
     <div className='groupDetailCard'>
       <div>
-          <img className="groupPageImage" src={ImageGroup[groupId].previewImage?ImageGroup[groupId].previewImage:GroupImages[groupId]} alt="myImage" width={200}></img>
+          {ImageGroup &&<img className="groupPageImage" src={ImageGroup[groupId].previewImage?ImageGroup[groupId].previewImage:GroupImages[groupId]} alt="myImage" width={200}></img>}
       </div>
       <div className='bubbleBorder'>
         <h1>{group.name}</h1>
@@ -53,8 +69,8 @@ const GroupPage = () => {
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink> : ""}
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink> : ""}
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink> : ""}
-        {<NavLink to={`/groups`}> Join this Group</NavLink>}
-        {<NavLink to={`/groups`}> Leave this Group</NavLink>}
+        {!myGroup[groupId].members[session.id] && <button onClick={() => joinGroup()}>Join this Group</button>}
+        {myGroup[groupId].members[session.id] && session.id!==group.organizerId  &&<button onClick={() => leaveGroup()}>Leave this Group</button>}
     </div>
     </div>
   </div>)

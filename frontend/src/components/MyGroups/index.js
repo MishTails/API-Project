@@ -29,7 +29,7 @@ const MyGroupIndex = () => {
     <h2 className='text'> My Groups</h2>
     <div className='groupCardFull'>
       {groups?.map(group => {
-        if (session.id in Object.keys(group.members)) {
+        if (group.members[session.id]) {
           return <div key={group.id} className="contentCard">
           <NavLink to={`/groups/${group.id}`}>
             <img src={group.previewImage} alt={group.previewImage} width="160"></img>

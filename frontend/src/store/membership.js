@@ -43,7 +43,8 @@ export const thunkLoadMembers = (id) => async dispatch => {
   const response = await csrfFetch(`/api/groups/${id}/members`)
   if(response.ok) {
     const list = await response.json()
-    dispatch(actionGetMembers(normalizeArr(list)))
+    console.log('list',list.Members)
+    dispatch(actionGetMembers(normalizeArr(list.Members)))
   }
 }
 
@@ -96,6 +97,7 @@ export default function membershipReducer (state = initialState, action) {
   switch (action.type) {
     case GET_MEMBERS:
       let newStateGetMembers = {...state}
+      console.log('hi im in members')
       newStateGetMembers.allMembers = {...action.payload}
       return newStateGetMembers
     case ADD_MEMBER:

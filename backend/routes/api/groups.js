@@ -184,7 +184,7 @@ router.get('/:groupId', async (req, res) => {
     include: [
       {
         model: Membership,
-        attributes: ['id']
+        attributes: ['id', 'userId', 'groupId', 'status']
       },
       {
         model: GroupImage,
@@ -505,9 +505,9 @@ router.get('/:groupId/members', async (req, res) => {
         model: Membership,
         where: {
           groupId: req.params.groupId,
-          status: {
-            [Op.notIn]: ['pending']
-          }
+          // status: {
+          //   [Op.notIn]: ['pending']
+          // }
         },
         attributes: ['status']
       }
@@ -535,9 +535,9 @@ router.get('/:groupId/members', async (req, res) => {
           model: Membership,
           where: {
             groupId: req.params.groupId,
-            status: {
-              [Op.notIn]: ['pending']
-            }
+            // status: {
+            //   [Op.notIn]: ['pending']
+            // }
           },
           attributes: ['status']
         }
@@ -644,11 +644,12 @@ router.delete('/:groupId/membership', async (req, res) => {
   if (!memberValid && group.dataValues.organizerId === user.id) {
     memberValid = {test: 'test', status: "co-host"}
   }
-  if (group.dataValues.organizerId !== user.id && memberValid.status !== "co-host") {
-    res.status(403)
-    return res.json({message: "Forbidden", statusCode: 403})
-  }
-  const {memberId} = req.body
+  // if (group.dataValues.organizerId !== user.id && memberValid.status !== "co-host") {
+  //   res.status(403)
+  //   return res.json({message: "Forbidden", statusCode: 403})
+  // }
+  const memberId = req.user.dataValues.id
+  console.log(memberId)
   const myUser = await User.findByPk(memberId)
   const member = await Membership.findOne({where: {groupId: req.params.groupId, userId: memberId}})
   if(!myUser) {
