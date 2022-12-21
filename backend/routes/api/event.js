@@ -392,7 +392,8 @@ router.put('/:eventId/attendance', async (req, res) => {
     return res.json({message: "Forbidden", statusCode: 403})
   }
 
-  let {userId, status} = req.body
+  let {status} = req.body
+  let userId = req.user.dataValues.id
   let attendee = await Attendance.findOne({where: {eventId: req.params.eventId, userId}, attributes: ['id','userId', 'eventId', 'status']})
 
   let userAttend = await Attendance.findOne({where: {eventId: req.params.eventId, userId}})
@@ -407,12 +408,11 @@ router.put('/:eventId/attendance', async (req, res) => {
   if (userAttend=== null && user.id === group.dataValues.organizerId) {
     userAttend = {test: 'test', status: 'co-host'}
   }
-
   if (!userAttend) {
     res.status(404)
     return res.json({message: "Attendance between the user and the event does not exist", statusCode: 404})
   }
-  if (status === "attending") {
+  if (status === "attending" || status === 'waitlist') {
     if (userAttend.status !== "co-host" && user.id !== group.organizerId ) {
       res.status(403)
       return res.json({message: "Forbidden", statusCode: 403} )
@@ -428,8 +428,8 @@ router.put('/:eventId/attendance', async (req, res) => {
 
 router.delete('/:eventId/attendance', async (req, res) => {
   const {user} = req
-  let {memberId} = req.body
-
+  let memberId = req.user.dataValues.id
+  console.log("POKEBOWL")
   if (!user) {
     res.status(401)
     return res.json({message: "Authentication required", statusCode: 401})
@@ -440,10 +440,10 @@ router.delete('/:eventId/attendance', async (req, res) => {
     return res.json({message: "Event couldn't be found", statusCode: 404})
   }
   const group  = await Group.findByPk(event.groupId)
-  if (group.organizerId !== user.id && user.id !== memberId) {
-    res.status(403)
-    return res.json({message: "Forbidden", statusCode: 403})
-  }
+  // if (group.organizerId !== user.id && user.id !== memberId) {
+  //   res.status(403)
+  //   return res.json({message: "Forbidden", statusCode: 403})
+  // }
 
   // const myUser = await User.findByPk(userId)
 

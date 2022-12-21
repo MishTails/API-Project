@@ -33,7 +33,6 @@ const MyEventsIndex = () => {
       <h2 className='text'> My Events </h2>
       <div className='eventCardFull'>
         {events.map(event => {
-          console.log(session.id, event.Attendees)
           if (event.Attendees[session.id]) {
             return <div key={event.id} className="contentCard">
               <div>
@@ -50,7 +49,6 @@ const MyEventsIndex = () => {
                   <p className="important">{}</p>
                 </div>
               </div>
-              <button>Leave Event</button>
 
             </div>
           }
