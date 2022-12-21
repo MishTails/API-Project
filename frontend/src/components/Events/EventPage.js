@@ -49,6 +49,8 @@ const EventPage = () => {
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>
+            <NavLink to={`/events`}>Join this Event</NavLink>
+            <NavLink to={`/events`}>Leave this Event</NavLink>
         </div>
       </div>
 

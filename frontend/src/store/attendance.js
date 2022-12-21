@@ -35,7 +35,7 @@ const actionUpdateAttendee = (payload) => {
 const actionRemoveAttendee = (id) => {
   return {
     type: REMOVE_ATTENDANCE,
-    payload
+    id
   }
 }
 

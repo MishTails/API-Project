@@ -102,7 +102,7 @@ router.get("/", async (req, res) => {
     include: [
     {
       model: Attendance,
-      attributes: ['id']
+      attributes: ['id', 'eventId', 'userId', 'status']
     },
     {
       model: EventImage,
@@ -136,7 +136,9 @@ router.get("/", async (req, res) => {
     }
     delete event.EventImages
     let x = 0
+    event.Attendees = {}
     event.Attendances.forEach(attendee => {
+      event.Attendees[attendee.userId] = attendee
       x++
     })
     event.numAttending = x

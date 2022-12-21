@@ -18,6 +18,8 @@ import EventDelete from "./components/Events/DeleteEvent";
 import GroupDelete from "./components/Groups/DeleteGroup";
 import AddGroupImage from "./components/Groups/AddGroupImage";
 import AddEventImage from "./components/Events/AddEventImage";
+import MyGroupIndex from "./components/MyGroups";
+import MyEventsIndex from "./components/MyEvents";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +59,12 @@ function App() {
           </Route>
           <Route exact path="/events/:eventId/delete">
             <EventDelete/>
+          </Route>
+          <Route exact path="/mygroups">
+            <MyGroupIndex/>
+          </Route>
+          <Route exact path="/myevents">
+            <MyEventsIndex/>
           </Route>
           <Route exact path="/groups/:groupId">
             <GroupPage/>

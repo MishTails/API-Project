@@ -3,6 +3,7 @@ import { useParams, NavLink} from 'react-router-dom'
 import { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { thunkLoadGroups, thunkLoadOneGroup } from '../../store/group'
+import { thunkPostMember, thunkRemoveMember } from '../../store/membership'
 import "../Navigation/Navigation.css"
 
 const GroupPage = () => {
@@ -52,6 +53,8 @@ const GroupPage = () => {
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink> : ""}
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink> : ""}
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink> : ""}
+        {<NavLink to={`/groups`}> Join this Group</NavLink>}
+        {<NavLink to={`/groups`}> Leave this Group</NavLink>}
     </div>
     </div>
   </div>)

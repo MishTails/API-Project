@@ -94,7 +94,7 @@ router.get("/", async (req, res) => {
       include: [
       {
         model: Membership,
-        attributes: ['id']
+        attributes: ['id', 'userId', 'groupId', 'status']
       },
       {
         model: GroupImage,
@@ -117,8 +117,10 @@ router.get("/", async (req, res) => {
       }
       delete group.GroupImages
       let x = 0
+      group.members = {}
       group.Memberships.forEach(member => {
         x++
+        group.members[member.userId] = member
       })
       group.numMembers = x
       delete group.Memberships
@@ -139,7 +141,7 @@ router.get('/current', async (req, res) => {
       include: [
         {
           model: Membership,
-          attributes: ['id']
+          attributes: ['id', 'userId', 'groupId', 'status']
         },
         {
           model: GroupImage,
@@ -299,7 +301,7 @@ router.put('/:groupId', async (req, res) => {
 
 })
 
-//Delete a Group 
+//Delete a Group
 
 router.delete('/:groupId', async (req, res) => {
   const {user} = req
