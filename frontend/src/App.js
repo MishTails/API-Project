@@ -22,6 +22,8 @@ import MyGroupIndex from "./components/MyGroups";
 import MyEventsIndex from "./components/MyEvents";
 import GroupMembers from "./components/Groups/GroupMembers";
 import EditGroupMember from "./components/Groups/EditGroupMember";
+import EventAttendees from "./components/Events/EventAttendees";
+import EditEventAttendee from "./components/Events/EditEventAttendee";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +63,12 @@ function App() {
           </Route>
           <Route exact path = "/groups/:groupId/members">
             <GroupMembers/>
+          </Route>
+          <Route exact path = "/events/:eventId/attendees/:attendeesId/edit">
+            <EditEventAttendee/>
+          </Route>
+          <Route exact path = "/events/:eventId/attendees">
+            <EventAttendees/>
           </Route>
           <Route exact path="/events/:eventId/update">
             <EventUpdate/>

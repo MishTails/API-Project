@@ -41,7 +41,6 @@ const MyGroupIndex = () => {
             <p className="aboutMems">{`${group.about.slice(0,50)}...`} </p>
             <p className="aboutMems">{group.numMembers} Members, {group.private=== true? 'Private': 'Public'}</p>
           </div>
-          <button>Leave Group</button>
         </div>
         }
       })}

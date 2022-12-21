@@ -1,23 +1,36 @@
 import React from 'react'
-import {useParams, NavLink } from 'react-router-dom'
+import {useParams, NavLink, useHistory } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
 import { thunkLoadEvents, thunkLoadOneEvent } from '../../store/event'
+import { thunkLoadAttendees, thunkPostAttendee, thunkRemoveAttendee} from '../../store/attendance'
 import "../Navigation/Navigation.css"
 import "./events.css"
 
 const EventPage = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { eventId } = useParams()
   let session = useSelector(state => state.session.user)
   const event = useSelector(state => state.events.singleEvent)
+  const myEvent = useSelector(state => state?.events?.allEvents)
   const ImageEvent = useSelector(state => state.events.allEvents)
   // const EventImages = useSelector(state => state.EventImages)
+
+  const joinEvent = async () => {
+    await dispatch(thunkPostAttendee(eventId, {}))
+    history.push('/myevents')
+  }
+
+  const leaveEvent = async () => {
+    await dispatch(thunkRemoveAttendee(eventId, {memberId: session.id}))
+    history.push(`/myevents`)
+  }
 
   useEffect(() => {
     dispatch(thunkLoadOneEvent(eventId))
     dispatch(thunkLoadEvents())
-
+    dispatch(thunkLoadAttendees(eventId))
   }, [dispatch, eventId ])
 
   if (!event || !ImageEvent) {
@@ -49,8 +62,10 @@ const EventPage = () => {
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>
-            <NavLink to={`/events`}>Join this Event</NavLink>
-            <NavLink to={`/events`}>Leave this Event</NavLink>
+            <NavLink to={`/events/${eventId}/attendees`}>Click Here to See Members</NavLink>
+            {!myEvent[eventId].Attendees[session.id] && <button onClick={() => joinEvent()}>Join this Event</button>}
+            {myEvent[eventId].Attendees[session.id] && <button onClick={() => leaveEvent()}>Leave this Event</button>}
+
         </div>
       </div>
 

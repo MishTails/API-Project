@@ -43,12 +43,13 @@ export const thunkLoadAttendees = (id) => async dispatch => {
   const response = await csrfFetch(`/api/events/${id}/attendees`)
   if(response.ok) {
     const list = await response.json()
-    dispatch(actionGetAttendees(normalizeArr(list)))
+    console.log(list)
+    dispatch(actionGetAttendees(normalizeArr(list.Attendees)))
   }
 }
 
 export const thunkPostAttendee = (id, data) => async dispatch => {
-  const response = await csrfFetch(`/api/events/${id}/attendees`, {
+  const response = await csrfFetch(`/api/events/${id}/attendance`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -63,7 +64,7 @@ export const thunkPostAttendee = (id, data) => async dispatch => {
 }
 
 export const thunkPutAttendee = (id, data) => async dispatch => {
-  const response = await csrfFetch(`api/events/${id}/attendees`, {
+  const response = await csrfFetch(`/api/events/${id}/attendance`, {
     method: "put",
     headers: {
       'Content-Type': 'application/json'
@@ -78,7 +79,8 @@ export const thunkPutAttendee = (id, data) => async dispatch => {
 }
 
 export const thunkRemoveAttendee = (eventId) => async dispatch => {
-  const response = await csrfFetch(`api/events/${eventId}/attendees`, {
+  console.log('my id', eventId)
+  const response = await csrfFetch(`/api/events/${eventId}/attendance`, {
     method: 'delete'
   })
   if (response.ok) {

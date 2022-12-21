@@ -72,7 +72,7 @@ const GroupPage = () => {
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink> : ""}
         {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink> : ""}
         {!myGroup[groupId].members[session.id] && <button onClick={() => joinGroup()}>Join this Group</button>}
-        {myGroup[groupId].members[session.id] && session.id==group.organizerId  &&<button onClick={() => leaveGroup()}>Leave this Group</button>}
+        {myGroup[groupId].members[session.id] && session.id!==group.organizerId  &&<button onClick={() => leaveGroup()}>Leave this Group</button>}
     </div>
     </div>
   </div>)
