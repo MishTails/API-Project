@@ -20,6 +20,8 @@ import AddGroupImage from "./components/Groups/AddGroupImage";
 import AddEventImage from "./components/Events/AddEventImage";
 import MyGroupIndex from "./components/MyGroups";
 import MyEventsIndex from "./components/MyEvents";
+import GroupMembers from "./components/Groups/GroupMembers";
+import EditGroupMember from "./components/Groups/EditGroupMember";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,11 +50,17 @@ function App() {
           <Route exact path="/events/:eventId" >
             <EventPage />
           </Route>
+          <Route exact path="/groups/:groupId/members/:memberId/edit">
+            <EditGroupMember/>
+          </Route>
           <Route exact path="/groups/create">
             <GroupCreate/>
           </Route>
           <Route exact path = "/groups/:groupId/update">
             <GroupUpdate/>
+          </Route>
+          <Route exact path = "/groups/:groupId/members">
+            <GroupMembers/>
           </Route>
           <Route exact path="/events/:eventId/update">
             <EventUpdate/>
