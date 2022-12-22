@@ -52,3 +52,11 @@
   width: 100px;
   margin-top: 8px;
 }
+
+.eventPageButton {
+  background-color: rgb(245,245,245);
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 5px;
+  justify-content: center;
+}

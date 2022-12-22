@@ -62,9 +62,9 @@ const EventPage = () => {
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>
-            <NavLink to={`/events/${eventId}/attendees`}>Click Here to See Members</NavLink>
-            {!myEvent[eventId].Attendees[session.id] && <button onClick={() => joinEvent()}>Join this Event</button>}
-            {myEvent[eventId].Attendees[session.id] && <button onClick={() => leaveEvent()}>Leave this Event</button>}
+            {session.id=== event.Group.organizerId && <NavLink to={`/events/${eventId}/attendees`}>Click Here to See Attendees</NavLink>}
+            {!myEvent[eventId].Attendees[session.id] && <button className='eventPageButton' onClick={() => joinEvent()}>Join this Event</button>}
+            {myEvent[eventId].Attendees[session.id] && <button className='eventPageButton' onClick={() => leaveEvent()}>Leave this Event</button>}
 
         </div>
       </div>

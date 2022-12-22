@@ -41,13 +41,19 @@ const GroupMembers = () => {
   }
 
   return (
-    <div>
-      <div className='text'>Group Members</div>
+    <div className='fullGroupMembers'>
+      <div className='memberCard'>Group Members <NavLink className="backbutton" to={`/groups/${groupId}`}>Go Back</NavLink></div>
       <div className='memberCard'>
+
         {members && members.map(member => {
-          return <div>
-            {member.firstName} {member.lastName} {member.Memberships[0].status}
-            <NavLink to={`/groups/${groupId}/members/${member.id}/edit`}>Edit</NavLink>
+          return <div className='groupMemberRow'>
+            <div className='groupMemberRowName'>
+            {member.firstName} {member.lastName}
+            </div>
+            <div className='groupMemberRowStatus'>
+            {member.Memberships[0].status}
+            </div>
+            <NavLink className="groupMemberNavlink" to={`/groups/${groupId}/members/${member.id}/edit`}>Edit</NavLink>
             </div>
         })}
       </div>

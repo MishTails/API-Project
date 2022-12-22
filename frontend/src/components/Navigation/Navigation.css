@@ -167,3 +167,65 @@ button {
   width: 100%;
   margin-top: 5px;
 }
+
+.attendeeCard, .memberCard {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px ;
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  flex-direction: column;
+  width: 25%;
+  min-width: 200px;
+  max-width: 250px
+}
+
+.eventAttendeeRow , .groupMemberRow{
+  display: flex;
+  border: 1px solid black;
+  padding: 5px;
+  justify-content: space-between;
+
+}
+
+.eventAttendeeNavlink .groupMemberNavlink {
+  border: 1px solid black;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.eventAttendeeRowStatus, .groupMemberRowStatus {
+  /* font-style: italic; */
+  font-size: 14px;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fullGroupMembers, .fullEventAttendees {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backbutton {
+  position:relative;
+  left: 70%;
+  bottom: 25px;
+  border: 1px solid black;
+  width: 60px;
+  border-radius: 5px;
+}
+
+.navprofile {
+  font-size: 12px;
+}
+
+.navprofile:hover {
+  color: teal
+}
+
+.profileinfo {
+  border: 1px solid black;
+  padding: 2px;
+  font-size: 12px;
+}
