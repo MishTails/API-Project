@@ -39,13 +39,19 @@ const EventAttendees= () => {
   }
 
   return (
-    <div>
-      <div className='text'>Event Attendeess</div>
+    <div className='fullEventAttendees'>
+      <div className='attendeeCard'>Event Attendeess</div>
       <div className='attendeeCard'>
         {attendees && attendees.map(attendee => {
-          return <div>
-            {attendee.firstName} {attendee.lastName} {attendee.Attendances[0].status}
-            <NavLink to={`/events/${eventId}/attendees/${attendee.id}/edit`}>Edit</NavLink>
+          return <div className='eventAttendeeRow'>
+            <div className='eventAttendeeRowName'>
+              {attendee.firstName} {attendee.lastName}
+            </div>
+            <div className='eventAttendeeRowStatus'>
+              {attendee.Attendances[0].status}
+            </div>
+
+            <NavLink className="eventAttendeeNavlink" to={`/events/${eventId}/attendees/${attendee.id}/edit`}>Edit</NavLink>
             </div>
         })}
       </div>

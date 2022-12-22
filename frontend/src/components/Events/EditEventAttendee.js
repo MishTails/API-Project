@@ -55,7 +55,6 @@ const EditEventAttendee = () => {
           <option value="">--select a status--</option>
           <option value="waitlist">waitlist</option>
           <option value="attending">attending</option>
-          <option value="co-host">co-host</option>
         </select>
       </label>
 
