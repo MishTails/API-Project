@@ -19,7 +19,7 @@ h3 {
   flex-direction: column;
   justify-content: flex-end;
   font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-  border-top: 2px solid rgb(217,217,217);
+
 
 }
 .groupCardAbout {
@@ -28,14 +28,14 @@ h3 {
   justify-content: space-between;
   padding-left: 30px;
   font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-  border-top: 2px solid rgb(217,217,217);
+  border-top: 1px solid rgb(217,217,217);
 
 }
 
 .contentCard {
   display: flex;
   justify-content: center;
-  border-top: 2px solid rgb(217,217,217);
+  border-top: 1px solid rgb(217,217,217);
 
 }
 
@@ -78,7 +78,7 @@ h3 {
 
 .aboutMems {
   width: 200px;
-  margin-top: 8px;
+  margin-top: 0px;
 }
 
 .crud {
