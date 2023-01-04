@@ -58,7 +58,7 @@ const GroupPage = () => {
         <h1>{group.name}</h1>
         <p>{`${group.city}, ${group.state}`}</p>
         <p>{`${group.numMemberships} Members, ${group.private=== true? 'Private': 'Public'} Group`}
-          <NavLink to={`/groups/${groupId}/members`}>Click Here to See Members</NavLink>
+          <NavLink className="groupButton" to={`/groups/${groupId}/members`}>Click Here to See Members</NavLink>
         </p>
         <p>{`Organized By ${group.Organizer.firstName} ${group.Organizer.lastName}`}</p>
       </div>
@@ -67,12 +67,12 @@ const GroupPage = () => {
     <div className='groupCardAbout'>
       <p>{group.about}</p>
       <div className='crud'>
-        {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/addImage`}>Add an Image</NavLink>: ""}
-        {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/events/create`}>Create an Event</NavLink> : ""}
-        {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/update`}>Update This Group</NavLink> : ""}
-        {session.id===group.organizerId ? <NavLink to={`/groups/${groupId}/delete`}> Delete This Group</NavLink> : ""}
+        {session.id===group.organizerId ? <NavLink className="groupButton" to={`/groups/${groupId}/addImage`}>Add an Image</NavLink>: ""}
+        {session.id===group.organizerId ? <NavLink className="groupButton" to={`/groups/${groupId}/events/create`}>Create an Event</NavLink> : ""}
+        {session.id===group.organizerId ? <NavLink className="groupButton" to={`/groups/${groupId}/update`}>Update This Group</NavLink> : ""}
+        {session.id===group.organizerId ? <NavLink className="groupButton" to={`/groups/${groupId}/delete`}> Delete This Group</NavLink> : ""}
         {!myGroup[groupId].members[session.id] && <button onClick={() => joinGroup()}>Join this Group</button>}
-        {myGroup[groupId].members[session.id] && session.id!==group.organizerId  &&<button onClick={() => leaveGroup()}>Leave this Group</button>}
+        {myGroup[groupId].members[session.id] && session.id!==group.organizerId  &&<button className="groupButton" onClick={() => leaveGroup()}>Leave this Group</button>}
     </div>
     </div>
   </div>)

@@ -218,6 +218,8 @@ button {
 
 .navprofile {
   font-size: 12px;
+  font-family: "Graphik Meetup", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+
 }
 
 .navprofile:hover {
@@ -225,9 +227,22 @@ button {
 }
 
 .profileinfo {
-  border: 1px solid black;
   padding: 2px;
   font-size: 12px;
+}
+
+.profile-dropdown {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  right: 1%;
+  top: 10%;
+}
+
+#profile-button {
+  background-color: white;
 }
 
 .login-label {

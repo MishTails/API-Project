@@ -28,13 +28,13 @@ const GroupIndex = () => {
       {groups.map(group => {
         return <div key={group.id} className="contentCard">
           <NavLink to={`/groups/${group.id}`}>
-            <img src={group.previewImage} alt={group.previewImage} width="160"></img>
+            <img src={group.previewImage} alt={group.previewImage} width="150"></img>
           </NavLink>
 
           <div className='cardText'>
             <NavLink to={`/groups/${group.id}`} className="groupName">{group.name}</NavLink>
             <p className='nameCity'>{group.city}, {group.state}</p>
-            <p className="aboutMems">{`${group.about.slice(0,50)}...`} </p>
+            <p className="aboutMems">{`${group.about.slice(0,40)}...`} </p>
             <p className="aboutMems">{group.numMembers} Members, {group.private=== true? 'Private': 'Public'}</p>
           </div>
         </div>
