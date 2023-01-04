@@ -34,10 +34,9 @@ function LoginForm() {
     <div className="fullsite">
 
       <form className="text" onSubmit={handleSubmit}>
-        <div className="form">
+        <div className="form-all">
           <div className="form text">
             <h2>Log In</h2>
-            <h4>Not a Member yet? <NavLink className="navLogSign" to="/signup">Sign Up</NavLink></h4>
           </div>
 
             <ul>
@@ -45,7 +44,7 @@ function LoginForm() {
                 <li key={idx}>{error}</li>
               ))}
             </ul>
-            <label>
+            <label className="login-label">
              <div>Username or Email</div>
               <input
                 type="text"
@@ -55,7 +54,7 @@ function LoginForm() {
                 required
               />
             </label>
-            <label>
+            <label className="login-label">
               <div>Password</div>
               <input
                 type="password"
@@ -65,9 +64,9 @@ function LoginForm() {
                 required
               />
             </label>
-            <button type="submit">Log In</button>
+            <button className="login-button" type="submit">Log In</button>
 
-            <button type="submit" onClick={() => {
+            <button className="login-button" type="submit" onClick={() => {
             setCredential("Demo-lition");
             setPassword('password')
           }}
