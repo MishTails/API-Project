@@ -59,4 +59,14 @@
   border: 1px solid black;
   border-radius: 5px;
   justify-content: center;
+  margin-bottom: 5px;
+}
+
+.eventPageButton:hover {
+  color: rgb(246,88,88);
+
+}
+
+.attendeesButton:hover {
+  color: rgb(246,88,88);
 }

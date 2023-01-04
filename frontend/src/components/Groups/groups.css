@@ -89,3 +89,7 @@ h3 {
   display: flex;
   justify-content: space-evenly;
 }
+
+.groupButton:hover {
+  color: rgb(246,88,88);
+}

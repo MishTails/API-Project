@@ -62,7 +62,7 @@ const EventPage = () => {
         <div className='bubbleBorder'>
             <p>{getFormattedDate(event.startDate)} to {getFormattedDate(event.endDate)}</p>
             <p>{event.type} Event</p>
-            {session.id=== event.Group.organizerId && <NavLink to={`/events/${eventId}/attendees`}>Click Here to See Attendees</NavLink>}
+            {session.id=== event.Group.organizerId && <NavLink className="attendeesButton" to={`/events/${eventId}/attendees`}>Click Here to See Attendees</NavLink>}
             {!myEvent[eventId].Attendees[session.id] && <button className='eventPageButton' onClick={() => joinEvent()}>Join this Event</button>}
             {myEvent[eventId].Attendees[session.id] && <button className='eventPageButton' onClick={() => leaveEvent()}>Leave this Event</button>}
 
@@ -73,9 +73,9 @@ const EventPage = () => {
         <div className='fullsite'>
           <p>{event.description}</p>
           {/* I'll hide these buttons when someone can not edit when I can edit my backend */}
-          {session.id===event.Group.organizerId ? <NavLink to={`/events/${eventId}/addImage`}>Create an Image</NavLink>: ""}
-          {session.id===event.Group.organizerId ? <NavLink to={`/events/${eventId}/update`}>Edit this Event</NavLink> : ""}
-          {session.id===event.Group.organizerId ? <NavLink to={`/events/${eventId}/delete`}>Delete this Event</NavLink> : ""}
+          {session.id===event.Group.organizerId ? <NavLink className="attendeesButton" to={`/events/${eventId}/addImage`}>Create an Image</NavLink>: ""}
+          {session.id===event.Group.organizerId ? <NavLink className="attendeesButton" to={`/events/${eventId}/update`}>Edit this Event</NavLink> : ""}
+          {session.id===event.Group.organizerId ? <NavLink className="attendeesButton" to={`/events/${eventId}/delete`}>Delete this Event</NavLink> : ""}
 
         </div>
       <div>
